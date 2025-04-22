@@ -1,0 +1,13 @@
+.terraform/
+terraform.*
+terraform-provider-lavinmq*
+.idea/
+*.iml
+crash.log
+graph.png
+.DS_store
+bin/
+makefile
+*.tar.gz
+dist/
+.env
