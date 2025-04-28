@@ -108,5 +108,3 @@ func (c *Client) Request(ctx context.Context, method, path string, body any) (*h
 	}
 	return c.Do(ctx, req)
 }
-
-type Hash map[string]any
