@@ -6,11 +6,13 @@ import (
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -34,55 +36,25 @@ type vhostResource struct {
 }
 
 type vhostResourceModel struct {
-	Name                   types.String `tfsdk:"name"`
-	Dir                    types.String `tfsdk:"dir"`
-	Tracing                types.Bool   `tfsdk:"tracing"`
-	Messages               types.Int64  `tfsdk:"messages"`
-	MessagesUnacknowledged types.Int64  `tfsdk:"messages_unacknowledged"`
-	MessagesReady          types.Int64  `tfsdk:"messages_ready"`
-	// MessagesStats          vhostMessageStatsResourceModel `tfsdk:"message_stats"`
+	Name                   types.String          `tfsdk:"name"`
+	Dir                    types.String          `tfsdk:"dir"`
+	Tracing                types.Bool            `tfsdk:"tracing"`
+	Messages               types.Int64           `tfsdk:"messages"`
+	MessagesUnacknowledged types.Int64           `tfsdk:"messages_unacknowledged"`
+	MessagesReady          types.Int64           `tfsdk:"messages_ready"`
+	MessagesStats          basetypes.ObjectValue `tfsdk:"message_stats"`
 }
 
-type vhostMessageStatsResourceModel struct {
-	Ack              types.Int64 `tfsdk:"ack"`
-	Confirm          types.Int64 `tfsdk:"confirm"`
-	Deliver          types.Int64 `tfsdk:"deliver"`
-	Get              types.Int64 `tfsdk:"get"`
-	GetNoAck         types.Int64 `tfsdk:"get_no_ack"`
-	Publish          types.Int64 `tfsdk:"publish"`
-	Redeliver        types.Int64 `tfsdk:"redeliver"`
-	ReturnUnroutable types.Int64 `tfsdk:"return_unroutable"`
-}
-
-func (me vhostMessageStatsResourceModel) AsHash() map[string]any {
-	messageStats := make(clientlibrary.Hash)
-	if !me.Ack.IsNull() {
-		messageStats["ack"] = me.Ack.ValueInt64()
-	}
-	if !me.Confirm.IsNull() {
-		messageStats["confirm"] = me.Confirm.ValueInt64()
-	}
-	if !me.Deliver.IsNull() {
-		messageStats["deliver"] = me.Deliver.ValueInt64()
-	}
-	if !me.Get.IsNull() {
-		messageStats["get"] = me.Get.ValueInt64()
-	}
-	if !me.GetNoAck.IsNull() {
-		messageStats["get_no_ack"] = me.GetNoAck.ValueInt64()
-	}
-	if !me.Publish.IsNull() {
-		messageStats["publish"] = me.Publish.ValueInt64()
-	}
-	if !me.Redeliver.IsNull() {
-		messageStats["redeliver"] = me.Redeliver.ValueInt64()
-	}
-	if !me.ReturnUnroutable.IsNull() {
-		messageStats["return_unroutable"] = me.ReturnUnroutable.ValueInt64()
-	}
-	return messageStats
-
-}
+// type vhostMessageStatsResourceModel struct {
+// 	Ack              types.Int64 `tfsdk:"ack"`
+// 	Confirm          types.Int64 `tfsdk:"confirm"`
+// 	Deliver          types.Int64 `tfsdk:"deliver"`
+// 	Get              types.Int64 `tfsdk:"get"`
+// 	GetNoAck         types.Int64 `tfsdk:"get_no_ack"`
+// 	Publish          types.Int64 `tfsdk:"publish"`
+// 	Redeliver        types.Int64 `tfsdk:"redeliver"`
+// 	ReturnUnroutable types.Int64 `tfsdk:"return_unroutable"`
+// }
 
 // Metadata returns the data source type name.
 func (r *vhostResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -103,17 +75,14 @@ func (r *vhostResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 			},
 			"dir": schema.StringAttribute{
 				Description: "",
-				Optional:    true,
 				Computed:    true,
 			},
 			"tracing": schema.BoolAttribute{
 				Description: "Enable or disable tracing for the vhost.",
-				Optional:    true,
 				Computed:    true,
 			},
 			"messages": schema.Int64Attribute{
 				Description: "Number of messages in the vhost.",
-				Optional:    true,
 				Computed:    true,
 			},
 			"messages_unacknowledged": schema.Int64Attribute{
@@ -124,44 +93,44 @@ func (r *vhostResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 				Description: "Number of ready messages in the vhost.",
 				Computed:    true,
 			},
-			// "message_stats": schema.SingleNestedAttribute{
-			// 	Description: "Statistics about messages in the vhost.",
-			// 	Computed:    true,
-			// 	Attributes: map[string]schema.Attribute{
-			// 		"ack": schema.Int64Attribute{
-			// 			Description: "Number of acknowledged messages.",
-			// 			Computed:    true,
-			// 		},
-			// 		"confirm": schema.Int64Attribute{
-			// 			Description: "Number of confirmed messages.",
-			// 			Computed:    true,
-			// 		},
-			// 		"deliver": schema.Int64Attribute{
-			// 			Description: "Number of delivered messages.",
-			// 			Computed:    true,
-			// 		},
-			// 		"get": schema.Int64Attribute{
-			// 			Description: "Number of messages retrieved with 'get'.",
-			// 			Computed:    true,
-			// 		},
-			// 		"get_no_ack": schema.Int64Attribute{
-			// 			Description: "Number of messages retrieved with 'get' without acknowledgment.",
-			// 			Computed:    true,
-			// 		},
-			// 		"publish": schema.Int64Attribute{
-			// 			Description: "Number of published messages.",
-			// 			Computed:    true,
-			// 		},
-			// 		"redeliver": schema.Int64Attribute{
-			// 			Description: "Number of redelivered messages.",
-			// 			Computed:    true,
-			// 		},
-			// 		"return_unroutable": schema.Int64Attribute{
-			// 			Description: "Number of messages returned as unroutable.",
-			// 			Computed:    true,
-			// 		},
-			// 	},
-			// },
+			"message_stats": schema.SingleNestedAttribute{
+				Description: "Statistics about messages in the vhost.",
+				Computed:    true,
+				Attributes: map[string]schema.Attribute{
+					"ack": schema.Int64Attribute{
+						Description: "Number of acknowledged messages.",
+						Computed:    true,
+					},
+					"confirm": schema.Int64Attribute{
+						Description: "Number of confirmed messages.",
+						Computed:    true,
+					},
+					"deliver": schema.Int64Attribute{
+						Description: "Number of delivered messages.",
+						Computed:    true,
+					},
+					"get": schema.Int64Attribute{
+						Description: "Number of messages retrieved with 'get'.",
+						Computed:    true,
+					},
+					"get_no_ack": schema.Int64Attribute{
+						Description: "Number of messages retrieved with 'get' without acknowledgment.",
+						Computed:    true,
+					},
+					"publish": schema.Int64Attribute{
+						Description: "Number of published messages.",
+						Computed:    true,
+					},
+					"redeliver": schema.Int64Attribute{
+						Description: "Number of redelivered messages.",
+						Computed:    true,
+					},
+					"return_unroutable": schema.Int64Attribute{
+						Description: "Number of messages returned as unroutable.",
+						Computed:    true,
+					},
+				},
+			},
 		},
 	}
 }
@@ -205,16 +174,28 @@ func (r *vhostResource) Create(ctx context.Context, req resource.CreateRequest, 
 	plan.MessagesUnacknowledged = types.Int64Value(vhost.MessagesUnacknowledged)
 	plan.MessagesReady = types.Int64Value(vhost.MessagesReady)
 	plan.Tracing = types.BoolValue(vhost.Tracing)
-	// plan.MessagesStats = vhostMessageStatsResourceModel{
-	// 	Ack:              types.Int64Value(vhost.MessagesStats["ack"].(int64)),
-	// 	Confirm:          types.Int64Value(vhost.MessagesStats["confirm"].(int64)),
-	// 	Deliver:          types.Int64Value(vhost.MessagesStats["deliver"].(int64)),
-	// 	Get:              types.Int64Value(vhost.MessagesStats["get"].(int64)),
-	// 	GetNoAck:         types.Int64Value(vhost.MessagesStats["getNoAck"].(int64)),
-	// 	Publish:          types.Int64Value(vhost.MessagesStats["publish"].(int64)),
-	// 	Redeliver:        types.Int64Value(vhost.MessagesStats["redeliver"].(int64)),
-	// 	ReturnUnroutable: types.Int64Value(vhost.MessagesStats["return_unroutable"].(int64)),
-	// }
+
+	elementTypes := map[string]attr.Type{
+		"ack":               types.Int64Type,
+		"confirm":           types.Int64Type,
+		"deliver":           types.Int64Type,
+		"get":               types.Int64Type,
+		"get_no_ack":        types.Int64Type,
+		"publish":           types.Int64Type,
+		"redeliver":         types.Int64Type,
+		"return_unroutable": types.Int64Type,
+	}
+	elements := map[string]attr.Value{
+		"ack":               types.Int64Value(vhost.MessagesStats.Ack),
+		"confirm":           types.Int64Value(vhost.MessagesStats.Confirm),
+		"deliver":           types.Int64Value(vhost.MessagesStats.Deliver),
+		"get":               types.Int64Value(vhost.MessagesStats.Get),
+		"get_no_ack":        types.Int64Value(vhost.MessagesStats.GetNoAck),
+		"publish":           types.Int64Value(vhost.MessagesStats.Publish),
+		"redeliver":         types.Int64Value(vhost.MessagesStats.Redeliver),
+		"return_unroutable": types.Int64Value(vhost.MessagesStats.ReturnUnroutable),
+	}
+	plan.MessagesStats, _ = basetypes.NewObjectValue(elementTypes, elements)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
@@ -248,20 +229,28 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	state.MessagesUnacknowledged = types.Int64Value(vhost.MessagesUnacknowledged)
 	state.MessagesReady = types.Int64Value(vhost.MessagesReady)
 	state.Tracing = types.BoolValue(vhost.Tracing)
-	// state.MessagesStats = vhostMessageStatsResourceModel{
-	// 	Ack:              types.Int64Value(vhost.MessagesStats["ack"].(int64)),
-	// 	Confirm:          types.Int64Value(vhost.MessagesStats["confirm"].(int64)),
-	// 	Deliver:          types.Int64Value(vhost.MessagesStats["deliver"].(int64)),
-	// 	Get:              types.Int64Value(vhost.MessagesStats["get"].(int64)),
-	// 	GetNoAck:         types.Int64Value(vhost.MessagesStats["getNoAck"].(int64)),
-	// 	Publish:          types.Int64Value(vhost.MessagesStats["publish"].(int64)),
-	// 	Redeliver:        types.Int64Value(vhost.MessagesStats["redeliver"].(int64)),
-	// 	ReturnUnroutable: types.Int64Value(vhost.MessagesStats["return_unroutable"].(int64)),
-	// }
 
-	// if v, ok := vhost.MessagesStats["ack"]; ok {
-	// 	state.MessagesStats.Ack = types.Int64Value(v.(int64))
-	// }
+	elementTypes := map[string]attr.Type{
+		"ack":               types.Int64Type,
+		"confirm":           types.Int64Type,
+		"deliver":           types.Int64Type,
+		"get":               types.Int64Type,
+		"get_no_ack":        types.Int64Type,
+		"publish":           types.Int64Type,
+		"redeliver":         types.Int64Type,
+		"return_unroutable": types.Int64Type,
+	}
+	elements := map[string]attr.Value{
+		"ack":               types.Int64Value(vhost.MessagesStats.Ack),
+		"confirm":           types.Int64Value(vhost.MessagesStats.Confirm),
+		"deliver":           types.Int64Value(vhost.MessagesStats.Deliver),
+		"get":               types.Int64Value(vhost.MessagesStats.Get),
+		"get_no_ack":        types.Int64Value(vhost.MessagesStats.GetNoAck),
+		"publish":           types.Int64Value(vhost.MessagesStats.Publish),
+		"redeliver":         types.Int64Value(vhost.MessagesStats.Redeliver),
+		"return_unroutable": types.Int64Value(vhost.MessagesStats.ReturnUnroutable),
+	}
+	state.MessagesStats, _ = basetypes.NewObjectValue(elementTypes, elements)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
@@ -271,6 +260,8 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *vhostResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Note: Even tho the API state update, nothing to update since the name is
+	// part of the endpoint. One idea is to include vhost-limits.
 }
 
 // Delete deletes the resource and removes the Terraform state on success.
