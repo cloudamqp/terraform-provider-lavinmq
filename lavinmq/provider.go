@@ -166,5 +166,6 @@ func (p *lavinmqProvider) DataSources(_ context.Context) []func() datasource.Dat
 func (p *lavinmqProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewUserResource,
+		NewVhostResource,
 	}
 }

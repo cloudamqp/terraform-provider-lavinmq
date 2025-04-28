@@ -19,6 +19,7 @@ type Client struct {
 
 	common service
 	Users  *UsersService
+	Vhosts *VhostsService
 }
 
 type service struct {
@@ -45,6 +46,7 @@ func NewClient(baseURL, useragent, username, password string, httpClient *http.C
 func (c *Client) initialize() {
 	c.common.client = c
 	c.Users = (*UsersService)(&c.common)
+	c.Vhosts = (*VhostsService)(&c.common)
 }
 
 func (c *Client) NewRequest(method, path string, body any) (*http.Request, error) {
@@ -106,3 +108,5 @@ func (c *Client) Request(ctx context.Context, method, path string, body any) (*h
 	}
 	return c.Do(ctx, req)
 }
+
+type Hash map[string]any
