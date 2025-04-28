@@ -64,17 +64,17 @@ func (r *vhostResource) Metadata(_ context.Context, req resource.MetadataRequest
 // Schema defines the schema for the resource.
 func (r *vhostResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manage a user.",
+		Description: "Manage a vhost.",
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
-				Description: "Name of the managed user.",
+				Description: "Name of the managed vhost.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"dir": schema.StringAttribute{
-				Description: "",
+				Description: "Directory of the vhost.",
 				Computed:    true,
 			},
 			"tracing": schema.BoolAttribute{
@@ -152,8 +152,6 @@ func (r *vhostResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
-	tflog.Warn(ctx, fmt.Sprintf("Plan: %v", plan))
-
 	err := r.client.Vhosts.CreateOrUpdate(ctx, plan.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating user", err.Error())
@@ -166,8 +164,6 @@ func (r *vhostResource) Create(ctx context.Context, req resource.CreateRequest, 
 		resp.Diagnostics.AddError("Failed to read user state", err.Error())
 		return
 	}
-
-	tflog.Warn(ctx, fmt.Sprintf("Vhost response: %v", vhost))
 
 	plan.Dir = types.StringValue(vhost.Dir)
 	plan.Messages = types.Int64Value(vhost.Messages)
