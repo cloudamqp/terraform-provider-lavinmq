@@ -12,13 +12,13 @@ import (
 type VhostsService service
 
 type VhostResponse struct {
-	Name                   string `json:"name"`
-	Dir                    string `json:"dir"`
-	Tracing                bool   `json:"tracing"`
-	Messages               int64  `json:"messages"`
-	MessagesUnacknowledged int64  `json:"messages_unacknowledged"`
-	MessagesReady          int64  `json:"messages_ready"`
-	MessagesStats          Hash   `json:"messages_stats"`
+	Name                   string               `json:"name"`
+	Dir                    string               `json:"dir"`
+	Tracing                bool                 `json:"tracing"`
+	Messages               int64                `json:"messages"`
+	MessagesUnacknowledged int64                `json:"messages_unacknowledged"`
+	MessagesReady          int64                `json:"messages_ready"`
+	MessagesStats          MessageStatsResponse `json:"messages_stats"`
 }
 
 type MessageStatsResponse struct {
@@ -29,7 +29,7 @@ type MessageStatsResponse struct {
 	GetNoAck         int64 `json:"get_no_ack"`
 	Publish          int64 `json:"publish"`
 	Redeliver        int64 `json:"redeliver"`
-	ReturnUnroutable int64 `son:"return_unroutable"`
+	ReturnUnroutable int64 `json:"return_unroutable"`
 }
 
 func (s *VhostsService) CreateOrUpdate(ctx context.Context, name string) error {
