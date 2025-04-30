@@ -235,16 +235,17 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		return
 	}
 
-	if limits.Value.MaxConnections != nil {
-		state.MaxConnections = types.Int64PointerValue(limits.Value.MaxConnections)
-	} else {
+	if limits.Value.MaxConnections == nil {
 		state.MaxConnections = types.Int64Null()
+
+	} else {
+		state.MaxConnections = types.Int64PointerValue(limits.Value.MaxConnections)
 	}
 
-	if limits.Value.MaxQueues != nil {
-		state.MaxQueues = types.Int64PointerValue(limits.Value.MaxQueues)
-	} else {
+	if limits.Value.MaxQueues == nil {
 		state.MaxQueues = types.Int64Null()
+	} else {
+		state.MaxQueues = types.Int64PointerValue(limits.Value.MaxQueues)
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
