@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -37,6 +38,8 @@ type vhostResource struct {
 
 type vhostResourceModel struct {
 	Name                   types.String          `tfsdk:"name"`
+	MaxConnections         types.Int64           `tfsdk:"max_connections"`
+	MaxQueues              types.Int64           `tfsdk:"max_queues"`
 	Dir                    types.String          `tfsdk:"dir"`
 	Tracing                types.Bool            `tfsdk:"tracing"`
 	Messages               types.Int64           `tfsdk:"messages"`
@@ -44,17 +47,6 @@ type vhostResourceModel struct {
 	MessagesReady          types.Int64           `tfsdk:"messages_ready"`
 	MessagesStats          basetypes.ObjectValue `tfsdk:"message_stats"`
 }
-
-// type vhostMessageStatsResourceModel struct {
-// 	Ack              types.Int64 `tfsdk:"ack"`
-// 	Confirm          types.Int64 `tfsdk:"confirm"`
-// 	Deliver          types.Int64 `tfsdk:"deliver"`
-// 	Get              types.Int64 `tfsdk:"get"`
-// 	GetNoAck         types.Int64 `tfsdk:"get_no_ack"`
-// 	Publish          types.Int64 `tfsdk:"publish"`
-// 	Redeliver        types.Int64 `tfsdk:"redeliver"`
-// 	ReturnUnroutable types.Int64 `tfsdk:"return_unroutable"`
-// }
 
 // Metadata returns the data source type name.
 func (r *vhostResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -71,6 +63,22 @@ func (r *vhostResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"max_connections": schema.Int64Attribute{
+				Description: "Limit the number of connections for the vhost.",
+				Optional:    true,
+				Default:     nil,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
+			},
+			"max_queues": schema.Int64Attribute{
+				Description: "Limit the number of queues for the vhost.",
+				Optional:    true,
+				Default:     nil,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
 				},
 			},
 			"dir": schema.StringAttribute{
@@ -158,6 +166,23 @@ func (r *vhostResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
+	var limits clientlibrary.VhostLimits
+	updateLimits := false
+	if !plan.MaxConnections.IsNull() {
+		limits.MaxConnections = plan.MaxConnections.ValueInt64Pointer()
+		updateLimits = true
+	}
+	if !plan.MaxQueues.IsNull() {
+		limits.MaxQueues = plan.MaxQueues.ValueInt64Pointer()
+		updateLimits = true
+	}
+	if updateLimits {
+		err := r.client.VhostLimits.Update(ctx, plan.Name.ValueString(), limits)
+		if err != nil {
+			resp.Diagnostics.AddError("Error setting limits", err.Error())
+		}
+	}
+
 	// Read out computed values
 	vhost, err := r.client.Vhosts.Get(ctx, plan.Name.ValueString())
 	if err != nil {
@@ -170,28 +195,7 @@ func (r *vhostResource) Create(ctx context.Context, req resource.CreateRequest, 
 	plan.MessagesUnacknowledged = types.Int64Value(vhost.MessagesUnacknowledged)
 	plan.MessagesReady = types.Int64Value(vhost.MessagesReady)
 	plan.Tracing = types.BoolValue(vhost.Tracing)
-
-	elementTypes := map[string]attr.Type{
-		"ack":               types.Int64Type,
-		"confirm":           types.Int64Type,
-		"deliver":           types.Int64Type,
-		"get":               types.Int64Type,
-		"get_no_ack":        types.Int64Type,
-		"publish":           types.Int64Type,
-		"redeliver":         types.Int64Type,
-		"return_unroutable": types.Int64Type,
-	}
-	elements := map[string]attr.Value{
-		"ack":               types.Int64Value(vhost.MessagesStats.Ack),
-		"confirm":           types.Int64Value(vhost.MessagesStats.Confirm),
-		"deliver":           types.Int64Value(vhost.MessagesStats.Deliver),
-		"get":               types.Int64Value(vhost.MessagesStats.Get),
-		"get_no_ack":        types.Int64Value(vhost.MessagesStats.GetNoAck),
-		"publish":           types.Int64Value(vhost.MessagesStats.Publish),
-		"redeliver":         types.Int64Value(vhost.MessagesStats.Redeliver),
-		"return_unroutable": types.Int64Value(vhost.MessagesStats.ReturnUnroutable),
-	}
-	plan.MessagesStats, _ = basetypes.NewObjectValue(elementTypes, elements)
+	plan.MessagesStats, _ = basetypes.NewObjectValue(r.populateMessageStats(vhost))
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
@@ -213,11 +217,9 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 	vhost, err := r.client.Vhosts.Get(ctx, state.Name.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to read user data", err.Error())
+		resp.Diagnostics.AddError("Failed to read vhost data", err.Error())
 		return
 	}
-
-	tflog.Warn(ctx, fmt.Sprintf("Vhost response: %v", vhost))
 
 	state.Name = types.StringValue(vhost.Name)
 	state.Dir = types.StringValue(vhost.Dir)
@@ -225,28 +227,25 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	state.MessagesUnacknowledged = types.Int64Value(vhost.MessagesUnacknowledged)
 	state.MessagesReady = types.Int64Value(vhost.MessagesReady)
 	state.Tracing = types.BoolValue(vhost.Tracing)
+	state.MessagesStats, _ = basetypes.NewObjectValue(r.populateMessageStats(vhost))
 
-	elementTypes := map[string]attr.Type{
-		"ack":               types.Int64Type,
-		"confirm":           types.Int64Type,
-		"deliver":           types.Int64Type,
-		"get":               types.Int64Type,
-		"get_no_ack":        types.Int64Type,
-		"publish":           types.Int64Type,
-		"redeliver":         types.Int64Type,
-		"return_unroutable": types.Int64Type,
+	limits, err := r.client.VhostLimits.Get(ctx, state.Name.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to read limits data", err.Error())
+		return
 	}
-	elements := map[string]attr.Value{
-		"ack":               types.Int64Value(vhost.MessagesStats.Ack),
-		"confirm":           types.Int64Value(vhost.MessagesStats.Confirm),
-		"deliver":           types.Int64Value(vhost.MessagesStats.Deliver),
-		"get":               types.Int64Value(vhost.MessagesStats.Get),
-		"get_no_ack":        types.Int64Value(vhost.MessagesStats.GetNoAck),
-		"publish":           types.Int64Value(vhost.MessagesStats.Publish),
-		"redeliver":         types.Int64Value(vhost.MessagesStats.Redeliver),
-		"return_unroutable": types.Int64Value(vhost.MessagesStats.ReturnUnroutable),
+
+	if limits.Value.MaxConnections != nil {
+		state.MaxConnections = types.Int64PointerValue(limits.Value.MaxConnections)
+	} else {
+		state.MaxConnections = types.Int64Null()
 	}
-	state.MessagesStats, _ = basetypes.NewObjectValue(elementTypes, elements)
+
+	if limits.Value.MaxQueues != nil {
+		state.MaxQueues = types.Int64PointerValue(limits.Value.MaxQueues)
+	} else {
+		state.MaxQueues = types.Int64Null()
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
@@ -256,8 +255,48 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *vhostResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	// Note: Even tho the API state update, nothing to update since the name is
-	// part of the endpoint. One idea is to include vhost-limits.
+	var plan vhostResourceModel
+	var state vhostResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	var limits clientlibrary.VhostLimits
+	if plan.MaxConnections.IsNull() {
+		limits.MaxConnections = nil
+	} else {
+		limits.MaxConnections = plan.MaxConnections.ValueInt64Pointer()
+	}
+	if plan.MaxQueues.IsNull() {
+		limits.MaxQueues = nil
+	} else {
+		limits.MaxQueues = plan.MaxQueues.ValueInt64Pointer()
+	}
+	err := r.client.VhostLimits.Update(ctx, plan.Name.ValueString(), limits)
+	if err != nil {
+		resp.Diagnostics.AddError("Error setting limits", err.Error())
+	}
+
+	// Read out computed values
+	vhost, err := r.client.Vhosts.Get(ctx, plan.Name.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to read user state", err.Error())
+		return
+	}
+
+	plan.Dir = types.StringValue(vhost.Dir)
+	plan.Messages = types.Int64Value(vhost.Messages)
+	plan.MessagesUnacknowledged = types.Int64Value(vhost.MessagesUnacknowledged)
+	plan.MessagesReady = types.Int64Value(vhost.MessagesReady)
+	plan.Tracing = types.BoolValue(vhost.Tracing)
+	plan.MessagesStats, _ = basetypes.NewObjectValue(r.populateMessageStats(vhost))
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
+	if resp.Diagnostics.HasError() {
+		tflog.Error(ctx, "update diag failed")
+	}
 }
 
 // Delete deletes the resource and removes the Terraform state on success.
@@ -278,4 +317,28 @@ func (r *vhostResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 func (r *vhostResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	// Import resource by name argument
 	resource.ImportStatePassthroughID(ctx, path.Root("name"), req, resp)
+}
+
+func (r *vhostResource) populateMessageStats(vhost *clientlibrary.VhostResponse) (map[string]attr.Type, map[string]attr.Value) {
+	elementTypes := map[string]attr.Type{
+		"ack":               types.Int64Type,
+		"confirm":           types.Int64Type,
+		"deliver":           types.Int64Type,
+		"get":               types.Int64Type,
+		"get_no_ack":        types.Int64Type,
+		"publish":           types.Int64Type,
+		"redeliver":         types.Int64Type,
+		"return_unroutable": types.Int64Type,
+	}
+	elements := map[string]attr.Value{
+		"ack":               types.Int64Value(vhost.MessagesStats.Ack),
+		"confirm":           types.Int64Value(vhost.MessagesStats.Confirm),
+		"deliver":           types.Int64Value(vhost.MessagesStats.Deliver),
+		"get":               types.Int64Value(vhost.MessagesStats.Get),
+		"get_no_ack":        types.Int64Value(vhost.MessagesStats.GetNoAck),
+		"publish":           types.Int64Value(vhost.MessagesStats.Publish),
+		"redeliver":         types.Int64Value(vhost.MessagesStats.Redeliver),
+		"return_unroutable": types.Int64Value(vhost.MessagesStats.ReturnUnroutable),
+	}
+	return elementTypes, elements
 }
