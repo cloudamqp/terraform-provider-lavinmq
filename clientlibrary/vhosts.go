@@ -12,16 +12,16 @@ import (
 type VhostsService service
 
 type VhostResponse struct {
-	Name                   string               `json:"name"`
-	Dir                    string               `json:"dir"`
-	Tracing                bool                 `json:"tracing"`
-	Messages               int64                `json:"messages"`
-	MessagesUnacknowledged int64                `json:"messages_unacknowledged"`
-	MessagesReady          int64                `json:"messages_ready"`
-	MessagesStats          MessageStatsResponse `json:"messages_stats"`
+	Name                   string                    `json:"name"`
+	Dir                    string                    `json:"dir"`
+	Tracing                bool                      `json:"tracing"`
+	Messages               int64                     `json:"messages"`
+	MessagesUnacknowledged int64                     `json:"messages_unacknowledged"`
+	MessagesReady          int64                     `json:"messages_ready"`
+	MessagesStats          VhostMessageStatsResponse `json:"messages_stats"`
 }
 
-type MessageStatsResponse struct {
+type VhostMessageStatsResponse struct {
 	Ack              int64 `json:"ack"`
 	Confirm          int64 `json:"confirm"`
 	Deliver          int64 `json:"deliver"`
