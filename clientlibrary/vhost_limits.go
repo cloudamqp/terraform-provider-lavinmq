@@ -1,0 +1,82 @@
+package clientlibrary
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"net/http"
+
+	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+)
+
+type VhostLimitsService service
+
+type vhostLimitValueRequest struct {
+	Value int64 `json:"value"`
+}
+
+type VhostLimitsResponse struct {
+	Vhost string      `json:"vhost"`
+	Value VhostLimits `json:"value"`
+}
+
+type VhostLimits struct {
+	MaxConnections *int64 `json:"max-connections,omitempty"`
+	MaxQueues      *int64 `json:"max-queues,omitempty"`
+}
+
+func (s *VhostLimitsService) Update(ctx context.Context, vhost string, limits VhostLimits) error {
+	if limits.MaxConnections != nil {
+		path := fmt.Sprintf("/api/vhost-limits/%s/%s", vhost, "max-connections")
+		value := vhostLimitValueRequest{Value: *limits.MaxConnections}
+		tflog.Debug(ctx, fmt.Sprintf("Vhost limits update path: %s, value: %v\n", path, value))
+		if _, err := s.client.Request(ctx, http.MethodPut, path, value); err != nil {
+			return err
+		}
+	} else {
+		s.Delete(ctx, vhost, "max-connections")
+	}
+
+	if limits.MaxQueues != nil {
+		path := fmt.Sprintf("/api/vhost-limits/%s/%s", vhost, "max-queues")
+		value := vhostLimitValueRequest{Value: *limits.MaxQueues}
+		tflog.Debug(ctx, fmt.Sprintf("Vhost limits update path: %s, value: %v\n", path, value))
+		if _, err := s.client.Request(ctx, http.MethodPut, path, value); err != nil {
+			return err
+		}
+	} else {
+		s.Delete(ctx, vhost, "max-queues")
+	}
+
+	return nil
+}
+
+func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (*VhostLimitsResponse, error) {
+	path := fmt.Sprintf("api/vhost-limits/%s", vhost)
+	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	vhostLimitsResp, err := utils.GenericUnmarshal[[]VhostLimitsResponse](body)
+	if err != nil {
+		tflog.Error(ctx, fmt.Sprintf("Unmarshal failed: %v", err))
+		return nil, err
+	}
+	for _, v := range *vhostLimitsResp {
+		if v.Vhost == vhost {
+			return &v, nil
+		}
+	}
+	return &VhostLimitsResponse{}, nil
+}
+
+func (s *VhostLimitsService) Delete(ctx context.Context, vhost, limitType string) error {
+	path := fmt.Sprintf("api/vhost-limits/%s/%s", vhost, limitType)
+	tflog.Debug(ctx, fmt.Sprintf("Remove limit type: %s for vhost: %s", limitType, vhost))
+	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
+	return err
+}
