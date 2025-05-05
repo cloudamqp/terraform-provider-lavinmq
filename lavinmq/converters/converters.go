@@ -1,9 +1,17 @@
 package converters
 
-import "encoding/json"
+import "reflect"
 
-func StructToMap(obj any) (newMap map[string]any) {
-	data, _ := json.Marshal(obj)
-	_ = json.Unmarshal(data, &newMap)
-	return newMap
+func StructToMap(input any) map[string]any {
+	result := make(map[string]any)
+	val := reflect.ValueOf(input)
+	typ := reflect.TypeOf(input)
+
+	for i := range val.NumField() {
+		field := typ.Field(i)
+		// Use Interface() to preserve the original type
+		result[field.Name] = val.Field(i).Interface()
+	}
+
+	return result
 }
