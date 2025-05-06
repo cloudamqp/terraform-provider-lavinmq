@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 )
 
 type Client struct {
@@ -31,15 +30,13 @@ type ErrorResponse struct {
 	Reason string `json:"reason"`
 }
 
-func NewClient(baseURL, useragent, username, password string) *Client {
+func NewClient(baseURL, useragent, username, password string, httpClient *http.Client) *Client {
 	client := &Client{
-		BaseURL:   baseURL,
-		UserAgent: useragent,
-		HttpClient: &http.Client{
-			Timeout: 10 * time.Second,
-		},
-		Username: username,
-		Password: password,
+		BaseURL:    baseURL,
+		UserAgent:  useragent,
+		HttpClient: httpClient,
+		Username:   username,
+		Password:   password,
 	}
 	client.initialize()
 	return client

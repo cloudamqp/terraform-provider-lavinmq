@@ -1,6 +1,8 @@
 package converters
 
-import "reflect"
+import (
+	"reflect"
+)
 
 func StructToMap(input any) map[string]any {
 	result := make(map[string]any)
