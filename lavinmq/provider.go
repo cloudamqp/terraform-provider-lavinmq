@@ -2,6 +2,8 @@ package lavinmq
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
@@ -20,12 +22,15 @@ var (
 )
 
 // New is a helper function to simplify provider server and testing implementation.
-func New() provider.Provider {
-	return &lavinmqProvider{}
+func New(v string, httpClient *http.Client) provider.Provider {
+	return &lavinmqProvider{version: v, httpClient: httpClient}
 }
 
 // lavinmqProvider is the provider implementation.
-type lavinmqProvider struct{}
+type lavinmqProvider struct {
+	version    string
+	httpClient *http.Client
+}
 
 // lavinmqProviderModel maps provider schema data to a Go type.
 type lavinmqProviderModel struct {
@@ -141,7 +146,13 @@ func (p *lavinmqProvider) Configure(ctx context.Context, req provider.ConfigureR
 		return
 	}
 
-	client := clientlibrary.NewClient(config.BaseURL.ValueString(), "client", config.Username.ValueString(), config.Password.ValueString())
+	client := clientlibrary.NewClient(
+		config.BaseURL.ValueString(),
+		fmt.Sprintf("terraform-provider-lavinmq_%s", p.version),
+		config.Username.ValueString(),
+		config.Password.ValueString(),
+		p.httpClient,
+	)
 	resp.DataSourceData = client
 	resp.ResourceData = client
 }
