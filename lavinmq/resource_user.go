@@ -31,7 +31,7 @@ var (
 	_ resource.ResourceWithImportState = &userResource{}
 )
 
-// NewOrderResource is a helper function to simplify the provider implementation.
+// NewUserResource is a helper function to simplify the provider implementation.
 func NewUserResource() resource.Resource {
 	return &userResource{}
 }
@@ -48,7 +48,7 @@ type userResourceModel struct {
 	Tags         types.List   `tfsdk:"tags"`
 }
 
-// Metadata returns the data source type name.
+// Metadata returns the resource type name.
 func (r *userResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_user"
 }
@@ -104,7 +104,7 @@ func (r *userResource) Schema(_ context.Context, _ resource.SchemaRequest, resp 
 	}
 }
 
-// Configure adds the provider configured client to the data source.
+// Configure adds the provider configured client to the resource.
 func (r *userResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
