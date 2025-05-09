@@ -29,11 +29,11 @@ func (s *UsersService) CreateOrUpdate(ctx context.Context, username string, user
 	return err
 }
 
-func (s *UsersService) Get(ctx context.Context, username string) (*UserResponse, error) {
+func (s *UsersService) Get(ctx context.Context, username string) (UserResponse, error) {
 	path := fmt.Sprintf("api/users/%s", username)
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return nil, err
+		return UserResponse{}, err
 	}
 
 	defer resp.Body.Close()
@@ -41,7 +41,7 @@ func (s *UsersService) Get(ctx context.Context, username string) (*UserResponse,
 	return utils.GenericUnmarshal[UserResponse](body)
 }
 
-func (s *UsersService) List(ctx context.Context) (*[]UserResponse, error) {
+func (s *UsersService) List(ctx context.Context) ([]UserResponse, error) {
 	resp, err := s.client.Request(ctx, http.MethodGet, "api/users", nil)
 	if err != nil {
 		return nil, err

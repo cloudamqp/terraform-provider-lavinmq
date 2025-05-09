@@ -54,7 +54,7 @@ func TestGenericUnmarshal(t *testing.T) {
 	}
 
 	// Compare the result with the expected output
-	if !reflect.DeepEqual(*result, expected) {
-		t.Errorf("GenericUnmarshal() = %v, want %v", *result, expected)
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("GenericUnmarshal() = %v, want %v", result, expected)
 	}
 }
