@@ -38,11 +38,11 @@ func (s *VhostsService) CreateOrUpdate(ctx context.Context, name string) error {
 	return err
 }
 
-func (s *VhostsService) Get(ctx context.Context, name string) (*VhostResponse, error) {
+func (s *VhostsService) Get(ctx context.Context, name string) (VhostResponse, error) {
 	path := fmt.Sprintf("api/vhosts/%s", name)
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return nil, err
+		return VhostResponse{}, err
 	}
 
 	defer resp.Body.Close()
@@ -50,7 +50,7 @@ func (s *VhostsService) Get(ctx context.Context, name string) (*VhostResponse, e
 	return utils.GenericUnmarshal[VhostResponse](body)
 }
 
-func (s *VhostsService) List(ctx context.Context) (*[]VhostResponse, error) {
+func (s *VhostsService) List(ctx context.Context) ([]VhostResponse, error) {
 	resp, err := s.client.Request(ctx, http.MethodGet, "api/vhosts", nil)
 	if err != nil {
 		return nil, err

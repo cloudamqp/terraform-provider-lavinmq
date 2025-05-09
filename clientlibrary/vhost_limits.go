@@ -52,11 +52,11 @@ func (s *VhostLimitsService) Update(ctx context.Context, vhost string, limits Vh
 	return nil
 }
 
-func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (*VhostLimitsResponse, error) {
+func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (VhostLimitsResponse, error) {
 	path := fmt.Sprintf("api/vhost-limits/%s", vhost)
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return nil, err
+		return VhostLimitsResponse{}, err
 	}
 
 	defer resp.Body.Close()
@@ -64,14 +64,14 @@ func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (*VhostLimit
 	vhostLimitsResp, err := utils.GenericUnmarshal[[]VhostLimitsResponse](body)
 	if err != nil {
 		tflog.Error(ctx, fmt.Sprintf("Unmarshal failed: %v", err))
-		return nil, err
+		return VhostLimitsResponse{}, err
 	}
-	for _, v := range *vhostLimitsResp {
+	for _, v := range vhostLimitsResp {
 		if v.Vhost == vhost {
-			return &v, nil
+			return v, nil
 		}
 	}
-	return &VhostLimitsResponse{}, nil
+	return VhostLimitsResponse{}, nil
 }
 
 func (s *VhostLimitsService) Delete(ctx context.Context, vhost, limitType string) error {
