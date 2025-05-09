@@ -44,14 +44,6 @@ func (d *vhostsDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 							Description: "Name of the managed vhost.",
 							Computed:    true,
 						},
-						// "max_connections": schema.Int64Attribute{
-						// 	Description: "Limit the number of connections for the vhost.",
-						// 	Computed:    true,
-						// },
-						// "max_queues": schema.Int64Attribute{
-						// 	Description: "Limit the number of queues for the vhost.",
-						// 	Computed:    true,
-						// },
 					},
 				},
 			},
