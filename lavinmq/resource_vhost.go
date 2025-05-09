@@ -12,9 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
-
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -29,11 +28,12 @@ func NewVhostResource() resource.Resource {
 	return &vhostResource{}
 }
 
-// userResource is the resource implementation.
+// vhostResource is the resource implementation.
 type vhostResource struct {
 	client *clientlibrary.Client
 }
 
+// vhostResourceModel is the
 type vhostResourceModel struct {
 	Name           types.String `tfsdk:"name"`
 	MaxConnections types.Int64  `tfsdk:"max_connections"`
@@ -77,7 +77,7 @@ func (r *vhostResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 	}
 }
 
-// Configure adds the provider configured client to the data source.
+// Configure adds the provider configured client to the resource.
 func (r *vhostResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -171,9 +171,7 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *vhostResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var plan vhostResourceModel
-	var state vhostResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
-	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
