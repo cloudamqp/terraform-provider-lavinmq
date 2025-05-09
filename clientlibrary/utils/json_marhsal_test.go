@@ -58,3 +58,33 @@ func TestGenericUnmarshal(t *testing.T) {
 		t.Errorf("GenericUnmarshal() = %v, want %v", result, expected)
 	}
 }
+
+func TestGenericUnmarshal_List(t *testing.T) {
+	// Input JSON
+	jsonData := `[{"name":"John Doe","age":30,"admin":false},{"name":"Jane Doe","age":32,"admin":true}]`
+
+	// Expected output
+	expected := []TestStruct{
+		{
+			Name:  "John Doe",
+			Age:   30,
+			Admin: false,
+		},
+		{
+			Name:  "Jane Doe",
+			Age:   32,
+			Admin: true,
+		},
+	}
+
+	// Call the function
+	result, err := GenericUnmarshal[[]TestStruct]([]byte(jsonData))
+	if err != nil {
+		t.Fatalf("GenericUnmarshal() returned an error: %v", err)
+	}
+
+	// Compare the result with the expected output
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("GenericUnmarshal() = %v, want %v", result, expected)
+	}
+}
