@@ -17,8 +17,10 @@ type Client struct {
 	Username string
 	Password string
 
-	common service
-	Users  *UsersService
+	common      service
+	Users       *UsersService
+	VhostLimits *VhostLimitsService
+	Vhosts      *VhostsService
 }
 
 type service struct {
@@ -45,6 +47,8 @@ func NewClient(baseURL, useragent, username, password string, httpClient *http.C
 func (c *Client) initialize() {
 	c.common.client = c
 	c.Users = (*UsersService)(&c.common)
+	c.VhostLimits = (*VhostLimitsService)(&c.common)
+	c.Vhosts = (*VhostsService)(&c.common)
 }
 
 func (c *Client) NewRequest(method, path string, body any) (*http.Request, error) {
