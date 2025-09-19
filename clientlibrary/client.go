@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
+
+	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type Client struct {
@@ -52,7 +55,16 @@ func (c *Client) initialize() {
 }
 
 func (c *Client) NewRequest(method, path string, body any) (*http.Request, error) {
-	url := c.BaseURL + path
+	baseURL, err := url.Parse(c.BaseURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse base URL: %w", err)
+	}
+
+	// Parse the path and join it with the base URL
+	fullURL, err := url.JoinPath(baseURL.String(), path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to join URL path: %w", err)
+	}
 
 	var buf io.ReadWriter
 	if body != nil {
@@ -62,7 +74,7 @@ func (c *Client) NewRequest(method, path string, body any) (*http.Request, error
 		}
 	}
 
-	req, err := http.NewRequest(method, url, buf)
+	req, err := http.NewRequest(method, fullURL, buf)
 	if err != nil {
 		return nil, err
 	}
