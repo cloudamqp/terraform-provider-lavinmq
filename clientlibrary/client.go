@@ -8,8 +8,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type Client struct {
