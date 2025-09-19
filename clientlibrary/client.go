@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type Client struct {
@@ -89,17 +91,14 @@ func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, err
 		return nil, err
 	}
 
-	switch {
-	case resp.StatusCode >= 200 && resp.StatusCode < 300:
+	switch resp.StatusCode {
+	case 200, 201, 204:
 		return resp, nil
-	case resp.StatusCode == 401:
-		return nil, fmt.Errorf("401 Unauthorized")
-	case resp.StatusCode > 401 && resp.StatusCode < 500:
-		return nil, fmt.Errorf("client error status code: %d", resp.StatusCode)
-	case resp.StatusCode >= 500 && resp.StatusCode < 600:
-		return nil, fmt.Errorf("server error status code: %d", resp.StatusCode)
 	default:
-		return nil, fmt.Errorf("unexpexted status code: %d", resp.StatusCode)
+		defer resp.Body.Close()
+		body, _ := io.ReadAll(resp.Body)
+		errorBody, _ := utils.GenericUnmarshal[ErrorResponse](body)
+		return nil, fmt.Errorf("status code: %d, error: %s", resp.StatusCode, errorBody.Reason)
 	}
 }
 
