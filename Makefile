@@ -20,7 +20,10 @@ fmtcheck:
 lint:
 	golangci-lint run ./...
 
+test:
+	TF_ACC=1 go test ./lavinmq -v
+
 clean:
 	rm -f terraform-provider-lavinmq
 
-.PHONY: clean install fmt fmtcheck lint tools
+.PHONY: clean install fmt fmtcheck lint tools test
