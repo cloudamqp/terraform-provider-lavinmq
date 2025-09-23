@@ -7,6 +7,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
+
+	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type Client struct {
@@ -54,7 +57,16 @@ func (c *Client) initialize() {
 }
 
 func (c *Client) NewRequest(method, path string, body any) (*http.Request, error) {
-	url := c.BaseURL + path
+	baseURL, err := url.Parse(c.BaseURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse base URL: %w", err)
+	}
+
+	// Parse the path and join it with the base URL
+	fullURL, err := url.JoinPath(baseURL.String(), path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to join URL path: %w", err)
+	}
 
 	var buf io.ReadWriter
 	if body != nil {
@@ -64,7 +76,7 @@ func (c *Client) NewRequest(method, path string, body any) (*http.Request, error
 		}
 	}
 
-	req, err := http.NewRequest(method, url, buf)
+	req, err := http.NewRequest(method, fullURL, buf)
 	if err != nil {
 		return nil, err
 	}
@@ -91,17 +103,14 @@ func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, err
 		return nil, err
 	}
 
-	switch {
-	case resp.StatusCode >= 200 && resp.StatusCode < 300:
+	switch resp.StatusCode {
+	case 200, 201, 204:
 		return resp, nil
-	case resp.StatusCode == 401:
-		return nil, fmt.Errorf("401 Unauthorized")
-	case resp.StatusCode > 401 && resp.StatusCode < 500:
-		return nil, fmt.Errorf("client error status code: %d", resp.StatusCode)
-	case resp.StatusCode >= 500 && resp.StatusCode < 600:
-		return nil, fmt.Errorf("server error status code: %d", resp.StatusCode)
 	default:
-		return nil, fmt.Errorf("unexpexted status code: %d", resp.StatusCode)
+		defer resp.Body.Close()
+		body, _ := io.ReadAll(resp.Body)
+		errorBody, _ := utils.GenericUnmarshal[ErrorResponse](body)
+		return nil, fmt.Errorf("status code: %d, error: %s", resp.StatusCode, errorBody.Reason)
 	}
 }
 

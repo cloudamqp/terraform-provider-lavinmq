@@ -43,7 +43,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 19.394419ms
+        duration: 24.246609ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -85,7 +85,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 744.184µs
+        duration: 743.556µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -127,7 +127,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 123.731µs
+        duration: 349.19µs
     - id: 3
       request:
         proto: HTTP/1.1
@@ -169,7 +169,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 219.019µs
+        duration: 536.03µs
     - id: 4
       request:
         proto: HTTP/1.1
@@ -211,7 +211,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 155.521µs
+        duration: 438.463µs
     - id: 5
       request:
         proto: HTTP/1.1
@@ -253,7 +253,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 252.939µs
+        duration: 713.296µs
     - id: 6
       request:
         proto: HTTP/1.1
@@ -295,7 +295,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 89.037µs
+        duration: 680.105µs
     - id: 7
       request:
         proto: HTTP/1.1
@@ -319,7 +319,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672//api/vhost-limits/vcr_test/max-connections
+        url: http://localhost:15672/api/vhost-limits/vcr_test/max-connections
         method: PUT
       response:
         proto: HTTP/1.1
@@ -339,7 +339,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 2.505357ms
+        duration: 940.843µs
     - id: 8
       request:
         proto: HTTP/1.1
@@ -363,7 +363,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672//api/vhost-limits/vcr_test/max-queues
+        url: http://localhost:15672/api/vhost-limits/vcr_test/max-queues
         method: PUT
       response:
         proto: HTTP/1.1
@@ -383,7 +383,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 188.696µs
+        duration: 1.018276ms
     - id: 9
       request:
         proto: HTTP/1.1
@@ -425,7 +425,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 236.447µs
+        duration: 573.74µs
     - id: 10
       request:
         proto: HTTP/1.1
@@ -467,7 +467,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 120.761µs
+        duration: 408.451µs
     - id: 11
       request:
         proto: HTTP/1.1
@@ -509,7 +509,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 223.467µs
+        duration: 950.848µs
     - id: 12
       request:
         proto: HTTP/1.1
@@ -551,7 +551,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 99.403µs
+        duration: 740.449µs
     - id: 13
       request:
         proto: HTTP/1.1
@@ -575,7 +575,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672//api/vhost-limits/vcr_test/max-connections
+        url: http://localhost:15672/api/vhost-limits/vcr_test/max-connections
         method: PUT
       response:
         proto: HTTP/1.1
@@ -595,7 +595,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 343.705µs
+        duration: 1.291236ms
     - id: 14
       request:
         proto: HTTP/1.1
@@ -636,7 +636,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 122.087µs
+        duration: 545.105µs
     - id: 15
       request:
         proto: HTTP/1.1
@@ -678,7 +678,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 249.638µs
+        duration: 662.979µs
     - id: 16
       request:
         proto: HTTP/1.1
@@ -720,7 +720,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 106.581µs
+        duration: 535.533µs
     - id: 17
       request:
         proto: HTTP/1.1
@@ -762,7 +762,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 220.395µs
+        duration: 827.046µs
     - id: 18
       request:
         proto: HTTP/1.1
@@ -804,7 +804,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 108.801µs
+        duration: 451.184µs
     - id: 19
       request:
         proto: HTTP/1.1
@@ -845,7 +845,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 263.866µs
+        duration: 666.55µs
     - id: 20
       request:
         proto: HTTP/1.1
@@ -869,7 +869,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672//api/vhost-limits/vcr_test/max-queues
+        url: http://localhost:15672/api/vhost-limits/vcr_test/max-queues
         method: PUT
       response:
         proto: HTTP/1.1
@@ -889,7 +889,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 309.303µs
+        duration: 689.534µs
     - id: 21
       request:
         proto: HTTP/1.1
@@ -931,7 +931,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 315.035µs
+        duration: 638.97µs
     - id: 22
       request:
         proto: HTTP/1.1
@@ -973,7 +973,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 181.995µs
+        duration: 397.963µs
     - id: 23
       request:
         proto: HTTP/1.1
@@ -1014,4 +1014,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 6.518812ms
+        duration: 10.441781ms
