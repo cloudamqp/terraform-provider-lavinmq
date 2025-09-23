@@ -24,6 +24,7 @@ type Client struct {
 	Users       *UsersService
 	VhostLimits *VhostLimitsService
 	Vhosts      *VhostsService
+	Queues      *QueuesService
 }
 
 type service struct {
@@ -52,6 +53,7 @@ func (c *Client) initialize() {
 	c.Users = (*UsersService)(&c.common)
 	c.VhostLimits = (*VhostLimitsService)(&c.common)
 	c.Vhosts = (*VhostsService)(&c.common)
+	c.Queues = (*QueuesService)(&c.common)
 }
 
 func (c *Client) NewRequest(method, path string, body any) (*http.Request, error) {
