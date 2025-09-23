@@ -17,7 +17,7 @@ func NewVhostDataSource() datasource.DataSource {
 }
 
 type vhostsDataSource struct {
-	client *clientlibrary.Client
+	services *clientlibrary.Services
 }
 
 type vhostDataSourceModel struct {
@@ -56,13 +56,13 @@ func (d *vhostsDataSource) Configure(_ context.Context, req datasource.Configure
 		return
 	}
 
-	d.client = req.ProviderData.(*clientlibrary.Client)
+	d.services = req.ProviderData.(*clientlibrary.Services)
 }
 
 func (d *vhostsDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var state vhostListDataSourceModel
 
-	vhosts, err := d.client.Vhosts.List(ctx)
+	vhosts, err := d.services.Vhosts.List(ctx)
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to retrieve vhosts", err.Error())
 		return

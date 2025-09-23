@@ -31,7 +31,7 @@ func NewQueueResource() resource.Resource {
 
 // queueResource is the resource implementation.
 type queueResource struct {
-	client *clientlibrary.Client
+	services *clientlibrary.Services
 }
 
 // queueResourceModel is the
@@ -96,13 +96,13 @@ func (r *queueResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 	}
 }
 
-// Configure adds the provider configured client to the resource.
+// Configure adds the provider configured services to the resource.
 func (r *queueResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
 
-	r.client = req.ProviderData.(*clientlibrary.Client)
+	r.services = req.ProviderData.(*clientlibrary.Services)
 }
 
 func (r *queueResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
@@ -128,7 +128,7 @@ func (r *queueResource) Create(ctx context.Context, req resource.CreateRequest, 
 		request.Durable = plan.Durable.ValueBoolPointer()
 	}
 
-	err := r.client.Queues.CreateOrUpdate(ctx, plan.Vhost.ValueString(), plan.Name.ValueString(), request)
+	err := r.services.Queues.CreateOrUpdate(ctx, plan.Vhost.ValueString(), plan.Name.ValueString(), request)
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating queue", err.Error())
 		return
@@ -151,7 +151,7 @@ func (r *queueResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		return
 	}
 
-	queue, err := r.client.Queues.Get(ctx, state.Vhost.ValueString(), state.Name.ValueString())
+	queue, err := r.services.Queues.Get(ctx, state.Vhost.ValueString(), state.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error reading queue", err.Error())
 		return
@@ -179,7 +179,7 @@ func (r *queueResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 		return
 	}
 
-	err := r.client.Queues.Delete(ctx, state.Vhost.ValueString(), state.Name.ValueString())
+	err := r.services.Queues.Delete(ctx, state.Vhost.ValueString(), state.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error deleting queue", err.Error())
 		return
