@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -28,7 +29,7 @@ type VhostLimits struct {
 
 func (s *VhostLimitsService) Update(ctx context.Context, vhost string, limits VhostLimits) error {
 	if limits.MaxConnections != nil {
-		path := fmt.Sprintf("/api/vhost-limits/%s/%s", vhost, "max-connections")
+		path := fmt.Sprintf("/api/vhost-limits/%s/%s", url.PathEscape(vhost), "max-connections")
 		value := vhostLimitValueRequest{Value: *limits.MaxConnections}
 		tflog.Debug(ctx, fmt.Sprintf("Vhost limits update path: %s, value: %v\n", path, value))
 		if _, err := s.client.Request(ctx, http.MethodPut, path, value); err != nil {
@@ -39,7 +40,7 @@ func (s *VhostLimitsService) Update(ctx context.Context, vhost string, limits Vh
 	}
 
 	if limits.MaxQueues != nil {
-		path := fmt.Sprintf("/api/vhost-limits/%s/%s", vhost, "max-queues")
+		path := fmt.Sprintf("/api/vhost-limits/%s/%s", url.PathEscape(vhost), "max-queues")
 		value := vhostLimitValueRequest{Value: *limits.MaxQueues}
 		tflog.Debug(ctx, fmt.Sprintf("Vhost limits update path: %s, value: %v\n", path, value))
 		if _, err := s.client.Request(ctx, http.MethodPut, path, value); err != nil {
@@ -53,7 +54,7 @@ func (s *VhostLimitsService) Update(ctx context.Context, vhost string, limits Vh
 }
 
 func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (VhostLimitsResponse, error) {
-	path := fmt.Sprintf("api/vhost-limits/%s", vhost)
+	path := fmt.Sprintf("api/vhost-limits/%s", url.PathEscape(vhost))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return VhostLimitsResponse{}, err
@@ -75,7 +76,7 @@ func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (VhostLimits
 }
 
 func (s *VhostLimitsService) Delete(ctx context.Context, vhost, limitType string) error {
-	path := fmt.Sprintf("api/vhost-limits/%s/%s", vhost, limitType)
+	path := fmt.Sprintf("api/vhost-limits/%s/%s", url.PathEscape(vhost), url.PathEscape(limitType))
 	tflog.Debug(ctx, fmt.Sprintf("Remove limit type: %s for vhost: %s", limitType, vhost))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
@@ -33,13 +34,13 @@ type VhostMessageStatsResponse struct {
 }
 
 func (s *VhostsService) CreateOrUpdate(ctx context.Context, name string) error {
-	path := fmt.Sprintf("api/vhosts/%s", name)
+	path := fmt.Sprintf("api/vhosts/%s", url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodPut, path, nil)
 	return err
 }
 
 func (s *VhostsService) Get(ctx context.Context, name string) (VhostResponse, error) {
-	path := fmt.Sprintf("api/vhosts/%s", name)
+	path := fmt.Sprintf("api/vhosts/%s", url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return VhostResponse{}, err
@@ -62,7 +63,7 @@ func (s *VhostsService) List(ctx context.Context) ([]VhostResponse, error) {
 }
 
 func (s *VhostsService) Delete(ctx context.Context, name string) error {
-	path := fmt.Sprintf("api/vhosts/%s", name)
+	path := fmt.Sprintf("api/vhosts/%s", url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }
