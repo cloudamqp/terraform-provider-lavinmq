@@ -185,6 +185,10 @@ func (r *userResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		resp.Diagnostics.AddError("Failed to read user data", err.Error())
 		return
 	}
+	if user == nil {
+		resp.State.RemoveResource(ctx)
+		return
+	}
 
 	state.Name = types.StringValue(user.Name)
 	if user.PasswordHash != nil {

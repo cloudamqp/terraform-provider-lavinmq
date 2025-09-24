@@ -90,6 +90,8 @@ func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, err
 	switch resp.StatusCode {
 	case 200, 201, 204:
 		return resp, nil
+	case 404:
+		return nil, nil
 	default:
 		defer resp.Body.Close()
 		body, _ := io.ReadAll(resp.Body)
