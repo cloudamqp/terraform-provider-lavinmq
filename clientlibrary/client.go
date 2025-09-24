@@ -19,12 +19,6 @@ type Client struct {
 
 	Username string
 	Password string
-
-	common      service
-	Users       *UsersService
-	VhostLimits *VhostLimitsService
-	Vhosts      *VhostsService
-	Queues      *QueuesService
 }
 
 type service struct {
@@ -37,23 +31,13 @@ type ErrorResponse struct {
 }
 
 func NewClient(baseURL, useragent, username, password string, httpClient *http.Client) *Client {
-	client := &Client{
+	return &Client{
 		BaseURL:    baseURL,
 		UserAgent:  useragent,
 		HttpClient: httpClient,
 		Username:   username,
 		Password:   password,
 	}
-	client.initialize()
-	return client
-}
-
-func (c *Client) initialize() {
-	c.common.client = c
-	c.Users = (*UsersService)(&c.common)
-	c.VhostLimits = (*VhostLimitsService)(&c.common)
-	c.Vhosts = (*VhostsService)(&c.common)
-	c.Queues = (*QueuesService)(&c.common)
 }
 
 func (c *Client) NewRequest(method, path string, body any) (*http.Request, error) {

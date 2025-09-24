@@ -30,7 +30,7 @@ func NewVhostResource() resource.Resource {
 
 // vhostResource is the resource implementation.
 type vhostResource struct {
-	client *clientlibrary.Client
+	services *clientlibrary.Services
 }
 
 // vhostResourceModel is the
@@ -77,13 +77,13 @@ func (r *vhostResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 	}
 }
 
-// Configure adds the provider configured client to the resource.
+// Configure adds the provider configured services to the resource.
 func (r *vhostResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
 
-	r.client = req.ProviderData.(*clientlibrary.Client)
+	r.services = req.ProviderData.(*clientlibrary.Services)
 }
 
 // Create creates the resource and sets the initial Terraform state.
@@ -94,7 +94,7 @@ func (r *vhostResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
-	err := r.client.Vhosts.CreateOrUpdate(ctx, plan.Name.ValueString())
+	err := r.services.Vhosts.CreateOrUpdate(ctx, plan.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating user", err.Error())
 		return
@@ -111,7 +111,7 @@ func (r *vhostResource) Create(ctx context.Context, req resource.CreateRequest, 
 		updateLimits = true
 	}
 	if updateLimits {
-		err := r.client.VhostLimits.Update(ctx, plan.Name.ValueString(), limits)
+		err := r.services.VhostLimits.Update(ctx, plan.Name.ValueString(), limits)
 		if err != nil {
 			resp.Diagnostics.AddError("Error setting limits", err.Error())
 		}
@@ -135,7 +135,7 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		tflog.Info(ctx, fmt.Sprintf("import resource with name identifier %s", state.Name))
 	}
 
-	vhost, err := r.client.Vhosts.Get(ctx, state.Name.ValueString())
+	vhost, err := r.services.Vhosts.Get(ctx, state.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to read vhost data", err.Error())
 		return
@@ -143,7 +143,7 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 	state.Name = types.StringValue(vhost.Name)
 
-	limits, err := r.client.VhostLimits.Get(ctx, state.Name.ValueString())
+	limits, err := r.services.VhostLimits.Get(ctx, state.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to read limits data", err.Error())
 		return
@@ -187,7 +187,7 @@ func (r *vhostResource) Update(ctx context.Context, req resource.UpdateRequest, 
 	} else {
 		limits.MaxQueues = plan.MaxQueues.ValueInt64Pointer()
 	}
-	err := r.client.VhostLimits.Update(ctx, plan.Name.ValueString(), limits)
+	err := r.services.VhostLimits.Update(ctx, plan.Name.ValueString(), limits)
 	if err != nil {
 		resp.Diagnostics.AddError("Error setting limits", err.Error())
 	}
@@ -206,7 +206,7 @@ func (r *vhostResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 		return
 	}
 
-	err := r.client.Vhosts.Delete(ctx, plan.Name.ValueString())
+	err := r.services.Vhosts.Delete(ctx, plan.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error deleting user", err.Error())
 		return

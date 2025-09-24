@@ -38,7 +38,7 @@ func NewUserResource() resource.Resource {
 
 // userResource is the resource implementation.
 type userResource struct {
-	client *clientlibrary.Client
+	services *clientlibrary.Services
 }
 
 type userResourceModel struct {
@@ -104,13 +104,13 @@ func (r *userResource) Schema(_ context.Context, _ resource.SchemaRequest, resp 
 	}
 }
 
-// Configure adds the provider configured client to the resource.
+// Configure adds the provider configured services to the resource.
 func (r *userResource) Configure(_ context.Context, req resource.ConfigureRequest, _ *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
 
-	r.client = req.ProviderData.(*clientlibrary.Client)
+	r.services = req.ProviderData.(*clientlibrary.Services)
 }
 
 // Create creates the resource and sets the initial Terraform state.
@@ -138,14 +138,14 @@ func (r *userResource) Create(ctx context.Context, req resource.CreateRequest, r
 		createReq.Tags = strings.Join(tags, ",")
 	}
 
-	err := r.client.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), createReq)
+	err := r.services.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), createReq)
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating user", err.Error())
 		return
 	}
 
 	// Read out computed values
-	user, err := r.client.Users.Get(ctx, plan.Name.ValueString())
+	user, err := r.services.Users.Get(ctx, plan.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to read user state", err.Error())
 		return
@@ -180,7 +180,7 @@ func (r *userResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 		tflog.Info(ctx, fmt.Sprintf("import resource with name identifier %s", state.Name))
 	}
 
-	user, err := r.client.Users.Get(ctx, state.Name.ValueString())
+	user, err := r.services.Users.Get(ctx, state.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to read user data", err.Error())
 		return
@@ -235,14 +235,14 @@ func (r *userResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		updateReq.Tags = strings.Join(tags, ",")
 	}
 
-	err := r.client.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), updateReq)
+	err := r.services.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), updateReq)
 	if err != nil {
 		resp.Diagnostics.AddError("Error updating user", err.Error())
 		return
 	}
 
 	// Read out computed values
-	user, err := r.client.Users.Get(ctx, plan.Name.ValueString())
+	user, err := r.services.Users.Get(ctx, plan.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to read user state", err.Error())
 		return
@@ -274,7 +274,7 @@ func (r *userResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	err := r.client.Users.Delete(ctx, plan.Name.ValueString())
+	err := r.services.Users.Delete(ctx, plan.Name.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error deleting user", err.Error())
 		return

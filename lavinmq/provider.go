@@ -153,8 +153,9 @@ func (p *lavinmqProvider) Configure(ctx context.Context, req provider.ConfigureR
 		config.Password.ValueString(),
 		p.httpClient,
 	)
-	resp.DataSourceData = client
-	resp.ResourceData = client
+	services := clientlibrary.NewServices(client)
+	resp.DataSourceData = services
+	resp.ResourceData = services
 }
 
 // DataSources defines the data sources implemented in the provider.
@@ -169,5 +170,6 @@ func (p *lavinmqProvider) Resources(_ context.Context) []func() resource.Resourc
 	return []func() resource.Resource{
 		NewUserResource,
 		NewVhostResource,
+		NewQueueResource,
 	}
 }
