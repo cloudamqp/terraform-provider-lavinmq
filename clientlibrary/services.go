@@ -8,6 +8,7 @@ type Services struct {
 	VhostLimits *VhostLimitsService
 	Vhosts      *VhostsService
 	Queues      *QueuesService
+	Policies    *PoliciesService
 }
 
 func NewServices(client *Client) *Services {
@@ -17,5 +18,6 @@ func NewServices(client *Client) *Services {
 		VhostLimits: (*VhostLimitsService)(&service{client: client}),
 		Vhosts:      (*VhostsService)(&service{client: client}),
 		Queues:      (*QueuesService)(&service{client: client}),
+		Policies:    (*PoliciesService)(&service{client: client}),
 	}
 }
