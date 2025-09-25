@@ -1,0 +1,7 @@
+resource "lavinmq_exchange" "vcr_test" {
+	name        = "{{.ExchangeName}}"
+	vhost       = "{{.ExchangeVhost}}"
+	type        = "direct"
+	auto_delete = false
+	durable     = false
+}

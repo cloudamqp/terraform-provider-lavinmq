@@ -53,7 +53,11 @@ func lavinMQResourceTest(t *testing.T, c resource.TestCase) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer rec.Stop()
+	defer func() {
+		if err := rec.Stop(); err != nil {
+			t.Logf("failed to stop VCR recorder: %v", err)
+		}
+	}()
 
 	sanitizeHook := func(i *cassette.Interaction) error {
 		i.Request.Headers["Authorization"] = []string{"REDACTED"}

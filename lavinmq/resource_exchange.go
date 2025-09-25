@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -82,6 +83,8 @@ func (r *exchangeResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 			"auto_delete": schema.BoolAttribute{
 				Description: "Whether the exchange is automatically deleted when no longer used.",
 				Optional:    true,
+				Computed:    true,
+				// Default:     booldefault.StaticBool(false),
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -89,6 +92,8 @@ func (r *exchangeResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 			"durable": schema.BoolAttribute{
 				Description: "Whether the exchange should survive a broker restart.",
 				Optional:    true,
+				Computed:    true,
+				Default:     booldefault.StaticBool(true),
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -96,8 +101,10 @@ func (r *exchangeResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 			"internal": schema.BoolAttribute{
 				Description: "Whether the exchange is internal (cannot be published to directly).",
 				Optional:    true,
+				Computed:    true,
+				Default:     booldefault.StaticBool(false),
 				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.RequiresReplace(),
+					boolplanmodifier.UseStateForUnknown(),
 				},
 			},
 		},
@@ -149,6 +156,19 @@ func (r *exchangeResource) Create(ctx context.Context, req resource.CreateReques
 	plan.ID = types.StringValue(fmt.Sprintf("%s,%s", plan.Vhost.ValueString(), plan.Name.ValueString()))
 	tflog.Info(ctx, "Created exchange", map[string]any{"id": plan.ID.ValueString()})
 
+	// Read back the exchange to get the actual state from the server
+	exchange, err := r.services.Exchanges.Get(ctx, plan.Vhost.ValueString(), plan.Name.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Error reading exchange after creation", err.Error())
+		return
+	}
+
+	// Update the plan with actual values from the server
+	plan.Type = types.StringValue(exchange.Type)
+	plan.AutoDelete = types.BoolValue(exchange.AutoDelete)
+	plan.Durable = types.BoolValue(exchange.Durable)
+	plan.Internal = types.BoolValue(exchange.Internal)
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -156,6 +176,7 @@ func (r *exchangeResource) Create(ctx context.Context, req resource.CreateReques
 }
 
 // Read refreshes the Terraform state with the latest data.
+// TODO: Check so import handles default values
 func (r *exchangeResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state exchangeResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
