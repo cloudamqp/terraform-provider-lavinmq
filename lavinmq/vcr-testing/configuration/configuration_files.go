@@ -15,7 +15,9 @@ func GetTemplatedConfig(t *testing.T, fileNames []string, params map[string]stri
 
 	var templatedConfig bytes.Buffer
 	basicTemplate := template.Must(template.New("template").Parse(config))
-	basicTemplate.Execute(&templatedConfig, params)
+	if err := basicTemplate.Execute(&templatedConfig, params); err != nil {
+		t.Fatalf("failed to execute template, err: %v", err)
+	}
 	return templatedConfig.String()
 }
 

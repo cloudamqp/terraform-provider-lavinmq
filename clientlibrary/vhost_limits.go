@@ -36,7 +36,7 @@ func (s *VhostLimitsService) Update(ctx context.Context, vhost string, limits Vh
 			return err
 		}
 	} else {
-		s.Delete(ctx, vhost, "max-connections")
+		_ = s.Delete(ctx, vhost, "max-connections")
 	}
 
 	if limits.MaxQueues != nil {
@@ -47,7 +47,7 @@ func (s *VhostLimitsService) Update(ctx context.Context, vhost string, limits Vh
 			return err
 		}
 	} else {
-		s.Delete(ctx, vhost, "max-queues")
+		_ = s.Delete(ctx, vhost, "max-queues")
 	}
 
 	return nil
