@@ -43,7 +43,6 @@ type exchangeResourceModel struct {
 	Type       types.String `tfsdk:"type"`
 	AutoDelete types.Bool   `tfsdk:"auto_delete"`
 	Durable    types.Bool   `tfsdk:"durable"`
-	Internal   types.Bool   `tfsdk:"internal"`
 }
 
 // Metadata returns the data source type name.
@@ -98,15 +97,6 @@ func (r *exchangeResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 					boolplanmodifier.RequiresReplace(),
 				},
 			},
-			"internal": schema.BoolAttribute{
-				Description: "Whether the exchange is internal (cannot be published to directly).",
-				Optional:    true,
-				Computed:    true,
-				Default:     booldefault.StaticBool(false),
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
-			},
 		},
 	}
 }
@@ -143,9 +133,6 @@ func (r *exchangeResource) Create(ctx context.Context, req resource.CreateReques
 	if !plan.Durable.IsUnknown() {
 		request.Durable = plan.Durable.ValueBoolPointer()
 	}
-	if !plan.Internal.IsUnknown() {
-		request.Internal = plan.Internal.ValueBoolPointer()
-	}
 
 	err := r.services.Exchanges.CreateOrUpdate(ctx, plan.Vhost.ValueString(), plan.Name.ValueString(), request)
 	if err != nil {
@@ -167,7 +154,6 @@ func (r *exchangeResource) Create(ctx context.Context, req resource.CreateReques
 	plan.Type = types.StringValue(exchange.Type)
 	plan.AutoDelete = types.BoolValue(exchange.AutoDelete)
 	plan.Durable = types.BoolValue(exchange.Durable)
-	plan.Internal = types.BoolValue(exchange.Internal)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
@@ -198,7 +184,6 @@ func (r *exchangeResource) Read(ctx context.Context, req resource.ReadRequest, r
 	state.Type = types.StringValue(exchange.Type)
 	state.AutoDelete = types.BoolValue(exchange.AutoDelete)
 	state.Durable = types.BoolValue(exchange.Durable)
-	state.Internal = types.BoolValue(exchange.Internal)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 	if resp.Diagnostics.HasError() {

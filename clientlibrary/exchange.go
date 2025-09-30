@@ -16,7 +16,6 @@ type ExchangeRequest struct {
 	Type       string                 `json:"type,omitempty"`
 	AutoDelete *bool                  `json:"auto_delete,omitempty"`
 	Durable    *bool                  `json:"durable,omitempty"`
-	Internal   *bool                  `json:"internal,omitempty"`
 	Arguments  map[string]interface{} `json:"arguments,omitempty"`
 }
 
@@ -25,7 +24,6 @@ type ExchangeResponse struct {
 	Type       string                 `json:"type"`
 	AutoDelete bool                   `json:"auto_delete"`
 	Durable    bool                   `json:"durable"`
-	Internal   bool                   `json:"internal"`
 	Arguments  map[string]interface{} `json:"arguments,omitempty"`
 }
 
