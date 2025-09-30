@@ -9,6 +9,7 @@ type Services struct {
 	Vhosts      *VhostsService
 	Queues      *QueuesService
 	Policies    *PoliciesService
+	Exchanges   *ExchangesService
 }
 
 func NewServices(client *Client) *Services {
@@ -19,5 +20,6 @@ func NewServices(client *Client) *Services {
 		Vhosts:      (*VhostsService)(&service{client: client}),
 		Queues:      (*QueuesService)(&service{client: client}),
 		Policies:    (*PoliciesService)(&service{client: client}),
+		Exchanges:   (*ExchangesService)(&service{client: client}),
 	}
 }
