@@ -190,6 +190,11 @@ func (r *exchangeResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
+	if exchange == nil {
+		resp.State.RemoveResource(ctx)
+		return
+	}
+
 	state.Type = types.StringValue(exchange.Type)
 	state.AutoDelete = types.BoolValue(exchange.AutoDelete)
 	state.Durable = types.BoolValue(exchange.Durable)

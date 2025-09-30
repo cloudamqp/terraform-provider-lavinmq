@@ -35,16 +35,19 @@ func (s *ExchangesService) CreateOrUpdate(ctx context.Context, vhost string, nam
 	return err
 }
 
-func (s *ExchangesService) Get(ctx context.Context, vhost string, name string) (ExchangeResponse, error) {
+func (s *ExchangesService) Get(ctx context.Context, vhost string, name string) (*ExchangeResponse, error) {
 	path := fmt.Sprintf("api/exchanges/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return ExchangeResponse{}, err
+		return nil, err
+	}
+	if resp == nil {
+		return nil, nil
 	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[ExchangeResponse](body)
+	return utils.GenericUnmarshal[*ExchangeResponse](body)
 }
 
 func (s *ExchangesService) Delete(ctx context.Context, vhost string, name string) error {

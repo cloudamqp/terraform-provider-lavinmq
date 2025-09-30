@@ -182,3 +182,26 @@ func TestAccExchange_BooleanAttributes(t *testing.T) {
 		},
 	})
 }
+
+func TestAccExchange_Drift(t *testing.T) {
+	var (
+		fileNames = []string{"exchanges/exchange_drift"}
+
+		params = map[string]string{
+			"ExchangeName":  "vcr_test_drift",
+			"ExchangeVhost": "/",
+			"ExchangeType":  "direct",
+		}
+	)
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:             configuration.GetTemplatedConfig(t, fileNames, params),
+				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
