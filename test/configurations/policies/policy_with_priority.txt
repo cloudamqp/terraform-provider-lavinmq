@@ -4,6 +4,6 @@ resource "lavinmq_policy" "test_policy" {
 	pattern  = "{{.PolicyPattern}}"
 	priority = {{.PolicyPriority}}
 	definition = {
-		"message-ttl" = "{{.PolicyTTL}}"
+		"message-ttl" = {{.PolicyTTL}}
 	}
 }

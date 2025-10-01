@@ -2,8 +2,7 @@ package lavinmq
 
 import (
 	"context"
-	"fmt"
-	"strconv"
+	"math/big"
 	"strings"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
@@ -41,12 +40,12 @@ type policyResource struct {
 }
 
 type policyResourceModel struct {
-	Name       types.String `tfsdk:"name"`
-	Vhost      types.String `tfsdk:"vhost"`
-	Pattern    types.String `tfsdk:"pattern"`
-	Definition types.Map    `tfsdk:"definition"`
-	Priority   types.Int64  `tfsdk:"priority"`
-	ApplyTo    types.String `tfsdk:"apply_to"`
+	Name       types.String  `tfsdk:"name"`
+	Vhost      types.String  `tfsdk:"vhost"`
+	Pattern    types.String  `tfsdk:"pattern"`
+	Definition types.Dynamic `tfsdk:"definition"`
+	Priority   types.Int64   `tfsdk:"priority"`
+	ApplyTo    types.String  `tfsdk:"apply_to"`
 }
 
 // Metadata returns the resource type name.
@@ -77,10 +76,9 @@ func (r *policyResource) Schema(_ context.Context, _ resource.SchemaRequest, res
 				Description: "Regular expression pattern that matches the names of exchanges or queues to which the policy applies.",
 				Required:    true,
 			},
-			"definition": schema.MapAttribute{
+			"definition": schema.DynamicAttribute{
 				Description: "Policy definition as a map of key-value pairs.",
 				Required:    true,
-				ElementType: types.StringType,
 			},
 			"priority": schema.Int64Attribute{
 				Description: "Policy priority. Higher numbers indicate higher priority.",
@@ -118,12 +116,25 @@ func (r *policyResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
-	// Convert the definition map to a map[string]any
 	definitionMap := make(map[string]any)
 	if !plan.Definition.IsNull() && !plan.Definition.IsUnknown() {
-		for key, value := range plan.Definition.Elements() {
-			if strValue, ok := value.(types.String); ok {
-				definitionMap[key] = convertPolicyValue(key, strValue.ValueString())
+		underlyingValue := plan.Definition.UnderlyingValue()
+
+		if mapValue, ok := underlyingValue.(types.Map); ok {
+			for key, value := range mapValue.Elements() {
+				if dynamicValue, ok := value.(types.Dynamic); ok {
+					innerValue := dynamicValue.UnderlyingValue()
+					switch v := innerValue.(type) {
+					case types.String:
+						definitionMap[key] = v.ValueString()
+					case types.Int64:
+						definitionMap[key] = v.ValueInt64()
+					case types.Float64:
+						definitionMap[key] = v.ValueFloat64()
+					case types.Bool:
+						definitionMap[key] = v.ValueBool()
+					}
+				}
 			}
 		}
 	}
@@ -171,23 +182,25 @@ func (r *policyResource) Read(ctx context.Context, req resource.ReadRequest, res
 	state.Priority = types.Int64Value(int64(policy.Priority))
 	state.ApplyTo = types.StringValue(policy.ApplyTo)
 
-	// Convert definition to types.Map
-	if len(policy.Definition) > 0 {
-		elements := make(map[string]attr.Value)
-		for key, value := range policy.Definition {
-			elements[key] = types.StringValue(fmt.Sprintf("%v", value))
+	elements := make(map[string]attr.Value)
+	for key, value := range policy.Definition {
+		switch v := value.(type) {
+		case int64:
+			elements[key] = types.DynamicValue(types.Int64Value(v))
+		case float64:
+			elements[key] = types.DynamicValue(types.Float64Value(v))
+		case bool:
+			elements[key] = types.DynamicValue(types.BoolValue(v))
+		case string:
+			elements[key] = types.DynamicValue(types.StringValue(v))
 		}
-		definitionMap, diags := types.MapValue(types.StringType, elements)
-		if diags.HasError() {
-			resp.Diagnostics.Append(diags...)
-			return
-		}
-		state.Definition = definitionMap
-	} else {
-		emptyElements := make(map[string]attr.Value)
-		emptyMap, _ := types.MapValue(types.StringType, emptyElements)
-		state.Definition = emptyMap
 	}
+	definitionMap, diags := types.MapValue(types.DynamicType, elements)
+	if diags.HasError() {
+		resp.Diagnostics.Append(diags...)
+		return
+	}
+	state.Definition = types.DynamicValue(definitionMap)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
@@ -203,9 +216,33 @@ func (r *policyResource) Update(ctx context.Context, req resource.UpdateRequest,
 	// Convert the definition map to a map[string]any
 	definitionMap := make(map[string]any)
 	if !plan.Definition.IsNull() && !plan.Definition.IsUnknown() {
-		for key, value := range plan.Definition.Elements() {
-			if strValue, ok := value.(types.String); ok {
-				definitionMap[key] = convertPolicyValue(key, strValue.ValueString())
+		underlyingValue := plan.Definition.UnderlyingValue()
+
+		if mapValue, ok := underlyingValue.(types.Map); ok {
+			for key, value := range mapValue.Elements() {
+				if dynamicValue, ok := value.(types.Dynamic); ok {
+					innerValue := dynamicValue.UnderlyingValue()
+					switch v := innerValue.(type) {
+					case types.String:
+						definitionMap[key] = v.ValueString()
+					case types.Int64:
+						definitionMap[key] = v.ValueInt64()
+					case types.Float64:
+						definitionMap[key] = v.ValueFloat64()
+					case types.Bool:
+						definitionMap[key] = v.ValueBool()
+					case types.Number:
+						if bigFloat := v.ValueBigFloat(); bigFloat != nil {
+							if intVal, accuracy := bigFloat.Int64(); accuracy == big.Exact {
+								definitionMap[key] = intVal
+							} else if floatVal, accuracy := bigFloat.Float64(); accuracy == big.Exact {
+								definitionMap[key] = floatVal
+							} else {
+								definitionMap[key] = bigFloat
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -254,29 +291,4 @@ func (r *policyResource) ImportState(ctx context.Context, req resource.ImportSta
 
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("vhost"), parts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("name"), parts[1])...)
-}
-
-// convertPolicyValue converts string values to appropriate types for policy definitions
-func convertPolicyValue(key, value string) any {
-	// Numeric policy keys that should be converted to integers
-	numericKeys := map[string]bool{
-		"message-ttl":       true,
-		"max-length":        true,
-		"max-length-bytes":  true,
-		"expires":           true,
-		"priority":          true,
-		"ha-params":         true,
-		"overflow-length":   true,
-		"delivery-limit":    true,
-	}
-	
-	if numericKeys[key] {
-		// Try to parse as integer
-		if intVal, err := strconv.ParseInt(value, 10, 64); err == nil {
-			return intVal
-		}
-	}
-	
-	// For non-numeric keys or if parsing fails, return as string
-	return value
 }

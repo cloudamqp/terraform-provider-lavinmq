@@ -5,7 +5,7 @@ resource "lavinmq_policy" "queue_length_policy" {
 	apply_to = "{{.PolicyApplyTo}}"
 	{{if .PolicyPriority}}priority = {{.PolicyPriority}}{{end}}
 	definition = {
-		"max-length" = "{{.PolicyMaxLength}}"
-		{{if .PolicyMaxLengthBytes}}"max-length-bytes" = "{{.PolicyMaxLengthBytes}}"{{end}}
+		"max-length" = {{.PolicyMaxLength}}
+		{{if .PolicyMaxLengthBytes}}"max-length-bytes" = {{.PolicyMaxLengthBytes}}{{end}}
 	}
 }

@@ -5,6 +5,6 @@ resource "lavinmq_policy" "dead_letter_policy" {
 	definition = {
 		"dead-letter-exchange"    = "{{.DeadLetterExchange}}"
 		"dead-letter-routing-key" = "{{.DeadLetterRoutingKey}}"
-		{{if .PolicyTTL}}"message-ttl" = "{{.PolicyTTL}}"{{end}}
+		{{if .PolicyTTL}}"message-ttl" = {{.PolicyTTL}}{{end}}
 	}
 }
