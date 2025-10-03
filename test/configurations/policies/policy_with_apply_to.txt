@@ -1,9 +1,0 @@
-resource "lavinmq_policy" "test_policy" {
-	name     = "{{.PolicyName}}"
-	vhost    = "{{.PolicyVhost}}"
-	pattern  = "{{.PolicyPattern}}"
-	apply_to = "{{.PolicyApplyTo}}"
-	definition = {
-		"message-ttl" = {{.PolicyTTL}}
-	}
-}

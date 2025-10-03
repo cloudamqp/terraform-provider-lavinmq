@@ -1,0 +1,14 @@
+resource "lavinmq_policy" "{{.ResourceName}}" {
+	name     = "{{.PolicyName}}"
+	vhost    = "{{.PolicyVhost}}"
+	pattern  = "{{.PolicyPattern}}"
+	{{if .PolicyApplyTo}}apply_to = "{{.PolicyApplyTo}}"{{end}}
+	{{if .PolicyPriority}}priority = {{.PolicyPriority}}{{end}}
+	definition = {
+		{{if .PolicyTTL}}"message-ttl" = {{.PolicyTTL}}{{end}}
+		{{if .PolicyMaxLength}}"max-length" = {{.PolicyMaxLength}}{{end}}
+		{{if .PolicyMaxLengthBytes}}"max-length-bytes" = {{.PolicyMaxLengthBytes}}{{end}}
+		{{if .DeadLetterExchange}}"dead-letter-exchange" = "{{.DeadLetterExchange}}"{{end}}
+		{{if .DeadLetterRoutingKey}}"dead-letter-routing-key" = "{{.DeadLetterRoutingKey}}"{{end}}
+	}
+}
