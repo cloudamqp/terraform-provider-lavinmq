@@ -118,21 +118,21 @@ func (r *policyResource) Create(ctx context.Context, req resource.CreateRequest,
 
 	definitionMap := make(map[string]any)
 	if !plan.Definition.IsNull() && !plan.Definition.IsUnknown() {
-		underlyingValue := plan.Definition.UnderlyingValue()
-
-		if mapValue, ok := underlyingValue.(types.Map); ok {
-			for key, value := range mapValue.Elements() {
-				if dynamicValue, ok := value.(types.Dynamic); ok {
-					innerValue := dynamicValue.UnderlyingValue()
-					switch v := innerValue.(type) {
-					case types.String:
-						definitionMap[key] = v.ValueString()
-					case types.Int64:
-						definitionMap[key] = v.ValueInt64()
-					case types.Float64:
-						definitionMap[key] = v.ValueFloat64()
-					case types.Bool:
-						definitionMap[key] = v.ValueBool()
+		switch v := plan.Definition.UnderlyingValue().(type) {
+		case types.Object:
+			for key, value := range v.Attributes() {
+				switch val := value.(type) {
+				case types.String:
+					definitionMap[key] = val.ValueString()
+				case types.Bool:
+					definitionMap[key] = val.ValueBool()
+				case types.Number:
+					if bigFloat := val.ValueBigFloat(); bigFloat != nil {
+						if intVal, accuracy := bigFloat.Int64(); accuracy == big.Exact {
+							definitionMap[key] = intVal
+						} else if floatVal, accuracy := bigFloat.Float64(); accuracy == big.Exact {
+							definitionMap[key] = floatVal
+						}
 					}
 				}
 			}
@@ -182,25 +182,31 @@ func (r *policyResource) Read(ctx context.Context, req resource.ReadRequest, res
 	state.Priority = types.Int64Value(int64(policy.Priority))
 	state.ApplyTo = types.StringValue(policy.ApplyTo)
 
-	elements := make(map[string]attr.Value)
+	attributes := make(map[string]attr.Value)
 	for key, value := range policy.Definition {
 		switch v := value.(type) {
 		case int64:
-			elements[key] = types.DynamicValue(types.Int64Value(v))
+			attributes[key] = types.NumberValue(new(big.Float).SetInt64(v))
 		case float64:
-			elements[key] = types.DynamicValue(types.Float64Value(v))
+			attributes[key] = types.NumberValue(new(big.Float).SetFloat64(v))
 		case bool:
-			elements[key] = types.DynamicValue(types.BoolValue(v))
+			attributes[key] = types.BoolValue(v)
 		case string:
-			elements[key] = types.DynamicValue(types.StringValue(v))
+			attributes[key] = types.StringValue(v)
 		}
 	}
-	definitionMap, diags := types.MapValue(types.DynamicType, elements)
+
+	attributeTypes := make(map[string]attr.Type)
+	for key := range attributes {
+		attributeTypes[key] = attributes[key].Type(ctx)
+	}
+
+	definitionObject, diags := types.ObjectValue(attributeTypes, attributes)
 	if diags.HasError() {
 		resp.Diagnostics.Append(diags...)
 		return
 	}
-	state.Definition = types.DynamicValue(definitionMap)
+	state.Definition = types.DynamicValue(definitionObject)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
@@ -213,33 +219,22 @@ func (r *policyResource) Update(ctx context.Context, req resource.UpdateRequest,
 		return
 	}
 
-	// Convert the definition map to a map[string]any
 	definitionMap := make(map[string]any)
 	if !plan.Definition.IsNull() && !plan.Definition.IsUnknown() {
-		underlyingValue := plan.Definition.UnderlyingValue()
-
-		if mapValue, ok := underlyingValue.(types.Map); ok {
-			for key, value := range mapValue.Elements() {
-				if dynamicValue, ok := value.(types.Dynamic); ok {
-					innerValue := dynamicValue.UnderlyingValue()
-					switch v := innerValue.(type) {
-					case types.String:
-						definitionMap[key] = v.ValueString()
-					case types.Int64:
-						definitionMap[key] = v.ValueInt64()
-					case types.Float64:
-						definitionMap[key] = v.ValueFloat64()
-					case types.Bool:
-						definitionMap[key] = v.ValueBool()
-					case types.Number:
-						if bigFloat := v.ValueBigFloat(); bigFloat != nil {
-							if intVal, accuracy := bigFloat.Int64(); accuracy == big.Exact {
-								definitionMap[key] = intVal
-							} else if floatVal, accuracy := bigFloat.Float64(); accuracy == big.Exact {
-								definitionMap[key] = floatVal
-							} else {
-								definitionMap[key] = bigFloat
-							}
+		switch v := plan.Definition.UnderlyingValue().(type) {
+		case types.Object:
+			for key, value := range v.Attributes() {
+				switch val := value.(type) {
+				case types.String:
+					definitionMap[key] = val.ValueString()
+				case types.Bool:
+					definitionMap[key] = val.ValueBool()
+				case types.Number:
+					if bigFloat := val.ValueBigFloat(); bigFloat != nil {
+						if intVal, accuracy := bigFloat.Int64(); accuracy == big.Exact {
+							definitionMap[key] = intVal
+						} else if floatVal, accuracy := bigFloat.Float64(); accuracy == big.Exact {
+							definitionMap[key] = floatVal
 						}
 					}
 				}
