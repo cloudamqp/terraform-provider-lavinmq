@@ -162,6 +162,7 @@ func (p *lavinmqProvider) Configure(ctx context.Context, req provider.ConfigureR
 func (p *lavinmqProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewVhostDataSource,
+		NewPoliciesDataSource,
 	}
 }
 
