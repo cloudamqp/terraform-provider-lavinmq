@@ -6,52 +6,6 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 76
-        transfer_encoding: []
-        trailer: {}
-        host: 127.0.0.1:15672
-        remote_addr: ""
-        request_uri: ""
-        body: |
-            {"pattern":"^test1","definition":{"message-ttl":60000},"apply-to":"queues"}
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            Content-Type:
-                - application/json
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/policies/%2F/terraform-lavinmq-test-policy-1
-        method: PUT
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Connection:
-                - keep-alive
-            Content-Length:
-                - "0"
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 201 Created
-        code: 201
-        duration: 2.856584ms
-    - id: 1
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
         content_length: 90
         transfer_encoding: []
         trailer: {}
@@ -92,92 +46,54 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 4.617417ms
+        duration: 1.940917ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 76
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"pattern":"^test1","definition":{"message-ttl":60000},"apply-to":"queues"}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/policies/%2F/terraform-lavinmq-test-policy-1
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 2.913833ms
     - id: 2
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: 127.0.0.1:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/policies
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '[{"name":"aoeu","vhost":"/","pattern":".*","apply-to":"all","priority":0,"definition":{"max-bananas":"three"}},{"name":"terraform-lavinmq-test-policy-1","vhost":"/","pattern":"^test1","apply-to":"queues","priority":0,"definition":{"message-ttl":60000}},{"name":"terraform-lavinmq-test-policy-2","vhost":"/","pattern":"^test2","apply-to":"exchanges","priority":1,"definition":{"max-length":1000}}]'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 484.208µs
-    - id: 3
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: 127.0.0.1:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/policies
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '[{"name":"aoeu","vhost":"/","pattern":".*","apply-to":"all","priority":0,"definition":{"max-bananas":"three"}},{"name":"terraform-lavinmq-test-policy-1","vhost":"/","pattern":"^test1","apply-to":"queues","priority":0,"definition":{"message-ttl":60000}},{"name":"terraform-lavinmq-test-policy-2","vhost":"/","pattern":"^test2","apply-to":"exchanges","priority":1,"definition":{"max-length":1000}}]'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 594.417µs
-    - id: 4
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -218,8 +134,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 1.228459ms
-    - id: 5
+        duration: 686.875µs
+    - id: 3
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -260,8 +176,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 1.706917ms
-    - id: 6
+        duration: 1.875833ms
+    - id: 4
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -292,7 +208,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"aoeu","vhost":"/","pattern":".*","apply-to":"all","priority":0,"definition":{"max-bananas":"three"}},{"name":"terraform-lavinmq-test-policy-1","vhost":"/","pattern":"^test1","apply-to":"queues","priority":0,"definition":{"message-ttl":60000}},{"name":"terraform-lavinmq-test-policy-2","vhost":"/","pattern":"^test2","apply-to":"exchanges","priority":1,"definition":{"max-length":1000}}]'
+        body: '[{"name":"aoeu","vhost":"/","pattern":".*","apply-to":"all","priority":0,"definition":{"max-bananas":"three"}},{"name":"terraform-lavinmq-test-policy-2","vhost":"/","pattern":"^test2","apply-to":"exchanges","priority":1,"definition":{"max-length":1000}},{"name":"terraform-lavinmq-test-policy-1","vhost":"/","pattern":"^test1","apply-to":"queues","priority":0,"definition":{"message-ttl":60000}},{"name":"ha-all","vhost":"test_vhost","pattern":".*","apply-to":"all","priority":0,"definition":{"ha-mode":"all","ha-sync-mode":"automatic","max-length":1000,"max-length-bytes":10485760}}]'
         headers:
             Connection:
                 - keep-alive
@@ -302,7 +218,91 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 642.625µs
+        duration: 643.5µs
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/policies
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"aoeu","vhost":"/","pattern":".*","apply-to":"all","priority":0,"definition":{"max-bananas":"three"}},{"name":"terraform-lavinmq-test-policy-2","vhost":"/","pattern":"^test2","apply-to":"exchanges","priority":1,"definition":{"max-length":1000}},{"name":"terraform-lavinmq-test-policy-1","vhost":"/","pattern":"^test1","apply-to":"queues","priority":0,"definition":{"message-ttl":60000}},{"name":"ha-all","vhost":"test_vhost","pattern":".*","apply-to":"all","priority":0,"definition":{"ha-mode":"all","ha-sync-mode":"automatic","max-length":1000,"max-length-bytes":10485760}}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 554.792µs
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/policies/%2F/terraform-lavinmq-test-policy-1
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"terraform-lavinmq-test-policy-1","vhost":"/","pattern":"^test1","apply-to":"queues","priority":0,"definition":{"message-ttl":60000}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 490.333µs
     - id: 7
       request:
         proto: HTTP/1.1
@@ -324,16 +324,17 @@ interactions:
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
         url: http://127.0.0.1:15672/api/policies/%2F/terraform-lavinmq-test-policy-2
-        method: DELETE
+        method: GET
       response:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        transfer_encoding: []
+        transfer_encoding:
+            - chunked
         trailer: {}
-        content_length: 0
+        content_length: -1
         uncompressed: false
-        body: ""
+        body: '{"name":"terraform-lavinmq-test-policy-2","vhost":"/","pattern":"^test2","apply-to":"exchanges","priority":1,"definition":{"max-length":1000}}'
         headers:
             Connection:
                 - keep-alive
@@ -341,10 +342,52 @@ interactions:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 204 No Content
-        code: 204
-        duration: 1.739417ms
+        status: 200 OK
+        code: 200
+        duration: 719.833µs
     - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/policies
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"aoeu","vhost":"/","pattern":".*","apply-to":"all","priority":0,"definition":{"max-bananas":"three"}},{"name":"terraform-lavinmq-test-policy-2","vhost":"/","pattern":"^test2","apply-to":"exchanges","priority":1,"definition":{"max-length":1000}},{"name":"terraform-lavinmq-test-policy-1","vhost":"/","pattern":"^test1","apply-to":"queues","priority":0,"definition":{"message-ttl":60000}},{"name":"ha-all","vhost":"test_vhost","pattern":".*","apply-to":"all","priority":0,"definition":{"ha-mode":"all","ha-sync-mode":"automatic","max-length":1000,"max-length-bytes":10485760}}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 372.959µs
+    - id: 9
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -384,4 +427,45 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 8.927084ms
+        duration: 1.402875ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/policies/%2F/terraform-lavinmq-test-policy-2
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 6.474291ms
