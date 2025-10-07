@@ -62,12 +62,12 @@ func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (VhostLimits
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	vhostLimitsResp, err := utils.GenericUnmarshal[[]VhostLimitsResponse](body)
+	vhostLimitsResponses, err := utils.GenericUnmarshal[[]VhostLimitsResponse](body)
 	if err != nil {
 		tflog.Error(ctx, fmt.Sprintf("Unmarshal failed: %v", err))
 		return VhostLimitsResponse{}, err
 	}
-	for _, v := range vhostLimitsResp {
+	for _, v := range vhostLimitsResponses {
 		if v.Vhost == vhost {
 			return v, nil
 		}
