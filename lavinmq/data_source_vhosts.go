@@ -25,7 +25,7 @@ type vhostDataSourceModel struct {
 }
 
 type vhostListDataSourceModel struct {
-	Vhosts []vhostDataSourceModel `tfsdk:"vhost"`
+	Vhosts []vhostDataSourceModel `tfsdk:"vhosts"`
 }
 
 func (d *vhostsDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -35,7 +35,7 @@ func (d *vhostsDataSource) Metadata(ctx context.Context, req datasource.Metadata
 func (d *vhostsDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"vhost": schema.ListNestedAttribute{
+			"vhosts": schema.ListNestedAttribute{
 				Description: "List of vhosts.",
 				Computed:    true,
 				NestedObject: schema.NestedAttributeObject{
