@@ -12,9 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -84,13 +82,11 @@ func (r *policyResource) Schema(_ context.Context, _ resource.SchemaRequest, res
 				Description: "Policy priority. Higher numbers indicate higher priority.",
 				Optional:    true,
 				Computed:    true,
-				Default:     int64default.StaticInt64(0),
 			},
 			"apply_to": schema.StringAttribute{
 				Description: "What the policy applies to: 'all', 'exchanges', or 'queues'.",
 				Optional:    true,
 				Computed:    true,
-				Default:     stringdefault.StaticString("all"),
 				Validators: []validator.String{
 					stringvalidator.OneOf("all", "exchanges", "queues"),
 				},
@@ -151,6 +147,15 @@ func (r *policyResource) Create(ctx context.Context, req resource.CreateRequest,
 		resp.Diagnostics.AddError("Error creating policy", err.Error())
 		return
 	}
+
+	policy, err := r.services.Policies.Get(ctx, plan.Vhost.ValueString(), plan.Name.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to read policy data", err.Error())
+		return
+	}
+
+	plan.Priority = types.Int64Value(int64(policy.Priority))
+	plan.ApplyTo = types.StringValue(policy.ApplyTo)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
@@ -254,6 +259,15 @@ func (r *policyResource) Update(ctx context.Context, req resource.UpdateRequest,
 		resp.Diagnostics.AddError("Error updating policy", err.Error())
 		return
 	}
+
+	policy, err := r.services.Policies.Get(ctx, plan.Vhost.ValueString(), plan.Name.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to read policy data", err.Error())
+		return
+	}
+
+	plan.Priority = types.Int64Value(int64(policy.Priority))
+	plan.ApplyTo = types.StringValue(policy.ApplyTo)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }

@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 56
+        content_length: 39
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"pattern":"^dl_test","definition":{},"apply-to":"all"}
+            {"pattern":"^dl_test","definition":{}}
         form: {}
         headers:
             Accept:
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/policies/%2F/vcr_test_dl_policy
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,7 +46,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 7.499333ms
+        duration: 1.913083ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -55,7 +55,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -67,7 +67,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/policies/%2F/vcr_test_dl_policy
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
         method: GET
       response:
         proto: HTTP/1.1
@@ -88,7 +88,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 615.125µs
+        duration: 636.25µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -97,7 +97,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -109,7 +109,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/policies/%2F/vcr_test_dl_policy
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
         method: GET
       response:
         proto: HTTP/1.1
@@ -130,20 +130,62 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 925.583µs
+        duration: 599.458µs
     - id: 3
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 153
+        content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_dl_policy","vhost":"/","pattern":"^dl_test","apply-to":"all","priority":0,"definition":{}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 563.625µs
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 136
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"pattern":"^dl_test","definition":{"dead-letter-exchange":"updated_dlx_exchange","dead-letter-routing-key":"updated_dlx_routing_key"},"apply-to":"all"}
+            {"pattern":"^dl_test","definition":{"dead-letter-exchange":"updated_dlx_exchange","dead-letter-routing-key":"updated_dlx_routing_key"}}
         form: {}
         headers:
             Accept:
@@ -154,7 +196,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/policies/%2F/vcr_test_dl_policy
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
         method: PUT
       response:
         proto: HTTP/1.1
@@ -174,8 +216,8 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 3.847459ms
-    - id: 4
+        duration: 1.651125ms
+    - id: 5
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -183,7 +225,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -195,7 +237,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/policies/%2F/vcr_test_dl_policy
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
         method: GET
       response:
         proto: HTTP/1.1
@@ -216,8 +258,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 356.875µs
-    - id: 5
+        duration: 756.916µs
+    - id: 6
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -225,7 +267,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -237,7 +279,49 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/policies/%2F/vcr_test_dl_policy
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_dl_policy","vhost":"/","pattern":"^dl_test","apply-to":"all","priority":0,"definition":{"dead-letter-exchange":"updated_dlx_exchange","dead-letter-routing-key":"updated_dlx_routing_key"}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 494.459µs
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/policies/%2F/vcr_test_dl_policy
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -257,4 +341,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 1.037542ms
+        duration: 1.388459ms
