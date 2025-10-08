@@ -1,6 +1,7 @@
 package lavinmq
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/lavinmq/vcr-testing/configuration"
@@ -147,6 +148,31 @@ func TestAccPolicy_AddDefinitions(t *testing.T) {
 					resource.TestCheckResourceAttr(policyResourceName, "definition.dead-letter-routing-key", paramsUpdated["DeadLetterRoutingKey"]),
 					resource.TestCheckResourceAttr(policyResourceName, "apply_to", "all"),
 				),
+			},
+		},
+	})
+}
+
+func TestAccPolicy_InvalidApplyTo(t *testing.T) {
+	var (
+		fileNames = []string{"policies/policy"}
+
+		paramsInvalidValue = map[string]string{
+			"ResourceName":  "test_policy",
+			"PolicyName":    "vcr_test_policy_invalid",
+			"PolicyVhost":   "/",
+			"PolicyPattern": "^vcr_test",
+			"PolicyApplyTo": "invalid_value",
+		}
+	)
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config:      configuration.GetTemplatedConfig(t, fileNames, paramsInvalidValue),
+				ExpectError: regexp.MustCompile(`Attribute apply_to value must be one of:.*"all".*"exchanges".*"queues"`),
 			},
 		},
 	})
