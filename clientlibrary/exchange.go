@@ -58,6 +58,9 @@ func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeRe
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, nil
+	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
