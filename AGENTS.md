@@ -10,4 +10,4 @@
 
 ## Coding style
 
-* Use `any` instead of `insterface{}`
+* Use `any` instead of `interface{}`
