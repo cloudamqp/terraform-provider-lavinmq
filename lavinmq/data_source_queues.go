@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 var (
@@ -94,9 +95,13 @@ func (d *queuesDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		resp.Diagnostics.AddError("Unable to retrieve queues", err.Error())
 		return
 	}
+	if len(queues) == 0 {
+		tflog.Warn(ctx, "No queues found")
+	}
 
 	var state queuesDataSourceModel
 	state.Vhost = config.Vhost
+	state.Queues = []queueDataSourceModel{}
 
 	for _, queue := range queues {
 		state.Queues = append(state.Queues, queueDataSourceModel{
