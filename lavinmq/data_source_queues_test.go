@@ -14,7 +14,9 @@ func TestAccDataSourceQueues_Basic(t *testing.T) {
 			{
 				Config: `
           resource "lavinmq_vhost" "test" {
-            name = "terraform-lavinmq-test"
+            name            = "terraform-lavinmq-test"
+						max_connections = 10
+						max_queues      = 10
           }
 
           resource "lavinmq_queue" "test1" {
