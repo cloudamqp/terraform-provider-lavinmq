@@ -29,6 +29,7 @@ func TestAccDataSourceQueues_Basic(t *testing.T) {
             vhost       = lavinmq_vhost.test.name
             durable     = false
             auto_delete = true
+						depends_on = [lavinmq_queue.test1]
           }
 
           data "lavinmq_queues" "all" {
