@@ -14,7 +14,7 @@ var (
 	_ datasource.DataSourceWithConfigure = &queuesDataSource{}
 )
 
-func NewQueueDataSource() datasource.DataSource {
+func NewQueuesDataSource() datasource.DataSource {
 	return &queuesDataSource{}
 }
 
