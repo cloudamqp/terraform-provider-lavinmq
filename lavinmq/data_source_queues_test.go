@@ -24,9 +24,16 @@ func TestAccDataSourceQueues_Basic(t *testing.T) {
             auto_delete = false
           }
 
+          resource "lavinmq_queue" "test2" {
+            name        = "terraform-queue-test-2"
+            vhost       = lavinmq_vhost.test.name
+            durable     = false
+            auto_delete = true
+          }
+
           data "lavinmq_queues" "all" {
             vhost = lavinmq_vhost.test.name
-            depends_on = [lavinmq_queue.test1]
+            depends_on = [lavinmq_queue.test1, lavinmq_queue.test2]
           }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("data.lavinmq_queues.all", "vhost", "terraform-lavinmq-test"),
@@ -36,6 +43,12 @@ func TestAccDataSourceQueues_Basic(t *testing.T) {
 						"vhost":       "terraform-lavinmq-test",
 						"durable":     "true",
 						"auto_delete": "false",
+					}),
+					resource.TestCheckTypeSetElemNestedAttrs("data.lavinmq_queues.all", "queues.*", map[string]string{
+						"name":        "terraform-queue-test-2",
+						"vhost":       "terraform-lavinmq-test",
+						"durable":     "false",
+						"auto_delete": "true",
 					}),
 				),
 			},
