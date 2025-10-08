@@ -32,16 +32,23 @@ func (s *QueuesService) CreateOrUpdate(ctx context.Context, vhost string, name s
 	return err
 }
 
-func (s *QueuesService) Get(ctx context.Context, vhost string, name string) (QueueResponse, error) {
+func (s *QueuesService) Get(ctx context.Context, vhost string, name string) (*QueueResponse, error) {
 	path := fmt.Sprintf("api/queues/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return QueueResponse{}, err
+		return nil, err
+	}
+	if resp == nil {
+		return nil, nil
 	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[QueueResponse](body)
+	result, err := utils.GenericUnmarshal[QueueResponse](body)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
 }
 
 func (s *QueuesService) List(ctx context.Context, vhost string) ([]*QueueResponse, error) {
