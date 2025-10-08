@@ -15,35 +15,6 @@ func TestAccDataSourceQueues_Basic(t *testing.T) {
 				Config: `
           resource "lavinmq_vhost" "test" {
             name            = "terraform-lavinmq-test"
-            max_connections = 10
-            max_queues      = 10
-          }
-
-          resource "lavinmq_queue" "test1" {
-            name        = "terraform-queue-test-1"
-            vhost       = lavinmq_vhost.test.name
-            durable     = true
-            auto_delete = false
-          }
-
-          resource "lavinmq_queue" "test2" {
-            name        = "terraform-queue-test-2"
-            vhost       = lavinmq_vhost.test.name
-            durable     = false
-            auto_delete = true
-          }`,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("lavinmq_vhost.test", "name", "terraform-lavinmq-test"),
-					resource.TestCheckResourceAttr("lavinmq_queue.test1", "name", "terraform-queue-test-1"),
-					resource.TestCheckResourceAttr("lavinmq_queue.test2", "name", "terraform-queue-test-2"),
-				),
-			},
-			{
-				Config: `
-          resource "lavinmq_vhost" "test" {
-            name            = "terraform-lavinmq-test"
-            max_connections = 10
-            max_queues      = 10
           }
 
           resource "lavinmq_queue" "test1" {
@@ -62,6 +33,7 @@ func TestAccDataSourceQueues_Basic(t *testing.T) {
 
           data "lavinmq_queues" "all" {
             vhost = lavinmq_vhost.test.name
+            depends_on = [lavinmq_queue.test1, lavinmq_queue.test2]
           }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr("data.lavinmq_queues.all", "vhost", "terraform-lavinmq-test"),
