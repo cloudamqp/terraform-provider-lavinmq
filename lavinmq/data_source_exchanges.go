@@ -24,6 +24,7 @@ type exchangesDataSource struct {
 }
 
 type exchangesDataSourceModel struct {
+	Vhost     types.String              `tfsdk:"vhost"`
 	Exchanges []exchangeDataSourceModel `tfsdk:"exchanges"`
 }
 
@@ -43,6 +44,10 @@ func (d *exchangesDataSource) Schema(ctx context.Context, req datasource.SchemaR
 	resp.Schema = schema.Schema{
 		Description: "List all exchanges.",
 		Attributes: map[string]schema.Attribute{
+			"vhost": schema.StringAttribute{
+				Description: "The vhost to list exchanges from.",
+				Optional:    true,
+			},
 			"exchanges": schema.ListNestedAttribute{
 				Description: "List of exchanges.",
 				Computed:    true,
