@@ -9,13 +9,16 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ datasource.DataSource = &queueDataSource{}
+var (
+	_ datasource.DataSource              = &queuesDataSource{}
+	_ datasource.DataSourceWithConfigure = &queuesDataSource{}
+)
 
 func NewQueueDataSource() datasource.DataSource {
-	return &queueDataSource{}
+	return &queuesDataSource{}
 }
 
-type queueDataSource struct {
+type queuesDataSource struct {
 	services *clientlibrary.Services
 }
 
@@ -31,11 +34,11 @@ type queuesDataSourceModel struct {
 	Queues []queueDataSourceModel `tfsdk:"queues"`
 }
 
-func (d *queueDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *queuesDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_queues"
 }
 
-func (d *queueDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *queuesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "List queues in a vhost.",
 		Attributes: map[string]schema.Attribute{
@@ -71,7 +74,7 @@ func (d *queueDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 	}
 }
 
-func (d *queueDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
+func (d *queuesDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, _ *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -79,7 +82,7 @@ func (d *queueDataSource) Configure(_ context.Context, req datasource.ConfigureR
 	d.services = req.ProviderData.(*clientlibrary.Services)
 }
 
-func (d *queueDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+func (d *queuesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var config queuesDataSourceModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
 	if resp.Diagnostics.HasError() {
