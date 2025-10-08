@@ -51,32 +51,26 @@ func (s *QueuesService) Get(ctx context.Context, vhost string, name string) (*Qu
 	return &result, nil
 }
 
-func (s *QueuesService) List(ctx context.Context, vhost string) ([]*QueueResponse, error) {
+func (s *QueuesService) List(ctx context.Context, vhost string) ([]QueueResponse, error) {
 	path := "api/queues"
 	if vhost != "" {
 		path = fmt.Sprintf("api/queues/%s", url.PathEscape(vhost))
 	}
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return nil, err
+		return []QueueResponse{}, err
 	}
 	if resp == nil {
-		return nil, nil
+		return []QueueResponse{}, nil
 	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
 	result, err := utils.GenericUnmarshal[[]QueueResponse](body)
 	if err != nil {
-		return nil, err
+		return []QueueResponse{}, err
 	}
-
-	// Convert slice of values to slice of pointers
-	pointers := make([]*QueueResponse, len(result))
-	for i := range result {
-		pointers[i] = &result[i]
-	}
-	return pointers, nil
+	return result, nil
 }
 
 func (s *QueuesService) Delete(ctx context.Context, vhost string, name string) error {

@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 var _ datasource.DataSource = &queueDataSource{}
@@ -90,11 +89,6 @@ func (d *queueDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	queues, err := d.services.Queues.List(ctx, config.Vhost.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to retrieve queues", err.Error())
-		return
-	}
-
-	if queues == nil {
-		tflog.Warn(ctx, "no queues found")
 		return
 	}
 
