@@ -40,7 +40,7 @@ This directory contains examples of how to use the `lavinmq_exchange` resource t
 ### Direct Exchange
 Routes messages to queues where the routing key exactly matches the binding key.
 
-### Fanout Exchange  
+### Fanout Exchange
 Routes messages to all queues bound to the exchange, ignoring routing keys.
 
 ### Topic Exchange
