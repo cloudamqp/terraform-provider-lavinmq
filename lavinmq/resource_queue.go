@@ -73,6 +73,7 @@ func (r *queueResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 			"auto_delete": schema.BoolAttribute{
 				Description: "Whether the queue is automatically deleted when no longer used.",
 				Optional:    true,
+				Computed:    true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -133,6 +134,14 @@ func (r *queueResource) Create(ctx context.Context, req resource.CreateRequest, 
 		resp.Diagnostics.AddError("Error creating queue", err.Error())
 		return
 	}
+
+	queue, err := r.services.Queues.Get(ctx, plan.Vhost.ValueString(), plan.Name.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Error reading queue", err.Error())
+		return
+	}
+
+	plan.AutoDelete = types.BoolValue(queue.AutoDelete)
 
 	plan.ID = types.StringValue(fmt.Sprintf("%s,%s", plan.Vhost.ValueString(), plan.Name.ValueString()))
 	tflog.Info(ctx, "Created queue", map[string]any{"id": plan.ID.ValueString()})
