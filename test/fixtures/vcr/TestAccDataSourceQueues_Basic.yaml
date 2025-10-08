@@ -43,54 +43,8 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 18.672247ms
+        duration: 10.615729ms
     - id: 1
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 37
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: |
-            {"auto_delete":false,"durable":true}
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            Content-Type:
-                - application/json
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/queues/terraform-lavinmq-test/terraform-queue-test-1
-        method: PUT
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Connection:
-                - keep-alive
-            Content-Length:
-                - "0"
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 201 Created
-        code: 201
-        duration: 4.651758ms
-    - id: 2
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -135,7 +89,53 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 5.637867ms
+        duration: 1.557763ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 37
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"auto_delete":false,"durable":true}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/terraform-lavinmq-test/terraform-queue-test-1
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 3.658302ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -167,7 +167,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"terraform-queue-test-2","durable":false,"exclusive":false,"auto_delete":true,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        body: '[{"name":"terraform-queue-test-2","durable":false,"exclusive":false,"auto_delete":true,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
         headers:
             Connection:
                 - keep-alive
@@ -177,7 +177,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 439.187µs
+        duration: 366.627µs
     - id: 4
       request:
         proto: HTTP/1.1
@@ -209,7 +209,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"terraform-queue-test-2","durable":false,"exclusive":false,"auto_delete":true,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        body: '[{"name":"terraform-queue-test-2","durable":false,"exclusive":false,"auto_delete":true,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
         headers:
             Connection:
                 - keep-alive
@@ -219,7 +219,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 528.839µs
+        duration: 273.309µs
     - id: 5
       request:
         proto: HTTP/1.1
@@ -261,7 +261,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 516.406µs
+        duration: 338.66µs
     - id: 6
       request:
         proto: HTTP/1.1
@@ -303,50 +303,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 184.127µs
+        duration: 184.634µs
     - id: 7
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/queues/terraform-lavinmq-test/terraform-queue-test-1
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 250.154µs
-    - id: 8
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -387,7 +345,49 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 406.015µs
+        duration: 581.723µs
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/terraform-lavinmq-test/terraform-queue-test-1
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 738.008µs
     - id: 9
       request:
         proto: HTTP/1.1
@@ -419,7 +419,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"terraform-queue-test-2","durable":false,"exclusive":false,"auto_delete":true,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        body: '[{"name":"terraform-queue-test-2","durable":false,"exclusive":false,"auto_delete":true,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"terraform-queue-test-1","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"terraform-lavinmq-test","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
         headers:
             Connection:
                 - keep-alive
@@ -429,49 +429,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 544.561µs
+        duration: 451.157µs
     - id: 10
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/queues/terraform-lavinmq-test/terraform-queue-test-2
-        method: DELETE
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding: []
-        trailer: {}
-        content_length: 0
-        uncompressed: false
-        body: ""
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 204 No Content
-        code: 204
-        duration: 1.288184ms
-    - id: 11
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -511,7 +470,48 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 3.725143ms
+        duration: 2.129468ms
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/terraform-lavinmq-test/terraform-queue-test-2
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 2.253914ms
     - id: 12
       request:
         proto: HTTP/1.1
@@ -552,4 +552,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 5.466548ms
+        duration: 4.599338ms
