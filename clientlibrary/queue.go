@@ -19,6 +19,8 @@ type QueueRequest struct {
 }
 
 type QueueResponse struct {
+	Name       string                 `json:"name"`
+	Vhost      string                 `json:"vhost"`
 	AutoDelete bool                   `json:"auto_delete"`
 	Durable    bool                   `json:"durable"`
 	Arguments  map[string]interface{} `json:"arguments,omitempty"`
