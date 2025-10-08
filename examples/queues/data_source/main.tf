@@ -1,9 +1,3 @@
-provider "lavinmq" {
-  baseurl  = "http://localhost:15672/"
-  username = "guest"
-  password = "guest"
-}
-
 # Create a vhost for testing
 resource "lavinmq_vhost" "example" {
   name = "example-vhost"
