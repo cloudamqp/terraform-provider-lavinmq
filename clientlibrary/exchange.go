@@ -49,7 +49,7 @@ func (s *ExchangesService) Get(ctx context.Context, vhost string, name string) (
 	return utils.GenericUnmarshal[*ExchangeResponse](body)
 }
 
-func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeResponse, error) {
+func (s *ExchangesService) List(ctx context.Context, vhost string) ([]*ExchangeResponse, error) {
 	path := "api/exchanges"
 	if vhost != "" {
 		path = fmt.Sprintf("api/exchanges/%s", url.PathEscape(vhost))
@@ -64,7 +64,17 @@ func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeRe
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[[]ExchangeResponse](body)
+	result, err := utils.GenericUnmarshal[[]ExchangeResponse](body)
+	if err != nil {
+		return nil, err
+	}
+
+	// Convert slice of values to slice of pointers
+	pointers := make([]*ExchangeResponse, len(result))
+	for i := range result {
+		pointers[i] = &result[i]
+	}
+	return pointers, nil
 }
 
 func (s *ExchangesService) Delete(ctx context.Context, vhost string, name string) error {
