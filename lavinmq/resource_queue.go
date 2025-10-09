@@ -165,6 +165,10 @@ func (r *queueResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		resp.Diagnostics.AddError("Error reading queue", err.Error())
 		return
 	}
+	if queue == nil {
+		resp.State.RemoveResource(ctx)
+		return
+	}
 
 	state.AutoDelete = types.BoolValue(queue.AutoDelete)
 	state.Durable = types.BoolValue(queue.Durable)
