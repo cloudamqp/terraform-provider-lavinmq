@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -41,6 +42,8 @@ type queueResourceModel struct {
 	Vhost      types.String `tfsdk:"vhost"`
 	AutoDelete types.Bool   `tfsdk:"auto_delete"`
 	Durable    types.Bool   `tfsdk:"durable"`
+	Pause      types.Bool   `tfsdk:"pause"`
+	State      types.String `tfsdk:"state"`
 }
 
 // Metadata returns the data source type name.
@@ -55,6 +58,9 @@ func (r *queueResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Description: "Name of the managed queue.",
@@ -81,9 +87,23 @@ func (r *queueResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 			"durable": schema.BoolAttribute{
 				Description: "Whether the queue should survive a broker restart.",
 				Optional:    true,
+				Computed:    true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
+			},
+			"pause": schema.BoolAttribute{
+				Description: "Queue action, when true, the queue will be paused.",
+				Optional:    true,
+				Computed:    true,
+				Default:     booldefault.StaticBool(false),
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"state": schema.StringAttribute{
+				Description: "State of the queue: 'running', 'paused', 'flow', 'closed', or 'deleted'.",
+				Computed:    true,
 			},
 			// "arguments": schema.MapAttribute{
 			// 	Description: "Arguments for the queue.",
@@ -109,6 +129,8 @@ func (r *queueResource) Configure(_ context.Context, req resource.ConfigureReque
 func (r *queueResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	importIDParts := strings.Split(req.ID, ",")
 
+	tflog.Info(ctx, "Importing queue", map[string]any{"id": req.ID, "parts": importIDParts})
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("vhost"), importIDParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("name"), importIDParts[1])...)
 }
@@ -142,7 +164,8 @@ func (r *queueResource) Create(ctx context.Context, req resource.CreateRequest, 
 	}
 
 	plan.AutoDelete = types.BoolValue(queue.AutoDelete)
-
+	plan.Durable = types.BoolValue(queue.Durable)
+	plan.State = types.StringValue(queue.State)
 	plan.ID = types.StringValue(fmt.Sprintf("%s,%s", plan.Vhost.ValueString(), plan.Name.ValueString()))
 	tflog.Info(ctx, "Created queue", map[string]any{"id": plan.ID.ValueString()})
 
@@ -172,6 +195,8 @@ func (r *queueResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 	state.AutoDelete = types.BoolValue(queue.AutoDelete)
 	state.Durable = types.BoolValue(queue.Durable)
+	state.State = types.StringValue(queue.State)
+	state.Pause = types.BoolValue(queue.State == "paused")
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
@@ -181,7 +206,34 @@ func (r *queueResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *queueResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	// This resource does not implement the Update function
+	var plan queueResourceModel
+	var state queueResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	if plan.Pause.ValueBool() != state.Pause.ValueBool() {
+		err := r.services.Queues.Pause(ctx, state.Vhost.ValueString(), state.Name.ValueString(), plan.Pause.ValueBool())
+		if err != nil {
+			resp.Diagnostics.AddError("Error updating queue pause state", err.Error())
+			return
+		}
+
+		queue, err := r.services.Queues.Get(ctx, plan.Vhost.ValueString(), plan.Name.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Error reading queue", err.Error())
+			return
+		}
+
+		plan.State = types.StringValue(queue.State)
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
 // Delete deletes the resource and removes the Terraform state on success.
