@@ -45,3 +45,19 @@ func TestAccDataSourceUsers_Basic(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourceUsers_DefaultUser(t *testing.T) {
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          data "lavinmq_users" "all" {}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet("data.lavinmq_users.all", "users.#"),
+				),
+			},
+		},
+	})
+}

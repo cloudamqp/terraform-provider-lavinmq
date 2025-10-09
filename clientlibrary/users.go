@@ -48,12 +48,19 @@ func (s *UsersService) Get(ctx context.Context, username string) (*UserResponse,
 func (s *UsersService) List(ctx context.Context) ([]UserResponse, error) {
 	resp, err := s.client.Request(ctx, http.MethodGet, "api/users", nil)
 	if err != nil {
-		return nil, err
+		return []UserResponse{}, err
+	}
+	if resp == nil {
+		return []UserResponse{}, nil
 	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[[]UserResponse](body)
+	result, err := utils.GenericUnmarshal[[]UserResponse](body)
+	if err != nil {
+		return []UserResponse{}, err
+	}
+	return result, nil
 }
 
 func (s *UsersService) Delete(ctx context.Context, username string) error {

@@ -58,3 +58,25 @@ func TestAccDataSourcePolicies_Basic(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourcePolicies_Empty(t *testing.T) {
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_vhost" "test" {
+            name = "terraform-lavinmq-empty-policies-test"
+          }
+
+          data "lavinmq_policies" "all" {
+            depends_on = [lavinmq_vhost.test]
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_policies.all", "policies.#", "0"),
+				),
+			},
+		},
+	})
+}
