@@ -16,7 +16,7 @@ type ExchangeRequest struct {
 	Type       string                 `json:"type,omitempty"`
 	AutoDelete *bool                  `json:"auto_delete,omitempty"`
 	Durable    *bool                  `json:"durable,omitempty"`
-	Arguments  map[string]interface{} `json:"arguments,omitempty"`
+	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
 type ExchangeResponse struct {
@@ -24,7 +24,7 @@ type ExchangeResponse struct {
 	Type       string                 `json:"type"`
 	AutoDelete bool                   `json:"auto_delete"`
 	Durable    bool                   `json:"durable"`
-	Arguments  map[string]interface{} `json:"arguments,omitempty"`
+	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
 func (s *ExchangesService) CreateOrUpdate(ctx context.Context, vhost string, name string, req ExchangeRequest) error {
