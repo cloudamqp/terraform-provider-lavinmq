@@ -164,6 +164,7 @@ func (p *lavinmqProvider) DataSources(_ context.Context) []func() datasource.Dat
 		NewVhostDataSource,
 		NewPoliciesDataSource,
 		NewExchangesDataSource,
+		NewUsersDataSource,
 	}
 }
 
