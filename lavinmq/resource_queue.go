@@ -129,6 +129,14 @@ func (r *queueResource) Configure(_ context.Context, req resource.ConfigureReque
 func (r *queueResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	importIDParts := strings.Split(req.ID, ",")
 
+	if len(importIDParts) != 2 {
+		resp.Diagnostics.AddError(
+			"Invalid import ID format",
+			"Expected format: vhost,queue_name",
+		)
+		return
+	}
+
 	tflog.Info(ctx, "Importing queue", map[string]any{"id": req.ID, "parts": importIDParts})
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("vhost"), importIDParts[0])...)
@@ -189,6 +197,10 @@ func (r *queueResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		return
 	}
 	if queue == nil {
+		tflog.Info(ctx, "Queue not found on server, removing from state", map[string]any{
+			"vhost": state.Vhost.ValueString(),
+			"name":  state.Name.ValueString(),
+		})
 		resp.State.RemoveResource(ctx)
 		return
 	}
