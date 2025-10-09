@@ -7,7 +7,7 @@
 
 ## Example usage
 
-Create new user to gain access HTTP API, manegment interface and AMQP broker.
+Create new user to gain access HTTP API, management interface and AMQP broker.
 
 ```hcl
 provider lavinmq {
@@ -16,10 +16,35 @@ provider lavinmq {
   password = "<password>"
 }
 
-
 resource "lavinmq_user" "this" {
-  name              = "<username>"
-  password          = "<password>"
-  tags              = ["administrator"]
+  name     = "<username>"
+  password = "<password>"
+  tags     = ["administrator"]
+}
+
+resource "lavinmq_permission" "this" {
+  vhost     = "/"
+  user      = lavinmq_user.this.name
+  configure = ".*"
+  read      = ".*"
+  write     = ".*"
 }
 ```
+
+## Resources
+
+- `lavinmq_user` - Manage users
+- `lavinmq_vhost` - Manage virtual hosts
+- `lavinmq_queue` - Manage queues
+- `lavinmq_exchange` - Manage exchanges
+- `lavinmq_policy` - Manage policies
+- `lavinmq_permission` - Manage user permissions on vhosts
+
+## Data Sources
+
+- `lavinmq_users` - List all users
+- `lavinmq_vhosts` - List all vhosts
+- `lavinmq_queues` - List all queues
+- `lavinmq_exchanges` - List all exchanges
+- `lavinmq_policies` - List all policies
+- `lavinmq_permissions` - List all permissions
