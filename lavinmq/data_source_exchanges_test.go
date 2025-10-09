@@ -74,3 +74,22 @@ func TestAccDataSourceExchanges_DefaultExchanges(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourceExchanges_NonExistingVhost(t *testing.T) {
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          data "lavinmq_exchanges" "empty" {
+            vhost = "terraform-lavinmq-non-existing-test"
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_exchanges.empty", "vhost", "terraform-lavinmq-non-existing-test"),
+					resource.TestCheckResourceAttr("data.lavinmq_exchanges.empty", "exchanges.#", "0"),
+				),
+			},
+		},
+	})
+}

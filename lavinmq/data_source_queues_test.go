@@ -48,6 +48,25 @@ func TestAccDataSourceQueues_Empty(t *testing.T) {
 	})
 }
 
+func TestAccDataSourceQueues_NonExistingVhost(t *testing.T) {
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          data "lavinmq_queues" "empty" {
+            vhost = "terraform-lavinmq-non-existing-test"
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_queues.empty", "vhost", "terraform-lavinmq-non-existing-test"),
+					resource.TestCheckResourceAttr("data.lavinmq_queues.empty", "queues.#", "0"),
+				),
+			},
+		},
+	})
+}
+
 // The following test is commented out becuse it's not working in CI environment.
 // Playback works fine running on three local environments and codespaces.
 // Error received: Error running post-apply refresh plan when reading both queues.
