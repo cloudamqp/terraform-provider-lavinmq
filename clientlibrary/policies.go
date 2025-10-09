@@ -66,6 +66,9 @@ func (s *PoliciesService) ListByVhost(ctx context.Context, vhost string) ([]Poli
 	if err != nil {
 		return nil, err
 	}
+	if resp == nil {
+		return nil, nil
+	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)

@@ -15,7 +15,7 @@ type QueuesService service
 type QueueRequest struct {
 	AutoDelete *bool                  `json:"auto_delete,omitempty"`
 	Durable    *bool                  `json:"durable,omitempty"`
-	Arguments  map[string]interface{} `json:"arguments,omitempty"`
+	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
 type QueueResponse struct {
@@ -23,7 +23,7 @@ type QueueResponse struct {
 	Vhost      string                 `json:"vhost"`
 	AutoDelete bool                   `json:"auto_delete"`
 	Durable    bool                   `json:"durable"`
-	Arguments  map[string]interface{} `json:"arguments,omitempty"`
+	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
 func (s *QueuesService) CreateOrUpdate(ctx context.Context, vhost string, name string, req QueueRequest) error {
