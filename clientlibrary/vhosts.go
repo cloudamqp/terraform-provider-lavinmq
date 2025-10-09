@@ -54,12 +54,19 @@ func (s *VhostsService) Get(ctx context.Context, name string) (VhostResponse, er
 func (s *VhostsService) List(ctx context.Context) ([]VhostResponse, error) {
 	resp, err := s.client.Request(ctx, http.MethodGet, "api/vhosts", nil)
 	if err != nil {
-		return nil, err
+		return []VhostResponse{}, err
+	}
+	if resp == nil {
+		return []VhostResponse{}, nil
 	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[[]VhostResponse](body)
+	result, err := utils.GenericUnmarshal[[]VhostResponse](body)
+	if err != nil {
+		return []VhostResponse{}, err
+	}
+	return result, nil
 }
 
 func (s *VhostsService) Delete(ctx context.Context, name string) error {

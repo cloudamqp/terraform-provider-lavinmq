@@ -79,11 +79,11 @@ func (d *usersDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		resp.Diagnostics.AddError("Unable to retrieve users", err.Error())
 		return
 	}
-
-	if users == nil {
-		tflog.Warn(ctx, "no users found")
-		return
+	if len(users) == 0 {
+		tflog.Warn(ctx, "No users found")
 	}
+
+	state.Users = []userDataSourceModel{}
 
 	for _, user := range users {
 		var tags types.List
