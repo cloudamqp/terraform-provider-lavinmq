@@ -89,18 +89,24 @@ func (d *exchangesDataSource) Configure(_ context.Context, req datasource.Config
 }
 
 func (d *exchangesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var state exchangesDataSourceModel
+	var config exchangesDataSourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	exchanges, err := d.services.Exchanges.List(ctx, "")
+	exchanges, err := d.services.Exchanges.List(ctx, config.Vhost.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to retrieve exchanges", err.Error())
 		return
 	}
-
-	if exchanges == nil {
-		tflog.Warn(ctx, "no exchanges found")
-		return
+	if len(exchanges) == 0 {
+		tflog.Warn(ctx, "No exchanges found")
 	}
+
+	var state exchangesDataSourceModel
+	state.Vhost = config.Vhost
+	state.Exchanges = []exchangeDataSourceModel{}
 
 	for _, exchange := range exchanges {
 		state.Exchanges = append(state.Exchanges, exchangeDataSourceModel{

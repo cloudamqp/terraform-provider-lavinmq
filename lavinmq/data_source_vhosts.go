@@ -67,11 +67,11 @@ func (d *vhostsDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		resp.Diagnostics.AddError("Unable to retrieve vhosts", err.Error())
 		return
 	}
-
-	if vhosts == nil {
-		tflog.Warn(ctx, "no vhost found")
-		return
+	if len(vhosts) == 0 {
+		tflog.Warn(ctx, "No vhosts found")
 	}
+
+	state.Vhosts = []vhostDataSourceModel{}
 
 	for _, vhost := range vhosts {
 		state.Vhosts = append(state.Vhosts, vhostDataSourceModel{

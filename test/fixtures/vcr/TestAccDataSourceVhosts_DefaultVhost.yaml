@@ -1,0 +1,129 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/vhosts
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"/","dir":"42099b4af021e53fd8fd4e056c2568d7c2e3ffa8","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 271.458µs
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/vhosts
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"/","dir":"42099b4af021e53fd8fd4e056c2568d7c2e3ffa8","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 538.959µs
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/vhosts
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"/","dir":"42099b4af021e53fd8fd4e056c2568d7c2e3ffa8","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 477.459µs

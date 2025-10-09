@@ -51,3 +51,45 @@ func TestAccDataSourceExchanges_Basic(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourceExchanges_DefaultExchanges(t *testing.T) {
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_vhost" "test" {
+            name = "terraform-lavinmq-default-exchanges-test"
+          }
+
+          data "lavinmq_exchanges" "default" {
+            vhost = lavinmq_vhost.test.name
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_exchanges.default", "vhost", "terraform-lavinmq-default-exchanges-test"),
+					resource.TestCheckResourceAttrSet("data.lavinmq_exchanges.default", "exchanges.#"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccDataSourceExchanges_NonExistingVhost(t *testing.T) {
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          data "lavinmq_exchanges" "empty" {
+            vhost = "terraform-lavinmq-non-existing-test"
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_exchanges.empty", "vhost", "terraform-lavinmq-non-existing-test"),
+					resource.TestCheckResourceAttr("data.lavinmq_exchanges.empty", "exchanges.#", "0"),
+				),
+			},
+		},
+	})
+}

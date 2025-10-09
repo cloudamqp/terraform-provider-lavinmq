@@ -92,11 +92,11 @@ func (d *policiesDataSource) Read(ctx context.Context, req datasource.ReadReques
 		resp.Diagnostics.AddError("Unable to retrieve policies", err.Error())
 		return
 	}
-
-	if policies == nil {
-		tflog.Warn(ctx, "no policies found")
-		return
+	if len(policies) == 0 {
+		tflog.Warn(ctx, "No policies found")
 	}
+
+	state.Policies = []policyDataSourceModel{}
 
 	for _, policy := range policies {
 		state.Policies = append(state.Policies, policyDataSourceModel{

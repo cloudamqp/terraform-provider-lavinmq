@@ -13,18 +13,18 @@ import (
 type ExchangesService service
 
 type ExchangeRequest struct {
-	Type       string                 `json:"type,omitempty"`
-	AutoDelete *bool                  `json:"auto_delete,omitempty"`
-	Durable    *bool                  `json:"durable,omitempty"`
+	Type       string         `json:"type,omitempty"`
+	AutoDelete *bool          `json:"auto_delete,omitempty"`
+	Durable    *bool          `json:"durable,omitempty"`
 	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
 type ExchangeResponse struct {
-	Name       string                 `json:"name"`
-	Vhost      string                 `json:"vhost"`
-	Type       string                 `json:"type"`
-	AutoDelete bool                   `json:"auto_delete"`
-	Durable    bool                   `json:"durable"`
+	Name       string         `json:"name"`
+	Vhost      string         `json:"vhost"`
+	Type       string         `json:"type"`
+	AutoDelete bool           `json:"auto_delete"`
+	Durable    bool           `json:"durable"`
 	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
@@ -49,32 +49,26 @@ func (s *ExchangesService) Get(ctx context.Context, vhost string, name string) (
 	return utils.GenericUnmarshal[*ExchangeResponse](body)
 }
 
-func (s *ExchangesService) List(ctx context.Context, vhost string) ([]*ExchangeResponse, error) {
+func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeResponse, error) {
 	path := "api/exchanges"
 	if vhost != "" {
 		path = fmt.Sprintf("api/exchanges/%s", url.PathEscape(vhost))
 	}
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return nil, err
+		return []ExchangeResponse{}, err
 	}
 	if resp == nil {
-		return nil, nil
+		return []ExchangeResponse{}, nil
 	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
 	result, err := utils.GenericUnmarshal[[]ExchangeResponse](body)
 	if err != nil {
-		return nil, err
+		return []ExchangeResponse{}, err
 	}
-
-	// Convert slice of values to slice of pointers
-	pointers := make([]*ExchangeResponse, len(result))
-	for i := range result {
-		pointers[i] = &result[i]
-	}
-	return pointers, nil
+	return result, nil
 }
 
 func (s *ExchangesService) Delete(ctx context.Context, vhost string, name string) error {
