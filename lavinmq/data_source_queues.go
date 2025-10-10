@@ -28,6 +28,7 @@ type queueDataSourceModel struct {
 	Vhost      types.String `tfsdk:"vhost"`
 	AutoDelete types.Bool   `tfsdk:"auto_delete"`
 	Durable    types.Bool   `tfsdk:"durable"`
+	State      types.String `tfsdk:"state"`
 }
 
 type queuesDataSourceModel struct {
@@ -66,6 +67,10 @@ func (d *queuesDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 						},
 						"durable": schema.BoolAttribute{
 							Description: "Whether the queue should survive a broker restart.",
+							Computed:    true,
+						},
+						"state": schema.StringAttribute{
+							Description: "State of the queue: 'running', 'paused', 'flow', 'closed', or 'deleted'.",
 							Computed:    true,
 						},
 					},
@@ -109,6 +114,7 @@ func (d *queuesDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 			Vhost:      types.StringValue(queue.Vhost),
 			AutoDelete: types.BoolValue(queue.AutoDelete),
 			Durable:    types.BoolValue(queue.Durable),
+			State:      types.StringValue(queue.State),
 		})
 	}
 
