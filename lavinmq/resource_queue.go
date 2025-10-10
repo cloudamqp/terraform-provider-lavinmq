@@ -2,7 +2,6 @@ package lavinmq
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
@@ -37,7 +36,6 @@ type queueResource struct {
 
 // queueResourceModel is the
 type queueResourceModel struct {
-	ID         types.String `tfsdk:"id"`
 	Name       types.String `tfsdk:"name"`
 	Vhost      types.String `tfsdk:"vhost"`
 	AutoDelete types.Bool   `tfsdk:"auto_delete"`
@@ -56,12 +54,6 @@ func (r *queueResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 	resp.Schema = schema.Schema{
 		Description: "Manage a queue.",
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
 			"name": schema.StringAttribute{
 				Description: "Name of the managed queue.",
 				Required:    true,
@@ -137,7 +129,6 @@ func (r *queueResource) ImportState(ctx context.Context, req resource.ImportStat
 		return
 	}
 
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("vhost"), importIDParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("name"), importIDParts[1])...)
 }
@@ -173,7 +164,6 @@ func (r *queueResource) Create(ctx context.Context, req resource.CreateRequest, 
 	plan.AutoDelete = types.BoolValue(queue.AutoDelete)
 	plan.Durable = types.BoolValue(queue.Durable)
 	plan.State = types.StringValue(queue.State)
-	plan.ID = types.StringValue(fmt.Sprintf("%s,%s", plan.Vhost.ValueString(), plan.Name.ValueString()))
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
