@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_args
+        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_with_arguments
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,7 +46,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 961.542µs
+        duration: 1.340333ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -67,7 +67,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_args
+        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_with_arguments
         method: GET
       response:
         proto: HTTP/1.1
@@ -78,7 +78,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_exchange_args","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{"alternate-exchange":"alternate_exchange"},"vhost":"/","effective_policy_definition":{},"effective_arguments":["x-alternate-exchange"],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        body: '{"name":"vcr_test_exchange_with_arguments","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{"alternate-exchange":"alternate_exchange"},"vhost":"/","effective_policy_definition":{},"effective_arguments":["x-alternate-exchange"],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
         headers:
             Connection:
                 - keep-alive
@@ -88,7 +88,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 241.791µs
+        duration: 193.541µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -109,7 +109,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_args
+        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_with_arguments
         method: GET
       response:
         proto: HTTP/1.1
@@ -120,7 +120,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_exchange_args","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{"alternate-exchange":"alternate_exchange"},"vhost":"/","effective_policy_definition":{},"effective_arguments":["x-alternate-exchange"],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        body: '{"name":"vcr_test_exchange_with_arguments","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{"alternate-exchange":"alternate_exchange"},"vhost":"/","effective_policy_definition":{},"effective_arguments":["x-alternate-exchange"],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
         headers:
             Connection:
                 - keep-alive
@@ -130,7 +130,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 273.958µs
+        duration: 258.75µs
     - id: 3
       request:
         proto: HTTP/1.1
@@ -151,7 +151,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_args
+        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_with_arguments
         method: GET
       response:
         proto: HTTP/1.1
@@ -162,7 +162,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_exchange_args","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{"alternate-exchange":"alternate_exchange"},"vhost":"/","effective_policy_definition":{},"effective_arguments":["x-alternate-exchange"],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        body: '{"name":"vcr_test_exchange_with_arguments","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{"alternate-exchange":"alternate_exchange"},"vhost":"/","effective_policy_definition":{},"effective_arguments":["x-alternate-exchange"],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
         headers:
             Connection:
                 - keep-alive
@@ -172,7 +172,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 507.333µs
+        duration: 308.875µs
     - id: 4
       request:
         proto: HTTP/1.1
@@ -193,7 +193,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_args
+        url: http://127.0.0.1:15672/api/exchanges/%2F/vcr_test_exchange_with_arguments
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -213,4 +213,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 466.292µs
+        duration: 510.583µs
