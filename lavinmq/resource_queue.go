@@ -81,6 +81,7 @@ func (r *queueResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 			"durable": schema.BoolAttribute{
 				Description: "Whether the queue should survive a broker restart.",
 				Optional:    true,
+				Computed:    true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -142,6 +143,7 @@ func (r *queueResource) Create(ctx context.Context, req resource.CreateRequest, 
 	}
 
 	plan.AutoDelete = types.BoolValue(queue.AutoDelete)
+	plan.Durable = types.BoolValue(queue.Durable)
 
 	plan.ID = types.StringValue(fmt.Sprintf("%s,%s", plan.Vhost.ValueString(), plan.Name.ValueString()))
 	tflog.Info(ctx, "Created queue", map[string]any{"id": plan.ID.ValueString()})
