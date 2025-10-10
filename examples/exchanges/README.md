@@ -56,6 +56,34 @@ Routes messages based on message header attributes instead of routing keys.
 - `type`: Exchange type (direct, fanout, topic, headers)
 - `auto_delete`: Delete when no longer used (default: false)
 - `durable`: Survive broker restarts (default: false)
+- `arguments`: Optional AMQP arguments (map of mixed types)
+
+## Exchange with Arguments
+
+Create an exchange with an alternate exchange for unroutable messages:
+
+```hcl
+resource "lavinmq_exchange" "main_exchange" {
+  name    = "main-exchange"
+  vhost   = lavinmq_vhost.test.name
+  type    = "direct"
+  durable = true
+  
+  arguments = {
+    "alternate-exchange" = "backup-exchange"
+  }
+}
+
+resource "lavinmq_exchange" "backup_exchange" {
+  name    = "backup-exchange"
+  vhost   = lavinmq_vhost.test.name
+  type    = "fanout"
+  durable = true
+}
+```
+
+Common exchange arguments:
+- `alternate-exchange`: Exchange to route unroutable messages to (string)
 
 ## Cleanup
 

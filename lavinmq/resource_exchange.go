@@ -3,10 +3,12 @@ package lavinmq
 import (
 	"context"
 	"fmt"
+	"math/big"
 	"strings"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,12 +39,13 @@ type exchangeResource struct {
 
 // exchangeResourceModel is the
 type exchangeResourceModel struct {
-	ID         types.String `tfsdk:"id"`
-	Name       types.String `tfsdk:"name"`
-	Vhost      types.String `tfsdk:"vhost"`
-	Type       types.String `tfsdk:"type"`
-	AutoDelete types.Bool   `tfsdk:"auto_delete"`
-	Durable    types.Bool   `tfsdk:"durable"`
+	ID         types.String  `tfsdk:"id"`
+	Name       types.String  `tfsdk:"name"`
+	Vhost      types.String  `tfsdk:"vhost"`
+	Type       types.String  `tfsdk:"type"`
+	AutoDelete types.Bool    `tfsdk:"auto_delete"`
+	Durable    types.Bool    `tfsdk:"durable"`
+	Arguments  types.Dynamic `tfsdk:"arguments"`
 }
 
 // Metadata returns the data source type name.
@@ -97,6 +100,10 @@ func (r *exchangeResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 					boolplanmodifier.RequiresReplace(),
 				},
 			},
+			"arguments": schema.DynamicAttribute{
+				Description: "Optional exchange arguments.",
+				Optional:    true,
+			},
 		},
 	}
 }
@@ -132,6 +139,32 @@ func (r *exchangeResource) Create(ctx context.Context, req resource.CreateReques
 	}
 	if !plan.Durable.IsUnknown() {
 		request.Durable = plan.Durable.ValueBoolPointer()
+	}
+
+	argumentsMap := make(map[string]any)
+	if !plan.Arguments.IsNull() && !plan.Arguments.IsUnknown() {
+		switch v := plan.Arguments.UnderlyingValue().(type) {
+		case types.Object:
+			for key, value := range v.Attributes() {
+				switch val := value.(type) {
+				case types.String:
+					argumentsMap[key] = val.ValueString()
+				case types.Bool:
+					argumentsMap[key] = val.ValueBool()
+				case types.Number:
+					if bigFloat := val.ValueBigFloat(); bigFloat != nil {
+						if intVal, accuracy := bigFloat.Int64(); accuracy == big.Exact {
+							argumentsMap[key] = intVal
+						} else if floatVal, accuracy := bigFloat.Float64(); accuracy == big.Exact {
+							argumentsMap[key] = floatVal
+						}
+					}
+				}
+			}
+		}
+	}
+	if len(argumentsMap) > 0 {
+		request.Arguments = argumentsMap
 	}
 
 	err := r.services.Exchanges.CreateOrUpdate(ctx, plan.Vhost.ValueString(), plan.Name.ValueString(), request)
@@ -184,6 +217,34 @@ func (r *exchangeResource) Read(ctx context.Context, req resource.ReadRequest, r
 	state.Type = types.StringValue(exchange.Type)
 	state.AutoDelete = types.BoolValue(exchange.AutoDelete)
 	state.Durable = types.BoolValue(exchange.Durable)
+
+	if len(exchange.Arguments) > 0 {
+		attributes := make(map[string]attr.Value)
+		for key, value := range exchange.Arguments {
+			switch v := value.(type) {
+			case int64:
+				attributes[key] = types.NumberValue(new(big.Float).SetInt64(v))
+			case float64:
+				attributes[key] = types.NumberValue(new(big.Float).SetFloat64(v))
+			case bool:
+				attributes[key] = types.BoolValue(v)
+			case string:
+				attributes[key] = types.StringValue(v)
+			}
+		}
+
+		attributeTypes := make(map[string]attr.Type)
+		for key := range attributes {
+			attributeTypes[key] = attributes[key].Type(ctx)
+		}
+
+		argumentsObject, diags := types.ObjectValue(attributeTypes, attributes)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
+		}
+		state.Arguments = types.DynamicValue(argumentsObject)
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 	if resp.Diagnostics.HasError() {

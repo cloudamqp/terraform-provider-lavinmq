@@ -28,6 +28,21 @@ resource "lavinmq_queue" "temp_example" {
   auto_delete = true
 }
 
+# Create a queue with arguments for TTL, max length, and dead letter routing
+resource "lavinmq_queue" "queue_with_args" {
+  name        = "ttl-queue"
+  vhost       = lavinmq_vhost.test.name
+  durable     = true
+  auto_delete = false
+
+  arguments = {
+    "x-message-ttl"             = 60000
+    "x-max-length"              = 1000
+    "x-dead-letter-exchange"    = "dlx-exchange"
+    "x-dead-letter-routing-key" = "dead.letters"
+  }
+}
+
 # Create a queue on a custom vhost
 resource "lavinmq_vhost" "custom" {
   name = "my-app"

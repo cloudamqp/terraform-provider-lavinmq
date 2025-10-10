@@ -200,3 +200,43 @@ func TestAccExchange_Drift(t *testing.T) {
 		},
 	})
 }
+
+func TestAccExchange_WithArguments(t *testing.T) {
+	exchangeResourceName := "lavinmq_exchange.test_exchange"
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_exchange" "test_exchange" {
+            name        = "vcr_test_exchange_with_arguments"
+            vhost       = "/"
+            type        = "direct"
+            durable     = true
+            auto_delete = false
+            arguments = {
+              alternate-exchange = "alternate_exchange"
+            }
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(exchangeResourceName, "name", "vcr_test_exchange_with_arguments"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "type", "direct"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "auto_delete", "false"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "durable", "true"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "arguments.alternate-exchange", "alternate_exchange"),
+				),
+			},
+			{
+				ResourceName:                         exchangeResourceName,
+				ImportStateIdFunc:                    testAccExchangeImportStateIdFunc,
+				ImportState:                          true,
+				ImportStateVerify:                    true,
+				ImportStateVerifyIdentifierAttribute: "name",
+				ImportStateVerifyIgnore:              []string{"id"},
+			},
+		},
+	})
+}

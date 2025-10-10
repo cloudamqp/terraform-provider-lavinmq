@@ -2,10 +2,12 @@ package lavinmq
 
 import (
 	"context"
+	"math/big"
 	"strings"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,12 +38,13 @@ type queueResource struct {
 
 // queueResourceModel is the
 type queueResourceModel struct {
-	Name       types.String `tfsdk:"name"`
-	Vhost      types.String `tfsdk:"vhost"`
-	AutoDelete types.Bool   `tfsdk:"auto_delete"`
-	Durable    types.Bool   `tfsdk:"durable"`
-	Pause      types.Bool   `tfsdk:"pause"`
-	State      types.String `tfsdk:"state"`
+	Name       types.String  `tfsdk:"name"`
+	Vhost      types.String  `tfsdk:"vhost"`
+	AutoDelete types.Bool    `tfsdk:"auto_delete"`
+	Durable    types.Bool    `tfsdk:"durable"`
+	Arguments  types.Dynamic `tfsdk:"arguments"`
+	Pause      types.Bool    `tfsdk:"pause"`
+	State      types.String  `tfsdk:"state"`
 }
 
 // Metadata returns the data source type name.
@@ -97,14 +100,10 @@ func (r *queueResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 				Description: "State of the queue: 'running', 'paused', 'flow', 'closed', or 'deleted'.",
 				Computed:    true,
 			},
-			// "arguments": schema.MapAttribute{
-			// 	Description: "Arguments for the queue.",
-			// 	Optional:    true,
-			// 	PlanModifiers: []planmodifier.Map{
-			// 		mapplanmodifier.RequiresReplace(),
-			// 	},
-			// 	ElementType: types.StringType,
-			// },
+			"arguments": schema.DynamicAttribute{
+				Description: "Optional queue arguments (e.g. x-message-ttl, x-max-length, x-dead-letter-exchange).",
+				Optional:    true,
+			},
 		},
 	}
 }
@@ -147,6 +146,32 @@ func (r *queueResource) Create(ctx context.Context, req resource.CreateRequest, 
 	}
 	if !plan.Durable.IsUnknown() {
 		request.Durable = plan.Durable.ValueBoolPointer()
+	}
+
+	argumentsMap := make(map[string]any)
+	if !plan.Arguments.IsNull() && !plan.Arguments.IsUnknown() {
+		switch v := plan.Arguments.UnderlyingValue().(type) {
+		case types.Object:
+			for key, value := range v.Attributes() {
+				switch val := value.(type) {
+				case types.String:
+					argumentsMap[key] = val.ValueString()
+				case types.Bool:
+					argumentsMap[key] = val.ValueBool()
+				case types.Number:
+					if bigFloat := val.ValueBigFloat(); bigFloat != nil {
+						if intVal, accuracy := bigFloat.Int64(); accuracy == big.Exact {
+							argumentsMap[key] = intVal
+						} else if floatVal, accuracy := bigFloat.Float64(); accuracy == big.Exact {
+							argumentsMap[key] = floatVal
+						}
+					}
+				}
+			}
+		}
+	}
+	if len(argumentsMap) > 0 {
+		request.Arguments = argumentsMap
 	}
 
 	err := r.services.Queues.CreateOrUpdate(ctx, plan.Vhost.ValueString(), plan.Name.ValueString(), request)
@@ -197,6 +222,34 @@ func (r *queueResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	state.Durable = types.BoolValue(queue.Durable)
 	state.State = types.StringValue(queue.State)
 	state.Pause = types.BoolValue(queue.State == "paused")
+
+	if len(queue.Arguments) > 0 {
+		attributes := make(map[string]attr.Value)
+		for key, value := range queue.Arguments {
+			switch v := value.(type) {
+			case int64:
+				attributes[key] = types.NumberValue(new(big.Float).SetInt64(v))
+			case float64:
+				attributes[key] = types.NumberValue(new(big.Float).SetFloat64(v))
+			case bool:
+				attributes[key] = types.BoolValue(v)
+			case string:
+				attributes[key] = types.StringValue(v)
+			}
+		}
+
+		attributeTypes := make(map[string]attr.Type)
+		for key := range attributes {
+			attributeTypes[key] = attributes[key].Type(ctx)
+		}
+
+		argumentsObject, diags := types.ObjectValue(attributeTypes, attributes)
+		if diags.HasError() {
+			resp.Diagnostics.Append(diags...)
+			return
+		}
+		state.Arguments = types.DynamicValue(argumentsObject)
+	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
