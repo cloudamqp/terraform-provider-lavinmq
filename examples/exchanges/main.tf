@@ -65,6 +65,25 @@ resource "lavinmq_exchange" "temp_exchange" {
   durable     = false
 }
 
+# Create an exchange with alternate exchange for unroutable messages
+resource "lavinmq_exchange" "backup_exchange" {
+  name    = "backup-exchange"
+  vhost   = lavinmq_vhost.test.name
+  type    = "fanout"
+  durable = true
+}
+
+resource "lavinmq_exchange" "main_exchange_with_args" {
+  name    = "main-exchange"
+  vhost   = lavinmq_vhost.test.name
+  type    = "direct"
+  durable = true
+
+  arguments = {
+    "alternate-exchange" = lavinmq_exchange.backup_exchange.name
+  }
+}
+
 # Create a custom vhost and exchange
 resource "lavinmq_vhost" "custom" {
   name = "my-app"
