@@ -202,31 +202,28 @@ func TestAccExchange_Drift(t *testing.T) {
 }
 
 func TestAccExchange_WithArguments(t *testing.T) {
-	var (
-		fileNames            = []string{"exchanges/exchange_with_arguments"}
-		exchangeResourceName = "lavinmq_exchange.vcr_test"
-
-		params = map[string]string{
-			"ExchangeName":         "vcr_test_exchange_args",
-			"ExchangeVhost":        "/",
-			"ExchangeType":         "direct",
-			"ExchangeAutoDelete":   "false",
-			"ExchangeDurable":      "true",
-			"ExchangeArguments":    "true",
-			"ArgAlternateExchange": "alternate_exchange",
-		}
-	)
+	exchangeResourceName := "lavinmq_exchange.test_exchange"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNames, params),
+				Config: `
+          resource "lavinmq_exchange" "test_exchange" {
+            name        = "vcr_test_exchange_with_arguments"
+            vhost       = "/"
+            type        = "direct"
+            durable     = true
+            auto_delete = false
+            arguments = {
+              alternate-exchange = "alternate_exchange"
+            }
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(exchangeResourceName, "name", params["ExchangeName"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", params["ExchangeVhost"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "type", params["ExchangeType"]),
+					resource.TestCheckResourceAttr(exchangeResourceName, "name", "vcr_test_exchange_with_arguments"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "type", "direct"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "auto_delete", "false"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "durable", "true"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "arguments.alternate-exchange", "alternate_exchange"),
