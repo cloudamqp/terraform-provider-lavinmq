@@ -137,7 +137,6 @@ func (r *queueResource) ImportState(ctx context.Context, req resource.ImportStat
 		return
 	}
 
-	tflog.Info(ctx, "Importing queue", map[string]any{"id": req.ID, "parts": importIDParts})
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("vhost"), importIDParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("name"), importIDParts[1])...)
@@ -175,7 +174,6 @@ func (r *queueResource) Create(ctx context.Context, req resource.CreateRequest, 
 	plan.Durable = types.BoolValue(queue.Durable)
 	plan.State = types.StringValue(queue.State)
 	plan.ID = types.StringValue(fmt.Sprintf("%s,%s", plan.Vhost.ValueString(), plan.Name.ValueString()))
-	tflog.Info(ctx, "Created queue", map[string]any{"id": plan.ID.ValueString()})
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
