@@ -80,3 +80,22 @@ func TestAccDataSourcePolicies_Empty(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourcePolicies_NonExistingVhost(t *testing.T) {
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          data "lavinmq_policies" "empty" {
+            vhost = "terraform-lavinmq-non-existing-test"
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_policies.empty", "vhost", "terraform-lavinmq-non-existing-test"),
+					resource.TestCheckResourceAttr("data.lavinmq_policies.empty", "policies.#", "0"),
+				),
+			},
+		},
+	})
+}
