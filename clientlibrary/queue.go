@@ -13,16 +13,17 @@ import (
 type QueuesService service
 
 type QueueRequest struct {
-	AutoDelete *bool                  `json:"auto_delete,omitempty"`
-	Durable    *bool                  `json:"durable,omitempty"`
+	AutoDelete *bool          `json:"auto_delete,omitempty"`
+	Durable    *bool          `json:"durable,omitempty"`
 	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
 type QueueResponse struct {
-	Name       string                 `json:"name"`
-	Vhost      string                 `json:"vhost"`
-	AutoDelete bool                   `json:"auto_delete"`
-	Durable    bool                   `json:"durable"`
+	Name       string         `json:"name"`
+	Vhost      string         `json:"vhost"`
+	AutoDelete bool           `json:"auto_delete"`
+	Durable    bool           `json:"durable"`
+	State      string         `json:"state"`
 	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
@@ -76,5 +77,16 @@ func (s *QueuesService) List(ctx context.Context, vhost string) ([]QueueResponse
 func (s *QueuesService) Delete(ctx context.Context, vhost string, name string) error {
 	path := fmt.Sprintf("api/queues/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
+	return err
+}
+
+func (s *QueuesService) Pause(ctx context.Context, vhost, name string, pause bool) error {
+	var path string
+	if pause {
+		path = fmt.Sprintf("api/queues/%s/%s/pause", url.PathEscape(vhost), url.PathEscape(name))
+	} else {
+		path = fmt.Sprintf("api/queues/%s/%s/resume", url.PathEscape(vhost), url.PathEscape(name))
+	}
+	_, err := s.client.Request(ctx, http.MethodPut, path, nil)
 	return err
 }

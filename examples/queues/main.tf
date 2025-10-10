@@ -41,10 +41,6 @@ resource "lavinmq_queue" "custom_vhost_example" {
 }
 
 # Outputs
-output "basic_queue_id" {
-  value = lavinmq_queue.basic_example.id
-}
-
 output "custom_queue_info" {
   value = {
     name        = lavinmq_queue.custom_vhost_example.name

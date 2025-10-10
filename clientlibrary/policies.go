@@ -49,26 +49,12 @@ func (s *PoliciesService) Get(ctx context.Context, vhost string, name string) (*
 	return utils.GenericUnmarshal[*PolicyResponse](body)
 }
 
-func (s *PoliciesService) List(ctx context.Context) ([]PolicyResponse, error) {
-	resp, err := s.client.Request(ctx, http.MethodGet, "api/policies", nil)
-	if err != nil {
-		return []PolicyResponse{}, err
-	}
-	if resp == nil {
-		return []PolicyResponse{}, nil
+func (s *PoliciesService) List(ctx context.Context, vhost string) ([]PolicyResponse, error) {
+	path := "api/policies"
+	if vhost != "" {
+		path = fmt.Sprintf("api/policies/%s", url.PathEscape(vhost))
 	}
 
-	defer resp.Body.Close()
-	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]PolicyResponse](body)
-	if err != nil {
-		return []PolicyResponse{}, err
-	}
-	return result, nil
-}
-
-func (s *PoliciesService) ListByVhost(ctx context.Context, vhost string) ([]PolicyResponse, error) {
-	path := fmt.Sprintf("api/policies/%s", url.PathEscape(vhost))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return []PolicyResponse{}, err

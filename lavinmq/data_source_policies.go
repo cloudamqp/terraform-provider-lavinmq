@@ -24,6 +24,7 @@ type policiesDataSource struct {
 }
 
 type policiesDataSourceModel struct {
+	Vhost    types.String            `tfsdk:"vhost"`
 	Policies []policyDataSourceModel `tfsdk:"policies"`
 }
 
@@ -43,6 +44,10 @@ func (d *policiesDataSource) Metadata(ctx context.Context, req datasource.Metada
 func (d *policiesDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
+			"vhost": schema.StringAttribute{
+				Description: "The vhost to list policies from.",
+				Optional:    true,
+			},
 			"policies": schema.ListNestedAttribute{
 				Description: "List of policies.",
 				Computed:    true,
@@ -85,9 +90,13 @@ func (d *policiesDataSource) Configure(_ context.Context, req datasource.Configu
 }
 
 func (d *policiesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var state policiesDataSourceModel
+	var config policiesDataSourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
-	policies, err := d.services.Policies.List(ctx)
+	policies, err := d.services.Policies.List(ctx, config.Vhost.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to retrieve policies", err.Error())
 		return
@@ -96,6 +105,8 @@ func (d *policiesDataSource) Read(ctx context.Context, req datasource.ReadReques
 		tflog.Warn(ctx, "No policies found")
 	}
 
+	var state policiesDataSourceModel
+	state.Vhost = config.Vhost
 	state.Policies = []policyDataSourceModel{}
 
 	for _, policy := range policies {
