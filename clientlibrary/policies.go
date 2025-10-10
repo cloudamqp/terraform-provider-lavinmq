@@ -54,6 +54,7 @@ func (s *PoliciesService) List(ctx context.Context, vhost string) ([]PolicyRespo
 	if vhost != "" {
 		path = fmt.Sprintf("api/policies/%s", url.PathEscape(vhost))
 	}
+
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return []PolicyResponse{}, err
