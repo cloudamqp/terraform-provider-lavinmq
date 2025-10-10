@@ -9,6 +9,10 @@
 * If you can't record recordings due to LavinMQ not running, stop and ask operator to start the broker.
 * Do not implement or test internal features (internal queue, internal exchange)
 
+## Examples
+
+* Always recompile with `make clean build` before trying an example, to ensure we're running the latest code
+
 ## Coding style
 
 * Use `any` instead of `interface{}`
