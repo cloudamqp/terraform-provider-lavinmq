@@ -47,45 +47,19 @@ func (s *PermissionsService) Get(ctx context.Context, vhost string, user string)
 	return utils.GenericUnmarshal[*PermissionResponse](body)
 }
 
-func (s *PermissionsService) List(ctx context.Context) ([]PermissionResponse, error) {
-	resp, err := s.client.Request(ctx, http.MethodGet, "api/permissions", nil)
-	if err != nil {
-		return []PermissionResponse{}, err
-	}
-	if resp == nil {
-		return []PermissionResponse{}, nil
-	}
-
-	defer resp.Body.Close()
-	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]PermissionResponse](body)
-	if err != nil {
-		return []PermissionResponse{}, err
-	}
-	return result, nil
-}
-
-func (s *PermissionsService) ListByVhost(ctx context.Context, vhost string) ([]PermissionResponse, error) {
-	path := fmt.Sprintf("api/vhosts/%s/permissions", url.PathEscape(vhost))
-	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
-	if err != nil {
-		return []PermissionResponse{}, err
-	}
-	if resp == nil {
-		return []PermissionResponse{}, nil
+func (s *PermissionsService) List(ctx context.Context, vhost, user string) ([]PermissionResponse, error) {
+	var path string
+	switch {
+	case vhost != "" && user != "":
+		path = fmt.Sprintf("api/vhosts/%s/permissions", url.PathEscape(vhost))
+	case vhost != "":
+		path = fmt.Sprintf("api/vhosts/%s/permissions", url.PathEscape(vhost))
+	case user != "":
+		path = fmt.Sprintf("api/users/%s/permissions", url.PathEscape(user))
+	default:
+		path = "api/permissions"
 	}
 
-	defer resp.Body.Close()
-	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]PermissionResponse](body)
-	if err != nil {
-		return []PermissionResponse{}, err
-	}
-	return result, nil
-}
-
-func (s *PermissionsService) ListByUser(ctx context.Context, user string) ([]PermissionResponse, error) {
-	path := fmt.Sprintf("api/users/%s/permissions", url.PathEscape(user))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return []PermissionResponse{}, err

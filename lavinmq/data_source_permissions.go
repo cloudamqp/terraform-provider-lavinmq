@@ -114,12 +114,16 @@ func (d *permissionsDataSource) Read(ctx context.Context, req datasource.ReadReq
 		if permission != nil {
 			permissions = []clientlibrary.PermissionResponse{*permission}
 		}
-	} else if !config.Vhost.IsNull() {
-		permissions, err = d.services.Permissions.ListByVhost(ctx, config.Vhost.ValueString())
-	} else if !config.User.IsNull() {
-		permissions, err = d.services.Permissions.ListByUser(ctx, config.User.ValueString())
 	} else {
-		permissions, err = d.services.Permissions.List(ctx)
+		vhost := ""
+		user := ""
+		if !config.Vhost.IsNull() {
+			vhost = config.Vhost.ValueString()
+		}
+		if !config.User.IsNull() {
+			user = config.User.ValueString()
+		}
+		permissions, err = d.services.Permissions.List(ctx, vhost, user)
 	}
 
 	if err != nil {
