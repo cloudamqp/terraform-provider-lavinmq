@@ -4,33 +4,30 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/cloudamqp/terraform-provider-lavinmq/lavinmq/vcr-testing/configuration"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 func TestAccExchange_Basic(t *testing.T) {
-	var (
-		fileNames            = []string{"exchanges/exchange_basic"}
-		exchangeResourceName = "lavinmq_exchange.vcr_test"
-
-		params = map[string]string{
-			"ExchangeName":  "vcr_test_exchange",
-			"ExchangeVhost": "/",
-			"ExchangeType":  "direct",
-		}
-	)
+	exchangeResourceName := "lavinmq_exchange.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNames, params),
+				Config: `
+          resource "lavinmq_exchange" "vcr_test" {
+            name        = "vcr_test_exchange"
+            vhost       = "/"
+            type        = "direct"
+            auto_delete = false
+            durable     = false
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(exchangeResourceName, "name", params["ExchangeName"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", params["ExchangeVhost"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "type", params["ExchangeType"]),
+					resource.TestCheckResourceAttr(exchangeResourceName, "name", "vcr_test_exchange"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "type", "direct"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "auto_delete", "false"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "durable", "false"),
 				),
@@ -48,27 +45,29 @@ func TestAccExchange_Basic(t *testing.T) {
 }
 
 func TestAccExchange_VhostScenarios(t *testing.T) {
-	var (
-		fileNamesCustomVhost = []string{"exchanges/exchange_custom_vhost"}
-		exchangeResourceName = "lavinmq_exchange.vcr_test"
-
-		paramsCustomVhost = map[string]string{
-			"ExchangeName": "vcr_test_custom_vhost",
-			"CustomVhost":  "test_vhost",
-			"ExchangeType": "direct",
-		}
-	)
+	exchangeResourceName := "lavinmq_exchange.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNamesCustomVhost, paramsCustomVhost),
+				Config: `
+          resource "lavinmq_vhost" "test_vhost" {
+            name = "test_vhost"
+          }
+
+          resource "lavinmq_exchange" "vcr_test" {
+            name        = "vcr_test_custom_vhost"
+            vhost       = lavinmq_vhost.test_vhost.name
+            type        = "direct"
+            auto_delete = false
+            durable     = false
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(exchangeResourceName, "name", paramsCustomVhost["ExchangeName"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", paramsCustomVhost["CustomVhost"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "type", paramsCustomVhost["ExchangeType"]),
+					resource.TestCheckResourceAttr(exchangeResourceName, "name", "vcr_test_custom_vhost"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", "test_vhost"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "type", "direct"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "auto_delete", "false"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "durable", "false"),
 				),
@@ -101,25 +100,25 @@ func TestAccExchange_AllTypes(t *testing.T) {
 
 	for _, exchangeType := range exchangeTypes {
 		t.Run(exchangeType.name, func(t *testing.T) {
-			var (
-				fileNames            = []string{exchangeType.filename}
-				exchangeResourceName = "lavinmq_exchange.vcr_test"
-
-				params = map[string]string{
-					"ExchangeName":  fmt.Sprintf("vcr_test_%s", exchangeType.typeStr),
-					"ExchangeVhost": "/",
-				}
-			)
+			exchangeResourceName := "lavinmq_exchange.vcr_test"
+			exchangeName := fmt.Sprintf("vcr_test_%s", exchangeType.typeStr)
 
 			lavinMQResourceTest(t, resource.TestCase{
 				PreCheck:                 func() { testAccPreCheck(t) },
 				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: configuration.GetTemplatedConfig(t, fileNames, params),
+						Config: fmt.Sprintf(`
+          resource "lavinmq_exchange" "vcr_test" {
+            name        = "%s"
+            vhost       = "/"
+            type        = "%s"
+            auto_delete = false
+            durable     = false
+          }`, exchangeName, exchangeType.typeStr),
 						Check: resource.ComposeAggregateTestCheckFunc(
-							resource.TestCheckResourceAttr(exchangeResourceName, "name", params["ExchangeName"]),
-							resource.TestCheckResourceAttr(exchangeResourceName, "vhost", params["ExchangeVhost"]),
+							resource.TestCheckResourceAttr(exchangeResourceName, "name", exchangeName),
+							resource.TestCheckResourceAttr(exchangeResourceName, "vhost", "/"),
 							resource.TestCheckResourceAttr(exchangeResourceName, "type", exchangeType.typeStr),
 							resource.TestCheckResourceAttr(exchangeResourceName, "auto_delete", "false"),
 							resource.TestCheckResourceAttr(exchangeResourceName, "durable", "false"),
@@ -132,44 +131,42 @@ func TestAccExchange_AllTypes(t *testing.T) {
 }
 
 func TestAccExchange_BooleanAttributes(t *testing.T) {
-	var (
-		fileNamesDurable     = []string{"exchanges/exchange_durable"}
-		fileNamesAutoDelete  = []string{"exchanges/exchange_auto_delete"}
-		exchangeResourceName = "lavinmq_exchange.vcr_test"
-
-		paramsDurable = map[string]string{
-			"ExchangeName":  "vcr_test_durable",
-			"ExchangeVhost": "/",
-			"ExchangeType":  "direct",
-		}
-
-		paramsAutoDelete = map[string]string{
-			"ExchangeName":  "vcr_test_auto_delete",
-			"ExchangeVhost": "/",
-			"ExchangeType":  "direct",
-		}
-	)
+	exchangeResourceName := "lavinmq_exchange.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNamesDurable, paramsDurable),
+				Config: `
+          resource "lavinmq_exchange" "vcr_test" {
+            name        = "vcr_test_durable"
+            vhost       = "/"
+            type        = "direct"
+            durable     = true
+            auto_delete = false
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(exchangeResourceName, "name", paramsDurable["ExchangeName"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", paramsDurable["ExchangeVhost"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "type", paramsDurable["ExchangeType"]),
+					resource.TestCheckResourceAttr(exchangeResourceName, "name", "vcr_test_durable"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "type", "direct"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "durable", "true"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "auto_delete", "false"),
 				),
 			},
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNamesAutoDelete, paramsAutoDelete),
+				Config: `
+          resource "lavinmq_exchange" "vcr_test" {
+            name        = "vcr_test_auto_delete"
+            vhost       = "/"
+            type        = "direct"
+            auto_delete = true
+            durable     = false
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(exchangeResourceName, "name", paramsAutoDelete["ExchangeName"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", paramsAutoDelete["ExchangeVhost"]),
-					resource.TestCheckResourceAttr(exchangeResourceName, "type", paramsAutoDelete["ExchangeType"]),
+					resource.TestCheckResourceAttr(exchangeResourceName, "name", "vcr_test_auto_delete"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(exchangeResourceName, "type", "direct"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "auto_delete", "true"),
 					resource.TestCheckResourceAttr(exchangeResourceName, "durable", "false"),
 				),
@@ -179,22 +176,19 @@ func TestAccExchange_BooleanAttributes(t *testing.T) {
 }
 
 func TestAccExchange_Drift(t *testing.T) {
-	var (
-		fileNames = []string{"exchanges/exchange_drift"}
-
-		params = map[string]string{
-			"ExchangeName":  "vcr_test_drift",
-			"ExchangeVhost": "/",
-			"ExchangeType":  "direct",
-		}
-	)
-
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config:             configuration.GetTemplatedConfig(t, fileNames, params),
+				Config: `
+          resource "lavinmq_exchange" "vcr_test" {
+            name        = "vcr_test_drift"
+            vhost       = "/"
+            type        = "direct"
+            auto_delete = false
+            durable     = false
+          }`,
 				ExpectNonEmptyPlan: true,
 			},
 		},

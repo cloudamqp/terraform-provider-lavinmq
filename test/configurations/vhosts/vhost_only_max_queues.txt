@@ -1,4 +1,0 @@
-resource "lavinmq_vhost" "vcr_test" {
-	name			 = "{{.VhostName}}"
-  max_queues = {{.VhostMaxQueues}}
-}

@@ -4,33 +4,29 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/cloudamqp/terraform-provider-lavinmq/lavinmq/vcr-testing/configuration"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
 func TestAccPolicy_Import(t *testing.T) {
-	var (
-		fileNames          = []string{"policies/policy"}
-		policyResourceName = "lavinmq_policy.test_policy"
-
-		params = map[string]string{
-			"ResourceName":  "test_policy",
-			"PolicyName":    "vcr_test_policy_import",
-			"PolicyVhost":   "/",
-			"PolicyPattern": "^vcr_test",
-		}
-	)
+	policyResourceName := "lavinmq_policy.test_policy"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNames, params),
+				Config: `
+          resource "lavinmq_policy" "test_policy" {
+            name     = "vcr_test_policy_import"
+            vhost    = "/"
+            pattern  = "^vcr_test"
+            definition = {
+            }
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(policyResourceName, "name", params["PolicyName"]),
-					resource.TestCheckResourceAttr(policyResourceName, "vhost", params["PolicyVhost"]),
-					resource.TestCheckResourceAttr(policyResourceName, "pattern", params["PolicyPattern"]),
+					resource.TestCheckResourceAttr(policyResourceName, "name", "vcr_test_policy_import"),
+					resource.TestCheckResourceAttr(policyResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(policyResourceName, "pattern", "^vcr_test"),
 					resource.TestCheckResourceAttr(policyResourceName, "priority", "0"),
 					resource.TestCheckResourceAttr(policyResourceName, "apply_to", "all"),
 				),
@@ -38,7 +34,7 @@ func TestAccPolicy_Import(t *testing.T) {
 			{
 				ResourceName:                         policyResourceName,
 				ImportStateVerifyIdentifierAttribute: "name",
-				ImportStateId:                        params["PolicyVhost"] + "@" + params["PolicyName"],
+				ImportStateId:                        "/@vcr_test_policy_import",
 				ImportState:                          true,
 				ImportStateVerify:                    true,
 			},
@@ -47,54 +43,50 @@ func TestAccPolicy_Import(t *testing.T) {
 }
 
 func TestAccPolicy_Update(t *testing.T) {
-	var (
-		fileNames          = []string{"policies/policy"}
-		policyResourceName = "lavinmq_policy.test_policy"
-
-		params = map[string]string{
-			"ResourceName":    "test_policy",
-			"PolicyName":      "vcr_test_policy_update",
-			"PolicyVhost":     "/",
-			"PolicyPattern":   "^vcr_test",
-			"PolicyTTL":       "60000",
-			"PolicyMaxLength": "500",
-		}
-
-		fileNamesUpdated = []string{"policies/policy"}
-		paramsUpdated    = map[string]string{
-			"ResourceName":    "test_policy",
-			"PolicyName":      "vcr_test_policy_update",
-			"PolicyVhost":     "/",
-			"PolicyPattern":   "^vcr_test",
-			"PolicyTTL":       "3600000",
-			"PolicyMaxLength": "1000",
-		}
-	)
+	policyResourceName := "lavinmq_policy.test_policy"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNames, params),
+				Config: `
+          resource "lavinmq_policy" "test_policy" {
+            name     = "vcr_test_policy_update"
+            vhost    = "/"
+            pattern  = "^vcr_test"
+            definition = {
+              "message-ttl" = 60000
+              "max-length"  = 500
+            }
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(policyResourceName, "name", params["PolicyName"]),
-					resource.TestCheckResourceAttr(policyResourceName, "vhost", params["PolicyVhost"]),
-					resource.TestCheckResourceAttr(policyResourceName, "pattern", params["PolicyPattern"]),
-					resource.TestCheckResourceAttr(policyResourceName, "definition.message-ttl", params["PolicyTTL"]),
-					resource.TestCheckResourceAttr(policyResourceName, "definition.max-length", params["PolicyMaxLength"]),
+					resource.TestCheckResourceAttr(policyResourceName, "name", "vcr_test_policy_update"),
+					resource.TestCheckResourceAttr(policyResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(policyResourceName, "pattern", "^vcr_test"),
+					resource.TestCheckResourceAttr(policyResourceName, "definition.message-ttl", "60000"),
+					resource.TestCheckResourceAttr(policyResourceName, "definition.max-length", "500"),
 					resource.TestCheckResourceAttr(policyResourceName, "priority", "0"),
 					resource.TestCheckResourceAttr(policyResourceName, "apply_to", "all"),
 				),
 			},
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNamesUpdated, paramsUpdated),
+				Config: `
+          resource "lavinmq_policy" "test_policy" {
+            name     = "vcr_test_policy_update"
+            vhost    = "/"
+            pattern  = "^vcr_test"
+            definition = {
+              "message-ttl" = 3600000
+              "max-length"  = 1000
+            }
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(policyResourceName, "name", paramsUpdated["PolicyName"]),
-					resource.TestCheckResourceAttr(policyResourceName, "vhost", paramsUpdated["PolicyVhost"]),
-					resource.TestCheckResourceAttr(policyResourceName, "pattern", paramsUpdated["PolicyPattern"]),
-					resource.TestCheckResourceAttr(policyResourceName, "definition.message-ttl", paramsUpdated["PolicyTTL"]),
-					resource.TestCheckResourceAttr(policyResourceName, "definition.max-length", paramsUpdated["PolicyMaxLength"]),
+					resource.TestCheckResourceAttr(policyResourceName, "name", "vcr_test_policy_update"),
+					resource.TestCheckResourceAttr(policyResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(policyResourceName, "pattern", "^vcr_test"),
+					resource.TestCheckResourceAttr(policyResourceName, "definition.message-ttl", "3600000"),
+					resource.TestCheckResourceAttr(policyResourceName, "definition.max-length", "1000"),
 					resource.TestCheckResourceAttr(policyResourceName, "priority", "0"),
 					resource.TestCheckResourceAttr(policyResourceName, "apply_to", "all"),
 				),
@@ -104,48 +96,45 @@ func TestAccPolicy_Update(t *testing.T) {
 }
 
 func TestAccPolicy_AddDefinitions(t *testing.T) {
-	var (
-		fileNames          = []string{"policies/policy"}
-		policyResourceName = "lavinmq_policy.dead_letter_policy"
-
-		params = map[string]string{
-			"ResourceName":  "dead_letter_policy",
-			"PolicyName":    "vcr_test_dl_policy",
-			"PolicyVhost":   "/",
-			"PolicyPattern": "^dl_test",
-		}
-
-		paramsUpdated = map[string]string{
-			"ResourceName":         "dead_letter_policy",
-			"PolicyName":           "vcr_test_dl_policy",
-			"PolicyVhost":          "/",
-			"PolicyPattern":        "^dl_test",
-			"DeadLetterExchange":   "updated_dlx_exchange",
-			"DeadLetterRoutingKey": "updated_dlx_routing_key",
-		}
-	)
+	policyResourceName := "lavinmq_policy.dead_letter_policy"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNames, params),
+				Config: `
+          resource "lavinmq_policy" "dead_letter_policy" {
+            name     = "vcr_test_dl_policy"
+            vhost    = "/"
+            pattern  = "^dl_test"
+            definition = {
+            }
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(policyResourceName, "name", params["PolicyName"]),
-					resource.TestCheckResourceAttr(policyResourceName, "vhost", params["PolicyVhost"]),
-					resource.TestCheckResourceAttr(policyResourceName, "pattern", params["PolicyPattern"]),
+					resource.TestCheckResourceAttr(policyResourceName, "name", "vcr_test_dl_policy"),
+					resource.TestCheckResourceAttr(policyResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(policyResourceName, "pattern", "^dl_test"),
 					resource.TestCheckResourceAttr(policyResourceName, "apply_to", "all"),
 				),
 			},
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNames, paramsUpdated),
+				Config: `
+          resource "lavinmq_policy" "dead_letter_policy" {
+            name     = "vcr_test_dl_policy"
+            vhost    = "/"
+            pattern  = "^dl_test"
+            definition = {
+              "dead-letter-exchange"    = "updated_dlx_exchange"
+              "dead-letter-routing-key" = "updated_dlx_routing_key"
+            }
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(policyResourceName, "name", paramsUpdated["PolicyName"]),
-					resource.TestCheckResourceAttr(policyResourceName, "vhost", paramsUpdated["PolicyVhost"]),
-					resource.TestCheckResourceAttr(policyResourceName, "pattern", paramsUpdated["PolicyPattern"]),
-					resource.TestCheckResourceAttr(policyResourceName, "definition.dead-letter-exchange", paramsUpdated["DeadLetterExchange"]),
-					resource.TestCheckResourceAttr(policyResourceName, "definition.dead-letter-routing-key", paramsUpdated["DeadLetterRoutingKey"]),
+					resource.TestCheckResourceAttr(policyResourceName, "name", "vcr_test_dl_policy"),
+					resource.TestCheckResourceAttr(policyResourceName, "vhost", "/"),
+					resource.TestCheckResourceAttr(policyResourceName, "pattern", "^dl_test"),
+					resource.TestCheckResourceAttr(policyResourceName, "definition.dead-letter-exchange", "updated_dlx_exchange"),
+					resource.TestCheckResourceAttr(policyResourceName, "definition.dead-letter-routing-key", "updated_dlx_routing_key"),
 					resource.TestCheckResourceAttr(policyResourceName, "apply_to", "all"),
 				),
 			},
@@ -154,24 +143,20 @@ func TestAccPolicy_AddDefinitions(t *testing.T) {
 }
 
 func TestAccPolicy_InvalidApplyTo(t *testing.T) {
-	var (
-		fileNames = []string{"policies/policy"}
-
-		paramsInvalidValue = map[string]string{
-			"ResourceName":  "test_policy",
-			"PolicyName":    "vcr_test_policy_invalid",
-			"PolicyVhost":   "/",
-			"PolicyPattern": "^vcr_test",
-			"PolicyApplyTo": "invalid_value",
-		}
-	)
-
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config:      configuration.GetTemplatedConfig(t, fileNames, paramsInvalidValue),
+				Config: `
+          resource "lavinmq_policy" "test_policy" {
+            name     = "vcr_test_policy_invalid"
+            vhost    = "/"
+            pattern  = "^vcr_test"
+            apply_to = "invalid_value"
+            definition = {
+            }
+          }`,
 				ExpectError: regexp.MustCompile(`Attribute apply_to value must be one of:.*"all".*"exchanges".*"queues"`),
 			},
 		},
