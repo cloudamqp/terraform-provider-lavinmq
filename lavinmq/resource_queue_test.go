@@ -31,10 +31,11 @@ func TestAccQueue_Import(t *testing.T) {
 				),
 			},
 			{
-				ResourceName:      queueResourceName,
-				ImportStateId:     "/,vcr_test_queue_import",
-				ImportState:       true,
-				ImportStateVerify: true,
+				ResourceName:                         queueResourceName,
+				ImportStateVerifyIdentifierAttribute: "name",
+				ImportStateId:                        "/@vcr_test_queue_import",
+				ImportState:                          true,
+				ImportStateVerify:                    true,
 			},
 		},
 	})

@@ -119,12 +119,12 @@ func (r *queueResource) Configure(_ context.Context, req resource.ConfigureReque
 }
 
 func (r *queueResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	importIDParts := strings.Split(req.ID, ",")
+	importIDParts := strings.Split(req.ID, "@")
 
 	if len(importIDParts) != 2 {
 		resp.Diagnostics.AddError(
 			"Invalid import ID format",
-			"Expected format: vhost,queue_name",
+			"Expected format: vhost@queue_name",
 		)
 		return
 	}
