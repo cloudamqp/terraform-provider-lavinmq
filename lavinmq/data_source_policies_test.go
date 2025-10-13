@@ -7,6 +7,7 @@ import (
 )
 
 func TestAccDataSourcePolicies_Basic(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -60,6 +61,7 @@ func TestAccDataSourcePolicies_Basic(t *testing.T) {
 }
 
 func TestAccDataSourcePolicies_Empty(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -82,6 +84,7 @@ func TestAccDataSourcePolicies_Empty(t *testing.T) {
 }
 
 func TestAccDataSourcePolicies_NonExistingVhost(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

@@ -10,6 +10,7 @@ import (
 )
 
 func TestAccExchange_Basic(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames            = []string{"exchanges/exchange_basic"}
 		exchangeResourceName = "lavinmq_exchange.vcr_test"
@@ -48,6 +49,7 @@ func TestAccExchange_Basic(t *testing.T) {
 }
 
 func TestAccExchange_VhostScenarios(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNamesCustomVhost = []string{"exchanges/exchange_custom_vhost"}
 		exchangeResourceName = "lavinmq_exchange.vcr_test"
@@ -88,6 +90,7 @@ func testAccExchangeImportStateIdFunc(s *terraform.State) (string, error) {
 }
 
 func TestAccExchange_AllTypes(t *testing.T) {
+	t.Parallel()
 	exchangeTypes := []struct {
 		name     string
 		filename string
@@ -132,6 +135,7 @@ func TestAccExchange_AllTypes(t *testing.T) {
 }
 
 func TestAccExchange_BooleanAttributes(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNamesDurable     = []string{"exchanges/exchange_durable"}
 		fileNamesAutoDelete  = []string{"exchanges/exchange_auto_delete"}
@@ -179,6 +183,7 @@ func TestAccExchange_BooleanAttributes(t *testing.T) {
 }
 
 func TestAccExchange_Drift(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames = []string{"exchanges/exchange_drift"}
 
@@ -202,6 +207,7 @@ func TestAccExchange_Drift(t *testing.T) {
 }
 
 func TestAccExchange_WithArguments(t *testing.T) {
+	t.Parallel()
 	exchangeResourceName := "lavinmq_exchange.test_exchange"
 
 	lavinMQResourceTest(t, resource.TestCase{

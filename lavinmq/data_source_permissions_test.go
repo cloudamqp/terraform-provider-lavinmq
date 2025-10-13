@@ -7,6 +7,7 @@ import (
 )
 
 func TestAccDataSourcePermissions_Basic(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -66,6 +67,7 @@ func TestAccDataSourcePermissions_Basic(t *testing.T) {
 }
 
 func TestAccDataSourcePermissions_Empty(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -82,6 +84,7 @@ func TestAccDataSourcePermissions_Empty(t *testing.T) {
 }
 
 func TestAccDataSourcePermissions_FilterByVhost(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -126,6 +129,7 @@ func TestAccDataSourcePermissions_FilterByVhost(t *testing.T) {
 }
 
 func TestAccDataSourcePermissions_FilterByUser(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -166,6 +170,7 @@ func TestAccDataSourcePermissions_FilterByUser(t *testing.T) {
 }
 
 func TestAccDataSourcePermissions_FilterByVhostAndUser(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
