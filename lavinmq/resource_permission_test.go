@@ -7,6 +7,7 @@ import (
 )
 
 func TestAccPermission_Basic(t *testing.T) {
+	t.Parallel()
 	var (
 		permissionResourceName = "lavinmq_permission.test_permission"
 	)
@@ -44,6 +45,7 @@ func TestAccPermission_Basic(t *testing.T) {
 }
 
 func TestAccPermission_Update(t *testing.T) {
+	t.Parallel()
 	var (
 		permissionResourceName = "lavinmq_permission.test_permission"
 	)
@@ -105,6 +107,7 @@ func TestAccPermission_Update(t *testing.T) {
 }
 
 func TestAccPermission_Import(t *testing.T) {
+	t.Parallel()
 	var (
 		permissionResourceName = "lavinmq_permission.test_permission"
 	)
@@ -149,6 +152,7 @@ func TestAccPermission_Import(t *testing.T) {
 }
 
 func TestAccPermission_Drift(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

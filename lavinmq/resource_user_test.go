@@ -9,6 +9,7 @@ import (
 )
 
 func TestAccUser_Password(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames        = []string{"users/user_with_password"}
 		userResourceName = "lavinmq_user.user"
@@ -49,6 +50,7 @@ func TestAccUser_Password(t *testing.T) {
 }
 
 func TestAccUser_PasswordHash(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames        = []string{"users/user_with_password_hash"}
 		userResourceName = "lavinmq_user.user"

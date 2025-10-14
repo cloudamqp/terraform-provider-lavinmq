@@ -9,6 +9,7 @@ import (
 )
 
 func TestAccPolicy_Import(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames          = []string{"policies/policy"}
 		policyResourceName = "lavinmq_policy.test_policy"
@@ -47,6 +48,7 @@ func TestAccPolicy_Import(t *testing.T) {
 }
 
 func TestAccPolicy_Update(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames          = []string{"policies/policy"}
 		policyResourceName = "lavinmq_policy.test_policy"
@@ -104,6 +106,7 @@ func TestAccPolicy_Update(t *testing.T) {
 }
 
 func TestAccPolicy_AddDefinitions(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames          = []string{"policies/policy"}
 		policyResourceName = "lavinmq_policy.dead_letter_policy"
@@ -154,6 +157,7 @@ func TestAccPolicy_AddDefinitions(t *testing.T) {
 }
 
 func TestAccPolicy_InvalidApplyTo(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames = []string{"policies/policy"}
 

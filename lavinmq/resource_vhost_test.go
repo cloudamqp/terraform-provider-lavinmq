@@ -8,6 +8,7 @@ import (
 )
 
 func TestAccVhost_Basic(t *testing.T) {
+	t.Parallel()
 	var (
 		fileNames         = []string{"vhosts/vhost_without_limits"}
 		vhostResourceName = "lavinmq_vhost.vcr_test"
