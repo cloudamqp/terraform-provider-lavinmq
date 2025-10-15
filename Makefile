@@ -21,7 +21,7 @@ lint:
 	golangci-lint run ./...
 
 test:
-	TF_ACC=1 go test ./lavinmq -v -count 1 -parallel 10
+	TF_ACC=1 go test ./lavinmq -v -count 1
 
 clean:
 	rm -f terraform-provider-lavinmq
