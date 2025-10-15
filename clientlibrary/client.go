@@ -13,12 +13,12 @@ import (
 )
 
 type Client struct {
-	HttpClient *http.Client
-	BaseURL    string
-	UserAgent  string
+	httpClient *http.Client
+	baseURL    string
+	userAgent  string
 
-	Username string
-	Password string
+	username string
+	password string
 }
 
 type service struct {
@@ -32,16 +32,16 @@ type ErrorResponse struct {
 
 func NewClient(baseURL, useragent, username, password string, httpClient *http.Client) *Client {
 	return &Client{
-		BaseURL:    baseURL,
-		UserAgent:  useragent,
-		HttpClient: httpClient,
-		Username:   username,
-		Password:   password,
+		baseURL:    baseURL,
+		userAgent:  useragent,
+		httpClient: httpClient,
+		username:   username,
+		password:   password,
 	}
 }
 
 func (c *Client) NewRequest(method, path string, body any) (*http.Request, error) {
-	baseURL, err := url.Parse(c.BaseURL)
+	baseURL, err := url.Parse(c.baseURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse base URL: %w", err)
 	}
@@ -69,15 +69,15 @@ func (c *Client) NewRequest(method, path string, body any) (*http.Request, error
 		req.Header.Set("Content-Type", "application/json")
 	}
 
-	req.SetBasicAuth(c.Username, c.Password)
+	req.SetBasicAuth(c.username, c.password)
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", c.UserAgent)
+	req.Header.Set("User-Agent", c.userAgent)
 	return req, nil
 }
 
 func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, error) {
 	req = req.WithContext(ctx)
-	resp, err := c.HttpClient.Do(req)
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		select {
 		case <-ctx.Done():
