@@ -8,6 +8,7 @@ import (
 )
 
 func TestAccPolicy_Import(t *testing.T) {
+	t.Parallel()
 	policyResourceName := "lavinmq_policy.test_policy"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -43,6 +44,7 @@ func TestAccPolicy_Import(t *testing.T) {
 }
 
 func TestAccPolicy_Update(t *testing.T) {
+	t.Parallel()
 	policyResourceName := "lavinmq_policy.test_policy"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -96,6 +98,7 @@ func TestAccPolicy_Update(t *testing.T) {
 }
 
 func TestAccPolicy_AddDefinitions(t *testing.T) {
+	t.Parallel()
 	policyResourceName := "lavinmq_policy.dead_letter_policy"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -143,6 +146,7 @@ func TestAccPolicy_AddDefinitions(t *testing.T) {
 }
 
 func TestAccPolicy_InvalidApplyTo(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

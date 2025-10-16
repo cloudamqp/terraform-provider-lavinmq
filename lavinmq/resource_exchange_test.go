@@ -9,6 +9,7 @@ import (
 )
 
 func TestAccExchange_Basic(t *testing.T) {
+	t.Parallel()
 	exchangeResourceName := "lavinmq_exchange.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -45,6 +46,7 @@ func TestAccExchange_Basic(t *testing.T) {
 }
 
 func TestAccExchange_VhostScenarios(t *testing.T) {
+	t.Parallel()
 	exchangeResourceName := "lavinmq_exchange.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -87,6 +89,7 @@ func testAccExchangeImportStateIdFunc(s *terraform.State) (string, error) {
 }
 
 func TestAccExchange_AllTypes(t *testing.T) {
+	t.Parallel()
 	exchangeTypes := []struct {
 		name     string
 		filename string
@@ -131,6 +134,7 @@ func TestAccExchange_AllTypes(t *testing.T) {
 }
 
 func TestAccExchange_BooleanAttributes(t *testing.T) {
+	t.Parallel()
 	exchangeResourceName := "lavinmq_exchange.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -176,6 +180,7 @@ func TestAccExchange_BooleanAttributes(t *testing.T) {
 }
 
 func TestAccExchange_Drift(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -196,6 +201,7 @@ func TestAccExchange_Drift(t *testing.T) {
 }
 
 func TestAccExchange_WithArguments(t *testing.T) {
+	t.Parallel()
 	exchangeResourceName := "lavinmq_exchange.test_exchange"
 
 	lavinMQResourceTest(t, resource.TestCase{

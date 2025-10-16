@@ -7,6 +7,7 @@ import (
 )
 
 func TestAccUser_Password(t *testing.T) {
+	t.Parallel()
 	userResourceName := "lavinmq_user.user"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -43,6 +44,7 @@ func TestAccUser_Password(t *testing.T) {
 }
 
 func TestAccUser_PasswordHash(t *testing.T) {
+	t.Parallel()
 	userResourceName := "lavinmq_user.user"
 
 	lavinMQResourceTest(t, resource.TestCase{

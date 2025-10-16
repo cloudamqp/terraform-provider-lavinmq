@@ -7,6 +7,7 @@ import (
 )
 
 func TestAccQueue_Import(t *testing.T) {
+	t.Parallel()
 	queueResourceName := "lavinmq_queue.test_queue"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -42,6 +43,7 @@ func TestAccQueue_Import(t *testing.T) {
 }
 
 func TestAccQueue_WithArguments(t *testing.T) {
+	t.Parallel()
 	queueResourceName := "lavinmq_queue.test_queue"
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -74,6 +76,7 @@ func TestAccQueue_WithArguments(t *testing.T) {
 }
 
 func TestAccQueue_PauseUnpause(t *testing.T) {
+	t.Parallel()
 	queueResourceName := "lavinmq_queue.test_queue"
 
 	lavinMQResourceTest(t, resource.TestCase{

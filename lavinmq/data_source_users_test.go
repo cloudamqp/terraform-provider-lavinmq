@@ -7,6 +7,7 @@ import (
 )
 
 func TestAccDataSourceUsers_Basic(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -47,6 +48,7 @@ func TestAccDataSourceUsers_Basic(t *testing.T) {
 }
 
 func TestAccDataSourceUsers_DefaultUser(t *testing.T) {
+	t.Parallel()
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,

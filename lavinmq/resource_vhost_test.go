@@ -7,6 +7,7 @@ import (
 )
 
 func TestAccVhost_Basic(t *testing.T) {
+	t.Parallel()
 	vhostResourceName := "lavinmq_vhost.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
