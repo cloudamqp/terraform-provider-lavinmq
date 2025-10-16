@@ -90,3 +90,9 @@ func (s *QueuesService) Pause(ctx context.Context, vhost, name string, pause boo
 	_, err := s.client.Request(ctx, http.MethodPut, path, nil)
 	return err
 }
+
+func (s *QueuesService) Purge(ctx context.Context, vhost, name string) error {
+	path := fmt.Sprintf("api/queues/%s/%s/contents", url.PathEscape(vhost), url.PathEscape(name))
+	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
+	return err
+}
