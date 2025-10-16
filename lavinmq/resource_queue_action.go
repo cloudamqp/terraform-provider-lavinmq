@@ -145,19 +145,7 @@ func (r *queueActionResource) Create(ctx context.Context, req resource.CreateReq
 }
 
 func (r *queueActionResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data queueActionResourceModel
-
-	diags := req.State.Get(ctx, &data)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	diags = resp.State.Set(ctx, &data)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
+	// This resource does not implement the Read function
 }
 
 func (r *queueActionResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
