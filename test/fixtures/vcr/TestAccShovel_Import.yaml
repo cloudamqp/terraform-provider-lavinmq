@@ -43,7 +43,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 13.440221ms
+        duration: 11.845834ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -89,7 +89,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 3.398084ms
+        duration: 2.730903ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -131,7 +131,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 348.839µs
+        duration: 271.231µs
     - id: 3
       request:
         proto: HTTP/1.1
@@ -177,7 +177,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 433.007µs
+        duration: 707.712µs
     - id: 4
       request:
         proto: HTTP/1.1
@@ -219,7 +219,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 211.249µs
+        duration: 254.51µs
     - id: 5
       request:
         proto: HTTP/1.1
@@ -261,7 +261,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 273.941µs
+        duration: 446.678µs
     - id: 6
       request:
         proto: HTTP/1.1
@@ -303,7 +303,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 129.636µs
+        duration: 134.89µs
     - id: 7
       request:
         proto: HTTP/1.1
@@ -345,7 +345,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 432.641µs
+        duration: 435.645µs
     - id: 8
       request:
         proto: HTTP/1.1
@@ -387,7 +387,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 386.779µs
+        duration: 453.186µs
     - id: 9
       request:
         proto: HTTP/1.1
@@ -429,7 +429,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 248.472µs
+        duration: 301.402µs
     - id: 10
       request:
         proto: HTTP/1.1
@@ -470,7 +470,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 85.320887ms
+        duration: 89.368787ms
     - id: 11
       request:
         proto: HTTP/1.1
@@ -511,7 +511,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 3.655398ms
+        duration: 2.632468ms
     - id: 12
       request:
         proto: HTTP/1.1
@@ -552,4 +552,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 7.959861ms
+        duration: 6.077151ms
