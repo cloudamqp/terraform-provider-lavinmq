@@ -179,5 +179,6 @@ func (p *lavinmqProvider) Resources(_ context.Context) []func() resource.Resourc
 		NewPolicyResource,
 		NewExchangeResource,
 		NewPermissionResource,
+		NewShovelResource,
 	}
 }
