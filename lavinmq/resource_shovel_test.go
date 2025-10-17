@@ -3,6 +3,7 @@ package lavinmq
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -65,4 +66,49 @@ func TestAccShovel_Import(t *testing.T) {
 			},
 		},
 	})
+}
+
+func TestAccShovel_InvalidAttributeValue(t *testing.T) {
+	t.Parallel()
+
+	testNames := []string{"ack_mode", "src_delay_after"}
+	configs := []string{
+		`
+			resource "lavinmq_shovel" "test_shovel" {
+				name       = "vcr-test-shovel"
+				vhost      = "vcr-test-shovel-vhost"
+				src_uri    = "amqp://guest@/vcr-test-shovel-vhost"
+				src_queue  = "vcr-test-shovel-src-queue"
+				dest_uri   = "amqp://guest@/vcr-test-shovel-vhost"
+				dest_queue = "vcr-test-shovel-dest-queue"
+				ack_mode   = "invalid-mode"
+			}
+		`,
+		`
+			resource "lavinmq_shovel" "test_shovel" {
+				name       			= "vcr-test-shovel"
+				vhost      			= "vcr-test-shovel-vhost"
+				src_uri    			= "amqp://guest@/vcr-test-shovel-vhost"
+				src_queue  			= "vcr-test-shovel-src-queue"
+				dest_uri   			= "amqp://guest@/vcr-test-shovel-vhost"
+				dest_queue 			= "vcr-test-shovel-dest-queue"
+				src_delay_after = "invalid-value"
+			}
+		`,
+	}
+
+	for index, config := range configs {
+		t.Run(testNames[index], func(t *testing.T) {
+			lavinMQResourceTest(t, resource.TestCase{
+				PreCheck:                 func() { testAccPreCheck(t) },
+				ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config:      config,
+						ExpectError: regexp.MustCompile(`Invalid Attribute Value Match`),
+					},
+				},
+			})
+		})
+	}
 }
