@@ -1,0 +1,471 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 301
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_2
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 947.375µs
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 263
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_1
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 1.21425ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_1
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 759.792µs
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_2
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 1.032875ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 163.083µs
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 186.917µs
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_1
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 203.666µs
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_2
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 245.5µs
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 107.75µs
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_2
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 537.625µs
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_shovel_ds_1
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 998.292µs
