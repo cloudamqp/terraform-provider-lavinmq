@@ -169,6 +169,7 @@ func (p *lavinmqProvider) DataSources(_ context.Context) []func() datasource.Dat
 		NewPermissionsDataSource,
 		NewShovelsDataSource,
 		NewFederationUpstreamsDataSource,
+		NewFederationUpstreamSetsDataSource,
 	}
 }
 
@@ -183,5 +184,6 @@ func (p *lavinmqProvider) Resources(_ context.Context) []func() resource.Resourc
 		NewPermissionResource,
 		NewShovelResource,
 		NewFederationUpstreamResource,
+		NewFederationUpstreamSetResource,
 	}
 }
