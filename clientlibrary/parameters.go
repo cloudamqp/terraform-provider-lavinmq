@@ -27,6 +27,19 @@ type ShovelValue struct {
 	AckMode          string `json:"ack-mode,omitempty"`
 }
 
+type FederationUpstreamValue struct {
+	URI           string `json:"uri"`
+	PrefetchCount int64  `json:"prefetch-count,omitempty"`
+	ReconnectDelay int64  `json:"reconnect-delay,omitempty"`
+	AckMode       string `json:"ack-mode,omitempty"`
+	Exchange      string `json:"exchange,omitempty"`
+	MaxHops       int64  `json:"max-hops,omitempty"`
+	Expires       int64  `json:"expires,omitempty"`
+	MessageTTL    int64  `json:"message-ttl,omitempty"`
+	Queue         string `json:"queue,omitempty"`
+	ConsumerTag   string `json:"consumer-tag,omitempty"`
+}
+
 type ParameterRequest struct {
 	Value any `json:"value"`
 }
