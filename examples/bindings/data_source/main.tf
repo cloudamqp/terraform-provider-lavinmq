@@ -49,11 +49,11 @@ output "default_vhost_bindings_count" {
 output "test_vhost_bindings" {
   value = [
     for binding in data.lavinmq_bindings.test_vhost_bindings.bindings : {
-      source          = binding.source
-      destination     = binding.destination
+      source           = binding.source
+      destination      = binding.destination
       destination_type = binding.destination_type
-      routing_key     = binding.routing_key
-      properties_key  = binding.properties_key
+      routing_key      = binding.routing_key
+      properties_key   = binding.properties_key
     }
   ]
   description = "All bindings in the test vhost"

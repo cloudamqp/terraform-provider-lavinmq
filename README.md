@@ -50,3 +50,18 @@ resource "lavinmq_permission" "this" {
 - `lavinmq_bindings` - List all bindings
 - `lavinmq_policies` - List all policies
 - `lavinmq_permissions` - List all permissions
+
+## Documentation
+
+Documentation is automatically generated using [terraform-plugin-docs](https://github.com/hashicorp/terraform-plugin-docs).
+
+To generate or update documentation:
+
+```bash
+make docs
+```
+
+This will:
+- Format example configurations
+- Generate resource and data source documentation from schemas
+- Update all files in the `docs/` directory
