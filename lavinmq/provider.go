@@ -168,6 +168,7 @@ func (p *lavinmqProvider) DataSources(_ context.Context) []func() datasource.Dat
 		NewUsersDataSource,
 		NewPermissionsDataSource,
 		NewShovelsDataSource,
+		NewBindingsDataSource,
 	}
 }
 
@@ -181,5 +182,6 @@ func (p *lavinmqProvider) Resources(_ context.Context) []func() resource.Resourc
 		NewExchangeResource,
 		NewPermissionResource,
 		NewShovelResource,
+		NewBindingResource,
 	}
 }
