@@ -65,3 +65,5 @@ This will:
 - Format example configurations
 - Generate resource and data source documentation from schemas
 - Update all files in the `docs/` directory
+
+**Note:** A GitHub Actions workflow automatically validates that documentation is up to date on every PR. If you modify resources or data sources, remember to run `make docs` and commit the changes.
