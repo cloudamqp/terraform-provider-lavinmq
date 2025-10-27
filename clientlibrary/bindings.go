@@ -2,12 +2,11 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type BindingsService service
@@ -55,7 +54,9 @@ func (s *BindingsService) Get(ctx context.Context, vhost string, source string, 
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[*BindingResponse](body)
+	var result *BindingResponse
+	err = json.Unmarshal(body, &result)
+	return result, err
 }
 
 func (s *BindingsService) List(ctx context.Context, vhost string) ([]BindingResponse, error) {
@@ -73,7 +74,8 @@ func (s *BindingsService) List(ctx context.Context, vhost string) ([]BindingResp
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]BindingResponse](body)
+	var result []BindingResponse
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return []BindingResponse{}, err
 	}

@@ -2,12 +2,11 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type ExchangesService service
@@ -46,7 +45,9 @@ func (s *ExchangesService) Get(ctx context.Context, vhost string, name string) (
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[*ExchangeResponse](body)
+	var result *ExchangeResponse
+	err = json.Unmarshal(body, &result)
+	return result, err
 }
 
 func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeResponse, error) {
@@ -64,7 +65,8 @@ func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeRe
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]ExchangeResponse](body)
+	var result []ExchangeResponse
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return []ExchangeResponse{}, err
 	}

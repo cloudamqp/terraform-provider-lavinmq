@@ -2,12 +2,11 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type VhostsService service
@@ -48,7 +47,9 @@ func (s *VhostsService) Get(ctx context.Context, name string) (VhostResponse, er
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[VhostResponse](body)
+	var result VhostResponse
+	err = json.Unmarshal(body, &result)
+	return result, err
 }
 
 func (s *VhostsService) List(ctx context.Context) ([]VhostResponse, error) {
@@ -62,7 +63,8 @@ func (s *VhostsService) List(ctx context.Context) ([]VhostResponse, error) {
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]VhostResponse](body)
+	var result []VhostResponse
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return []VhostResponse{}, err
 	}
