@@ -17,10 +17,16 @@ jobs:
         with:
           go-version-file: .go-version
 
+      - uses: hashicorp/setup-terraform@v3
+        id: setup-terraform
+        with:
+          terraform_wrapper: false
+
       - name: Run tests
         run: go test ./lavinmq/ -v
         env:
           TF_ACC: 1
+          TF_ACC_TERRAFORM_PATH: ${{ steps.setup-terraform.outputs.terraform_path }}
 
       - name: Build for single target with GoReleaser
         uses: goreleaser/goreleaser-action@9c156ee8a17a598857849441385a2041ef570552 # v6.3.0
