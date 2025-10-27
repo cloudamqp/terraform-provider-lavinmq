@@ -12,6 +12,7 @@ type Services struct {
 	Exchanges   *ExchangesService
 	Permissions *PermissionsService
 	Bindings    *BindingsService
+	Messages    *MessagesService
 }
 
 func NewServices(client *Client) *Services {
@@ -25,5 +26,6 @@ func NewServices(client *Client) *Services {
 		Exchanges:   (*ExchangesService)(&service{client: client}),
 		Permissions: (*PermissionsService)(&service{client: client}),
 		Bindings:    (*BindingsService)(&service{client: client}),
+		Messages:    (*MessagesService)(&service{client: client}),
 	}
 }
