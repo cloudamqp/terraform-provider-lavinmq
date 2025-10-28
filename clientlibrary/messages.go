@@ -15,7 +15,7 @@ type PublishRequest struct {
 	RoutingKey      string         `json:"routing_key"`
 	Payload         string         `json:"payload"`
 	PayloadEncoding string         `json:"payload_encoding"`
-	Properties      map[string]any `json:"properties,omitempty"`
+	Properties      map[string]any `json:"properties"`
 }
 
 func (s *MessagesService) Publish(ctx context.Context, vhost, exchange string, publish PublishRequest) error {
