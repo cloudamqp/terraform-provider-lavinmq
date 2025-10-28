@@ -2,12 +2,14 @@ package lavinmq
 
 import (
 	"context"
+	"math/big"
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -26,12 +28,12 @@ type publishMessageResource struct {
 }
 
 type publishMessageResourceModel struct {
-	Vhost           types.String `tfsdk:"vhost"`
-	Exchange        types.String `tfsdk:"exchange"`
-	RoutingKey      types.String `tfsdk:"routing_key"`
-	Payload         types.String `tfsdk:"payload"`
-	PayloadEncoding types.String `tfsdk:"payload_encoding"`
-	Properties      types.Map    `tfsdk:"properties"`
+	Vhost           types.String  `tfsdk:"vhost"`
+	Exchange        types.String  `tfsdk:"exchange"`
+	RoutingKey      types.String  `tfsdk:"routing_key"`
+	Payload         types.String  `tfsdk:"payload"`
+	PayloadEncoding types.String  `tfsdk:"payload_encoding"`
+	Properties      types.Dynamic `tfsdk:"properties"`
 }
 
 func (r *publishMessageResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -45,45 +47,31 @@ func (r *publishMessageResource) Schema(_ context.Context, _ resource.SchemaRequ
 			"vhost": schema.StringAttribute{
 				Description: "The vhost containing the exchange.",
 				Required:    true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 			"exchange": schema.StringAttribute{
 				Description: "The exchange to publish the message to.",
 				Required:    true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 			"routing_key": schema.StringAttribute{
 				Description: "The routing key for the message.",
 				Required:    true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 			"payload": schema.StringAttribute{
 				Description: "The message payload.",
 				Required:    true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
 			},
 			"payload_encoding": schema.StringAttribute{
 				Description: "The encoding of the payload (e.g., 'string', 'base64'). Defaults to 'string'.",
 				Optional:    true,
+				Computed:    true,
+				Default:     stringdefault.StaticString("string"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"properties": schema.MapAttribute{
+			"properties": schema.DynamicAttribute{
 				Description: "Message properties (headers, delivery mode, etc).",
 				Optional:    true,
-				ElementType: types.StringType,
-				PlanModifiers: []planmodifier.Map{
-					mapplanmodifier.RequiresReplace(),
-				},
 			},
 		},
 	}
@@ -113,26 +101,10 @@ func (r *publishMessageResource) Create(ctx context.Context, req resource.Create
 		return
 	}
 
-	properties := make(map[string]any)
-	if !plan.Properties.IsNull() {
-		propertiesMap := make(map[string]string)
-		resp.Diagnostics.Append(plan.Properties.ElementsAs(ctx, &propertiesMap, false)...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-		for k, v := range propertiesMap {
-			properties[k] = v
-		}
-	}
-
-	request := clientlibrary.PublishRequest{
-		RoutingKey: plan.RoutingKey.ValueString(),
-		Payload:    plan.Payload.ValueString(),
-		Properties: properties,
-	}
-
-	if plan.PayloadEncoding.IsNull() {
-		request.PayloadEncoding = "string"
+	request, diags := r.populateRequest(plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
 	err := r.services.Messages.Publish(ctx, plan.Vhost.ValueString(), plan.Exchange.ValueString(), request)
@@ -152,9 +124,72 @@ func (r *publishMessageResource) Read(ctx context.Context, req resource.ReadRequ
 }
 
 func (r *publishMessageResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	// This resource does not implement the Update function
+	var plan publishMessageResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	request, diags := r.populateRequest(plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err := r.services.Messages.Publish(ctx, plan.Vhost.ValueString(), plan.Exchange.ValueString(), request)
+	if err != nil {
+		resp.Diagnostics.AddError("Error publishing message", err.Error())
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
 func (r *publishMessageResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	// This resource does not implement the Delete function
+}
+
+func (r *publishMessageResource) populateRequest(plan publishMessageResourceModel) (clientlibrary.PublishRequest, diag.Diagnostics) {
+	propertiesMap := make(map[string]any)
+	if !plan.Properties.IsNull() && !plan.Properties.IsUnknown() {
+		switch v := plan.Properties.UnderlyingValue().(type) {
+		case types.Object:
+			for key, value := range v.Attributes() {
+				switch val := value.(type) {
+				case types.String:
+					propertiesMap[key] = val.ValueString()
+				case types.Bool:
+					propertiesMap[key] = val.ValueBool()
+				case types.Number:
+					if bigFloat := val.ValueBigFloat(); bigFloat != nil {
+						if intVal, accuracy := bigFloat.Int64(); accuracy == big.Exact {
+							propertiesMap[key] = intVal
+						} else if floatVal, accuracy := bigFloat.Float64(); accuracy == big.Exact {
+							propertiesMap[key] = floatVal
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Default properties values
+	if _, ok := propertiesMap["delivery_mode"]; !ok {
+		propertiesMap["delivery_mode"] = 2 // persistent
+	}
+	if _, ok := propertiesMap["content_type"]; !ok {
+		propertiesMap["content_type"] = "application/json"
+	}
+
+	request := clientlibrary.PublishRequest{
+		RoutingKey:      plan.RoutingKey.ValueString(),
+		Payload:         plan.Payload.ValueString(),
+		PayloadEncoding: plan.PayloadEncoding.ValueString(),
+		Properties:      propertiesMap,
+	}
+
+	return request, nil
 }
