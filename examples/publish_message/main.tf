@@ -29,7 +29,10 @@ resource "lavinmq_publish_message" "example_message" {
   vhost       = lavinmq_vhost.test.name
   exchange    = lavinmq_exchange.topic_exchange.name
   routing_key = "notification.test"
-  payload     = "11"
+  payload     = "{\"message\": \"Hello, World!\"}"
+  properties = {
+    content_type = "application/json"
+  }
 
   depends_on = [
     lavinmq_binding.notifications_binding
