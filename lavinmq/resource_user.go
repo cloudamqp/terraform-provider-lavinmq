@@ -43,8 +43,9 @@ type userResource struct {
 }
 
 type userResourceModel struct {
-	Name     types.String `tfsdk:"name"`
-	Password types.String `tfsdk:"password"`
+	Name            types.String `tfsdk:"name"`
+	Password        types.String `tfsdk:"password"`
+	PasswordVersion types.Int64  `tfsdk:"password_version"`
 	// PasswordHash *userPasswordHashModel `tfsdk:"password_hash"`
 	Tags types.List `tfsdk:"tags"`
 }
@@ -294,11 +295,7 @@ func (r *userResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	var request clientlibrary.UserRequest
 
 	if !config.Password.IsNull() {
-		oldPassword, _ := req.Private.GetKey(ctx, "password")
-		if string(oldPassword) != config.Password.ValueString() {
-			request.Password = config.Password.ValueString()
-			resp.Private.SetKey(ctx, "password", []byte(config.Password.ValueString()))
-		}
+		request.Password = config.Password.ValueString()
 	}
 
 	// if !plan.PasswordHash.IsUnknown() && !state.PasswordHash.Equal(plan.PasswordHash) {
