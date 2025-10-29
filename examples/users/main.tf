@@ -1,10 +1,16 @@
-resource "lavinmq_user" "admin_user" {
-  name             = "test-user"
-  password         = "securepassword12345"
-  password_version = 2
-  # password_hash = {
-  #   value     = "$6$rounds=656000$wHj3bX1bQz8JzE2G$y1r7Zk9h8jFzQxYv1K"
-  #   algorithm = "sha512"
-  # }
-  tags = ["monitoring"]
+resource "lavinmq_user" "test-user-password" {
+  name             = "test-user-password"
+  password         = "test-password"
+  password_version = 1
+  tags             = ["monitoring"]
+}
+
+resource "lavinmq_user" "test-user-passwordhash" {
+  name = "test-user-passwordhash"
+  password_hash = {
+    value     = "c6xQEdMpUle9NihE3SV8xcpXZtC6/z57IVlB22d/yEVw545L"
+    algorithm = "sha256"
+  }
+  password_version = 1
+  tags             = ["monitoring"]
 }
