@@ -29,6 +29,10 @@ type queueDataSourceModel struct {
 	AutoDelete types.Bool   `tfsdk:"auto_delete"`
 	Durable    types.Bool   `tfsdk:"durable"`
 	State      types.String `tfsdk:"state"`
+	Consumers  types.Int64  `tfsdk:"consumers"`
+	Messages   types.Int64  `tfsdk:"messages"`
+	Ready      types.Int64  `tfsdk:"ready"`
+	Unacked    types.Int64  `tfsdk:"unacked"`
 }
 
 type queuesDataSourceModel struct {
@@ -73,6 +77,22 @@ func (d *queuesDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 							Description: "State of the queue: 'running', 'paused', 'flow', 'closed', or 'deleted'.",
 							Computed:    true,
 						},
+						"consumers": schema.Int64Attribute{
+							Description: "Number of consumers subscribed to the queue.",
+							Computed:    true,
+						},
+						"messages": schema.Int64Attribute{
+							Description: "Number of messages in the queue.",
+							Computed:    true,
+						},
+						"ready": schema.Int64Attribute{
+							Description: "Number of messages ready to be delivered to consumers.",
+							Computed:    true,
+						},
+						"unacked": schema.Int64Attribute{
+							Description: "Number of messages delivered to consumers but not yet acknowledged.",
+							Computed:    true,
+						},
 					},
 				},
 			},
@@ -115,6 +135,10 @@ func (d *queuesDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 			AutoDelete: types.BoolValue(queue.AutoDelete),
 			Durable:    types.BoolValue(queue.Durable),
 			State:      types.StringValue(queue.State),
+			Consumers:  types.Int64Value(queue.Consumers),
+			Messages:   types.Int64Value(queue.Messages),
+			Ready:      types.Int64Value(queue.Ready),
+			Unacked:    types.Int64Value(queue.Unacked),
 		})
 	}
 

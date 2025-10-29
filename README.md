@@ -37,6 +37,7 @@ resource "lavinmq_permission" "this" {
 - `lavinmq_vhost` - Manage virtual hosts
 - `lavinmq_queue` - Manage queues
 - `lavinmq_exchange` - Manage exchanges
+- `lavinmq_binding` - Manage bindings between exchanges and queues/exchanges
 - `lavinmq_policy` - Manage policies
 - `lavinmq_permission` - Manage user permissions on vhosts
 
@@ -46,5 +47,6 @@ resource "lavinmq_permission" "this" {
 - `lavinmq_vhosts` - List all vhosts
 - `lavinmq_queues` - List all queues
 - `lavinmq_exchanges` - List all exchanges
+- `lavinmq_bindings` - List all bindings
 - `lavinmq_policies` - List all policies
 - `lavinmq_permissions` - List all permissions

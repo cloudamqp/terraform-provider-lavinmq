@@ -8,8 +8,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type Client struct {
@@ -95,7 +93,8 @@ func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, err
 	default:
 		defer resp.Body.Close()
 		body, _ := io.ReadAll(resp.Body)
-		errorBody, _ := utils.GenericUnmarshal[ErrorResponse](body)
+		var errorBody ErrorResponse
+		_ = json.Unmarshal(body, &errorBody)
 		return nil, fmt.Errorf("status code: %d, error: %s", resp.StatusCode, errorBody.Reason)
 	}
 }

@@ -3,48 +3,24 @@ package lavinmq
 import (
 	"testing"
 
-	"github.com/cloudamqp/terraform-provider-lavinmq/lavinmq/vcr-testing/configuration"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
 func TestAccVhost_Basic(t *testing.T) {
 	t.Parallel()
-	var (
-		fileNames         = []string{"vhosts/vhost_without_limits"}
-		vhostResourceName = "lavinmq_vhost.vcr_test"
-
-		params = map[string]string{
-			"VhostName": "vcr_test",
-		}
-
-		fileNamesUpdated_01 = []string{"vhosts/vhost_with_limits"}
-		paramsUpdated_01    = map[string]string{
-			"VhostName":           "vcr_test",
-			"VhostMaxConnections": "100",
-			"VhostMaxQueues":      "30",
-		}
-
-		fileNamesUpdated_02 = []string{"vhosts/vhost_only_max_connections"}
-		paramsUpdated_02    = map[string]string{
-			"VhostName":           "vcr_test",
-			"VhostMaxConnections": "100",
-		}
-
-		fileNamesUpdated_03 = []string{"vhosts/vhost_only_max_queues"}
-		paramsUpdated_03    = map[string]string{
-			"VhostName":      "vcr_test",
-			"VhostMaxQueues": "30",
-		}
-	)
+	vhostResourceName := "lavinmq_vhost.vcr_test"
 
 	lavinMQResourceTest(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNames, params),
+				Config: `
+          resource "lavinmq_vhost" "vcr_test" {
+            name = "vcr_test"
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(vhostResourceName, "name", params["VhostName"]),
+					resource.TestCheckResourceAttr(vhostResourceName, "name", "vcr_test"),
 					resource.TestCheckNoResourceAttr(vhostResourceName, "max_connections"),
 					resource.TestCheckNoResourceAttr(vhostResourceName, "max_queues"),
 				),
@@ -52,31 +28,44 @@ func TestAccVhost_Basic(t *testing.T) {
 			{
 				ResourceName:                         vhostResourceName,
 				ImportStateVerifyIdentifierAttribute: "name",
-				ImportStateId:                        params["VhostName"],
+				ImportStateId:                        "vcr_test",
 				ImportState:                          true,
 				ImportStateVerify:                    true,
 			},
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNamesUpdated_01, paramsUpdated_01),
+				Config: `
+          resource "lavinmq_vhost" "vcr_test" {
+            name            = "vcr_test"
+            max_connections = 100
+            max_queues      = 30
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(vhostResourceName, "name", paramsUpdated_01["VhostName"]),
-					resource.TestCheckResourceAttr(vhostResourceName, "max_connections", paramsUpdated_01["VhostMaxConnections"]),
-					resource.TestCheckResourceAttr(vhostResourceName, "max_queues", paramsUpdated_01["VhostMaxQueues"]),
+					resource.TestCheckResourceAttr(vhostResourceName, "name", "vcr_test"),
+					resource.TestCheckResourceAttr(vhostResourceName, "max_connections", "100"),
+					resource.TestCheckResourceAttr(vhostResourceName, "max_queues", "30"),
 				),
 			},
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNamesUpdated_02, paramsUpdated_02),
+				Config: `
+          resource "lavinmq_vhost" "vcr_test" {
+            name            = "vcr_test"
+            max_connections = 100
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(vhostResourceName, "name", paramsUpdated_02["VhostName"]),
-					resource.TestCheckResourceAttr(vhostResourceName, "max_connections", paramsUpdated_02["VhostMaxConnections"]),
+					resource.TestCheckResourceAttr(vhostResourceName, "name", "vcr_test"),
+					resource.TestCheckResourceAttr(vhostResourceName, "max_connections", "100"),
 					resource.TestCheckNoResourceAttr(vhostResourceName, "max_queues"),
 				),
 			},
 			{
-				Config: configuration.GetTemplatedConfig(t, fileNamesUpdated_03, paramsUpdated_03),
+				Config: `
+          resource "lavinmq_vhost" "vcr_test" {
+            name       = "vcr_test"
+            max_queues = 30
+          }`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(vhostResourceName, "name", paramsUpdated_03["VhostName"]),
-					resource.TestCheckResourceAttr(vhostResourceName, "max_queues", paramsUpdated_03["VhostMaxQueues"]),
+					resource.TestCheckResourceAttr(vhostResourceName, "name", "vcr_test"),
+					resource.TestCheckResourceAttr(vhostResourceName, "max_queues", "30"),
 					resource.TestCheckNoResourceAttr(vhostResourceName, "max_connections"),
 				),
 			},

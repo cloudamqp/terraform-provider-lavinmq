@@ -2,12 +2,11 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type UsersService service
@@ -42,7 +41,9 @@ func (s *UsersService) Get(ctx context.Context, username string) (*UserResponse,
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[*UserResponse](body)
+	var result *UserResponse
+	err = json.Unmarshal(body, &result)
+	return result, err
 }
 
 func (s *UsersService) List(ctx context.Context) ([]UserResponse, error) {
@@ -56,7 +57,8 @@ func (s *UsersService) List(ctx context.Context) ([]UserResponse, error) {
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]UserResponse](body)
+	var result []UserResponse
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return []UserResponse{}, err
 	}
