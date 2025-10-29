@@ -23,6 +23,10 @@ type QueueResponse struct {
 	AutoDelete bool           `json:"auto_delete"`
 	Durable    bool           `json:"durable"`
 	State      string         `json:"state"`
+	Consumers  int64          `json:"consumers"`
+	Messages   int64          `json:"messages"`
+	Ready      int64          `json:"ready"`
+	Unacked    int64          `json:"unacked"`
 	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
