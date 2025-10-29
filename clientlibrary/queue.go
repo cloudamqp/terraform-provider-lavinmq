@@ -23,6 +23,10 @@ type QueueResponse struct {
 	AutoDelete bool           `json:"auto_delete"`
 	Durable    bool           `json:"durable"`
 	State      string         `json:"state"`
+	Consumers  int64          `json:"consumers"`
+	Messages   int64          `json:"messages"`
+	Ready      int64          `json:"ready"`
+	Unacked    int64          `json:"unacked"`
 	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
@@ -89,5 +93,11 @@ func (s *QueuesService) Pause(ctx context.Context, vhost, name string, pause boo
 		path = fmt.Sprintf("api/queues/%s/%s/resume", url.PathEscape(vhost), url.PathEscape(name))
 	}
 	_, err := s.client.Request(ctx, http.MethodPut, path, nil)
+	return err
+}
+
+func (s *QueuesService) Purge(ctx context.Context, vhost, name string) error {
+	path := fmt.Sprintf("api/queues/%s/%s/contents", url.PathEscape(vhost), url.PathEscape(name))
+	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }
