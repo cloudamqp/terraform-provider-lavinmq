@@ -44,3 +44,23 @@ resource "lavinmq_exchange" "example" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Using Terraform CLI
+terraform import lavinmq_exchange.example_exchange vhost,exchange_name
+```
+
+Using the Terraform import block:
+
+```terraform
+import {
+  id = "vhost,exchange_name"
+  to = lavinmq_exchange.example_exchange
+}
+```

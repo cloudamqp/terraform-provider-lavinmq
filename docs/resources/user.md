@@ -34,3 +34,23 @@ resource "lavinmq_user" "example" {
 - `password` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Password of the managed user.
 - `password_version` (Number) Version of write only password or password hash.
 - `tags` (List of String) List of tags associated with the user.
+
+
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Using Terraform CLI
+terraform import lavinmq_user.example_user user_name
+```
+
+Using the Terraform import block:
+
+```terraform
+import {
+  id = "user_name"
+  to = lavinmq_user.example_user
+}
+```

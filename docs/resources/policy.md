@@ -43,3 +43,23 @@ resource "lavinmq_policy" "example" {
 
 - `apply_to` (String) What the policy applies to: 'all', 'exchanges', or 'queues'.
 - `priority` (Number) Policy priority. Higher numbers indicate higher priority.
+
+
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Using Terraform CLI
+terraform import lavinmq_policy.example_policy vhost@policy_name
+```
+
+Using the Terraform import block:
+
+```terraform
+import {
+  id = "vhost@policy_name"
+  to = lavinmq_policy.example_policy
+}
+```

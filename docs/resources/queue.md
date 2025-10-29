@@ -46,3 +46,23 @@ resource "lavinmq_queue" "example" {
 ### Read-Only
 
 - `state` (String) State of the queue: 'running', 'paused', 'flow', 'closed', or 'deleted'.
+
+
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Using Terraform CLI
+terraform import lavinmq_queue.example_queue vhost@queue_name
+```
+
+Using the Terraform import block:
+
+```terraform
+import {
+  id = "vhost@queue_name"
+  to = lavinmq_queue.example_queue
+}
+```

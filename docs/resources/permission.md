@@ -42,3 +42,23 @@ resource "lavinmq_permission" "example" {
 - `user` (String) Name of the user.
 - `vhost` (String) Virtual host where the permission is applied.
 - `write` (String) Regular expression pattern for write permissions.
+
+
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Using Terraform CLI
+terraform import lavinmq_permission.example_permission vhost@user
+```
+
+Using the Terraform import block:
+
+```terraform
+import {
+  id = "vhost@user"
+  to = lavinmq_permission.example_permission
+}
+```

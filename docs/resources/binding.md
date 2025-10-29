@@ -59,3 +59,23 @@ resource "lavinmq_binding" "example" {
 ### Read-Only
 
 - `properties_key` (String) Unique properties key for this binding.
+
+
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Using Terraform CLI
+terraform import lavinmq_binding.example_binding vhost@source@destination@destination_type@properties_key
+```
+
+Using the Terraform import block:
+
+```terraform
+import {
+  id = "vhost@source@destination@destination_type@properties_key"
+  to = lavinmq_binding.example_binding
+}
+```

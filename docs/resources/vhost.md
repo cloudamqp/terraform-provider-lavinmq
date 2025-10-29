@@ -29,3 +29,23 @@ resource "lavinmq_vhost" "example" {
 
 - `max_connections` (Number) Limit the number of connections for the vhost.
 - `max_queues` (Number) Limit the number of queues for the vhost.
+
+
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+# Using Terraform CLI
+terraform import lavinmq_vhost.example_vhost vhost_name
+```
+
+Using the Terraform import block:
+
+```terraform
+import {
+  id = "vhost_name"
+  to = lavinmq_vhost.example_vhost
+}
+```
