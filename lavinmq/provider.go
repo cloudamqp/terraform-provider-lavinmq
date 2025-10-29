@@ -176,10 +176,12 @@ func (p *lavinmqProvider) Resources(_ context.Context) []func() resource.Resourc
 	return []func() resource.Resource{
 		NewUserResource,
 		NewVhostResource,
+		NewQueueActionResource,
 		NewQueueResource,
 		NewPolicyResource,
 		NewExchangeResource,
 		NewPermissionResource,
 		NewBindingResource,
+		NewPublishMessageResource,
 	}
 }

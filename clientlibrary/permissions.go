@@ -2,12 +2,11 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type PermissionsService service
@@ -44,7 +43,9 @@ func (s *PermissionsService) Get(ctx context.Context, vhost string, user string)
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[*PermissionResponse](body)
+	var result *PermissionResponse
+	err = json.Unmarshal(body, &result)
+	return result, err
 }
 
 func (s *PermissionsService) List(ctx context.Context, vhost, user string) ([]PermissionResponse, error) {
@@ -70,7 +71,8 @@ func (s *PermissionsService) List(ctx context.Context, vhost, user string) ([]Pe
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]PermissionResponse](body)
+	var result []PermissionResponse
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return []PermissionResponse{}, err
 	}
