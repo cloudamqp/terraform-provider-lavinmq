@@ -35,7 +35,11 @@ data "lavinmq_queues" "all" {
 Read-Only:
 
 - `auto_delete` (Boolean) Whether the queue is automatically deleted when no longer used.
+- `consumers` (Number) Number of consumers subscribed to the queue.
 - `durable` (Boolean) Whether the queue should survive a broker restart.
+- `messages` (Number) Number of messages in the queue.
 - `name` (String) Name of the queue.
+- `ready` (Number) Number of messages ready to be delivered to consumers.
 - `state` (String) State of the queue: 'running', 'paused', 'flow', 'closed', or 'deleted'.
+- `unacked` (Number) Number of messages delivered to consumers but not yet acknowledged.
 - `vhost` (String) The vhost the queue is located in.
