@@ -2,12 +2,12 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
@@ -62,7 +62,8 @@ func (s *VhostLimitsService) Get(ctx context.Context, vhost string) (VhostLimits
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	vhostLimitsResponses, err := utils.GenericUnmarshal[[]VhostLimitsResponse](body)
+	var vhostLimitsResponses []VhostLimitsResponse
+	err = json.Unmarshal(body, &vhostLimitsResponses)
 	if err != nil {
 		tflog.Error(ctx, fmt.Sprintf("Unmarshal failed: %v", err))
 		return VhostLimitsResponse{}, err

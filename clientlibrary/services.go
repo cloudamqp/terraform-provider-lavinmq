@@ -13,6 +13,7 @@ type Services struct {
 	Permissions *PermissionsService
 	Parameters  *ParametersService
 	Bindings    *BindingsService
+	Messages    *MessagesService
 }
 
 func NewServices(client *Client) *Services {
@@ -27,5 +28,6 @@ func NewServices(client *Client) *Services {
 		Permissions: (*PermissionsService)(&service{client: client}),
 		Parameters:  (*ParametersService)(&service{client: client}),
 		Bindings:    (*BindingsService)(&service{client: client}),
+		Messages:    (*MessagesService)(&service{client: client}),
 	}
 }
