@@ -29,10 +29,8 @@ resource "lavinmq_user" "example" {
 
 ### Optional
 
-> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
-
-- `password` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Password of the managed user.
-- `password_version` (Number) Version of write only password or password hash.
+- `password` (String, Sensitive) Password of the managed user.
+- `password_hash` (String, Sensitive) Hashed version of the password.
 - `tags` (List of String) List of tags associated with the user.
 
 
