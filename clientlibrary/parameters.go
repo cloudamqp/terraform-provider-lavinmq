@@ -2,12 +2,11 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type ParametersService service
@@ -56,7 +55,9 @@ func (s *ParametersService) Get(ctx context.Context, component string, vhost str
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[*ParameterResponse](body)
+	var result *ParameterResponse
+	err = json.Unmarshal(body, &result)
+	return result, err
 }
 
 func (s *ParametersService) List(ctx context.Context, component string, vhost string) ([]ParameterResponse, error) {
@@ -78,7 +79,8 @@ func (s *ParametersService) List(ctx context.Context, component string, vhost st
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]ParameterResponse](body)
+	var result []ParameterResponse
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return []ParameterResponse{}, err
 	}
