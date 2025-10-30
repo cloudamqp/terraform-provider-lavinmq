@@ -46,7 +46,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 929.008µs
+        duration: 724.48µs
     - id: 1
       request:
         proto: HTTP/1.1
@@ -88,7 +88,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 263.516µs
+        duration: 196.126µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -130,7 +130,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 244.336µs
+        duration: 265.551µs
     - id: 3
       request:
         proto: HTTP/1.1
@@ -172,7 +172,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 323.513µs
+        duration: 296.095µs
     - id: 4
       request:
         proto: HTTP/1.1
@@ -216,7 +216,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 42.163185ms
+        duration: 42.676595ms
     - id: 5
       request:
         proto: HTTP/1.1
@@ -258,7 +258,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 469.394µs
+        duration: 1.019816ms
     - id: 6
       request:
         proto: HTTP/1.1
@@ -300,7 +300,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 320.584µs
+        duration: 279.542µs
     - id: 7
       request:
         proto: HTTP/1.1
@@ -341,4 +341,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 42.128885ms
+        duration: 42.112154ms

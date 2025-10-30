@@ -6,14 +6,190 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 219
+        content_length: 37
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+            {"auto_delete":false,"durable":true}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_source_queue
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 6.769407ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 37
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"auto_delete":false,"durable":true}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_dest_queue
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 8.85572ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 320.37µs
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_dest_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 200.739µs
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 237
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2q_source_queue","dest-queue":"test_q2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
         form: {}
         headers:
             Accept:
@@ -46,8 +222,8 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 763.815µs
-    - id: 1
+        duration: 850.151µs
+    - id: 5
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -78,7 +254,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_q2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_q2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2q_source_queue","dest-queue":"test_q2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -88,8 +264,176 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 194.156µs
-    - id: 2
+        duration: 490.099µs
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"my-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-shovel","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":76,"messages_persistent":1,"ready":1,"ready_bytes":76,"ready_avg_bytes":76,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"vcr-test-shovel-destination-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-direct-exchange","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":46,"messages_persistent":1,"ready":1,"ready_bytes":46,"ready_avg_bytes":46,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 710.328µs
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"my-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-shovel","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":76,"messages_persistent":1,"ready":1,"ready_bytes":76,"ready_avg_bytes":76,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"vcr-test-shovel-destination-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-direct-exchange","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":46,"messages_persistent":1,"ready":1,"ready_bytes":46,"ready_avg_bytes":46,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 360.049µs
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[{"queue":{"name":"test_q2q_source_queue","vhost":"/"},"consumer_tag":"Shovel","exclusive":true,"ack_required":true,"prefetch_count":1000,"priority":0,"channel_details":{"peer_host":"127.0.0.1","peer_port":40846,"connection_name":"127.0.0.1:40846 -> 127.0.0.1:5672","user":"guest","number":1,"name":"127.0.0.1:40846[1]"}}]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 296.333µs
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_dest_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 452.079µs
+    - id: 10
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -120,7 +464,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_q2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_q2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2q_source_queue","dest-queue":"test_q2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -130,8 +474,473 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 271.088µs
-    - id: 3
+        duration: 244.96µs
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"my-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-shovel","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":76,"messages_persistent":1,"ready":1,"ready_bytes":76,"ready_avg_bytes":76,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"vcr-test-shovel-destination-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-direct-exchange","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":46,"messages_persistent":1,"ready":1,"ready_bytes":46,"ready_avg_bytes":46,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 578.357µs
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[{"queue":{"name":"test_q2q_source_queue","vhost":"/"},"consumer_tag":"Shovel","exclusive":true,"ack_required":true,"prefetch_count":1000,"priority":0,"channel_details":{"peer_host":"127.0.0.1","peer_port":40846,"connection_name":"127.0.0.1:40846 -> 127.0.0.1:5672","user":"guest","number":1,"name":"127.0.0.1:40846[1]"}}]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 374.456µs
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_dest_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 383.999µs
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2q
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_q2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2q_source_queue","dest-queue":"test_q2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 222.833µs
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 179
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"routing_key":"test_q2q_source_queue","payload":"{\"message\": \"VCR test q2q\"}","payload_encoding":"string","properties":{"content_type":"application/json","delivery_mode":2}}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/amq.default/publish
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"routed":true}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 304.982µs
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"my-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-shovel","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":76,"messages_persistent":1,"ready":1,"ready_bytes":76,"ready_avg_bytes":76,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"vcr-test-shovel-destination-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-direct-exchange","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":46,"messages_persistent":1,"ready":1,"ready_bytes":46,"ready_avg_bytes":46,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":1,"total_bytes":86,"messages_persistent":1,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":1,"unacked_bytes":86,"unacked_avg_bytes":86,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":1,"deliver_details":{"rate":0.0},"deliver_get":1,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":84,"messages_persistent":1,"ready":1,"ready_bytes":84,"ready_avg_bytes":84,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 310.912µs
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"my-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-shovel","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":76,"messages_persistent":1,"ready":1,"ready_bytes":76,"ready_avg_bytes":76,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"vcr-test-shovel-destination-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-direct-exchange","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":46,"messages_persistent":1,"ready":1,"ready_bytes":46,"ready_avg_bytes":46,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":1,"total_bytes":86,"messages_persistent":1,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":1,"unacked_bytes":86,"unacked_avg_bytes":86,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":1,"deliver_details":{"rate":0.0},"deliver_get":1,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":84,"messages_persistent":1,"ready":1,"ready_bytes":84,"ready_avg_bytes":84,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 362.816µs
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_dest_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":84,"messages_persistent":1,"ready":1,"ready_bytes":84,"ready_avg_bytes":84,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":1,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 226.249µs
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":1,"total_bytes":86,"messages_persistent":1,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":1,"unacked_bytes":86,"unacked_avg_bytes":86,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":1,"deliver_details":{"rate":0.0},"deliver_get":1,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":1,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":1,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":1,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[{"queue":{"name":"test_q2q_source_queue","vhost":"/"},"consumer_tag":"Shovel","exclusive":true,"ack_required":true,"prefetch_count":1000,"priority":0,"channel_details":{"peer_host":"127.0.0.1","peer_port":40846,"connection_name":"127.0.0.1:40846 -> 127.0.0.1:5672","user":"guest","number":1,"name":"127.0.0.1:40846[1]"}}]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 197.592µs
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2q
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_q2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2q_source_queue","dest-queue":"test_q2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 217.623µs
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"my-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-shovel","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":76,"messages_persistent":1,"ready":1,"ready_bytes":76,"ready_avg_bytes":76,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"vcr-test-shovel-destination-queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test-direct-exchange","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":46,"messages_persistent":1,"ready":1,"ready_bytes":46,"ready_avg_bytes":46,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":1,"total_bytes":86,"messages_persistent":1,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":1,"unacked_bytes":86,"unacked_avg_bytes":86,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":1,"deliver_details":{"rate":0.0},"deliver_get":1,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]},{"name":"test_q2q_dest_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":1,"total_bytes":84,"messages_persistent":1,"ready":1,"ready_bytes":84,"ready_avg_bytes":84,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"operator_policy":null,"policy":null,"exclusive_consumer_tag":null,"single_active_consumer_tag":null,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 560.316µs
+    - id: 22
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -171,4 +980,86 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 41.665186ms
+        duration: 42.802574ms
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_source_queue
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 3.352922ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2q_dest_queue
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 6.648187ms
