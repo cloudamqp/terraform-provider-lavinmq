@@ -16,108 +16,99 @@ func TestAccPublishMessage_Publish(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				Config: `
-					resource "lavinmq_vhost" "test" {
-						name = "test-publish-message-vhost"
-					}
-
-					resource "lavinmq_exchange" "topic_exchange" {
-						name        = "topic-exchange"
-						vhost       = lavinmq_vhost.test.name
-						type        = "topic"
-						auto_delete = false
-						durable     = true
-					}
-					
 					resource "lavinmq_queue" "publish_queue" {
-						name        = "publish-message-queue"
-						vhost       = lavinmq_vhost.test.name
+						name        = "test-publish-message-queue"
+						vhost       = "/"
 						durable     = true
 						auto_delete = false
-					}
-
-					resource "lavinmq_binding" "publish_binding" {
-						vhost            = lavinmq_vhost.test.name
-						source           = lavinmq_exchange.topic_exchange.name
-						destination      = lavinmq_queue.publish_queue.name
-						destination_type = "queue"
-						routing_key      = "publish.*"
-					}
-
-					resource "lavinmq_publish_message" "example_message" {
-						vhost       = lavinmq_vhost.test.name
-						exchange    = lavinmq_exchange.topic_exchange.name
-						routing_key = "publish.test"
-						payload     = "1"
-
-						depends_on = [
-							lavinmq_binding.publish_binding
-						]
 					}
 
 					data "lavinmq_queues" "all_queues" {
-						vhost = lavinmq_vhost.test.name
+						vhost = "/"
 
 						depends_on = [
-							lavinmq_publish_message.example_message
+							lavinmq_queue.publish_queue
 						]
 					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(queueDataSourceName, "vhost", "test-publish-message-vhost"),
+					resource.TestCheckResourceAttr(queueDataSourceName, "vhost", "/"),
 					resource.TestCheckResourceAttrSet(queueDataSourceName, "queues.#"),
-					resource.TestCheckResourceAttr(queueDataSourceName, "queues.0.ready", "1"),
+					resource.TestCheckTypeSetElemNestedAttrs(queueDataSourceName, "queues.*", map[string]string{
+						"name":  "test-publish-message-queue",
+						"ready": "0",
+					}),
 				),
 			},
 			{
 				Config: `
-					resource "lavinmq_vhost" "test" {
-						name = "test-publish-message-vhost"
-					}
-
-					resource "lavinmq_exchange" "topic_exchange" {
-						name        = "topic-exchange"
-						vhost       = lavinmq_vhost.test.name
-						type        = "topic"
-						auto_delete = false
-						durable     = true
-					}
-					
 					resource "lavinmq_queue" "publish_queue" {
-						name        = "publish-message-queue"
-						vhost       = lavinmq_vhost.test.name
+						name        = "test-publish-message-queue"
+						vhost       = "/"
 						durable     = true
 						auto_delete = false
-					}
-
-					resource "lavinmq_binding" "publish_binding" {
-						vhost            = lavinmq_vhost.test.name
-						source           = lavinmq_exchange.topic_exchange.name
-						destination      = lavinmq_queue.publish_queue.name
-						destination_type = "queue"
-						routing_key      = "publish.*"
 					}
 
 					resource "lavinmq_publish_message" "example_message" {
-						vhost       = lavinmq_vhost.test.name
-						exchange    = lavinmq_exchange.topic_exchange.name
-						routing_key = "publish.test"
-						payload     = "2"
-
-						depends_on = [
-							lavinmq_binding.publish_binding
-						]
+						vhost       = "/"
+						exchange    = "amq.default"
+						routing_key = lavinmq_queue.publish_queue.name
+						payload     = "{\"message\": \"VCR test publish\"}"
+						properties = {
+								content_type = "application/json"
+						}
+						publish_message_counter = 1
 					}
 
 					data "lavinmq_queues" "all_queues" {
-						vhost = lavinmq_vhost.test.name
+						vhost = "/"
 
 						depends_on = [
 							lavinmq_publish_message.example_message
 						]
 					}`,
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr(queueDataSourceName, "vhost", "test-publish-message-vhost"),
+					resource.TestCheckResourceAttr(queueDataSourceName, "vhost", "/"),
 					resource.TestCheckResourceAttrSet(queueDataSourceName, "queues.#"),
-					resource.TestCheckResourceAttr(queueDataSourceName, "queues.0.ready", "2"),
+					resource.TestCheckTypeSetElemNestedAttrs(queueDataSourceName, "queues.*", map[string]string{
+						"name":  "test-publish-message-queue",
+						"ready": "1",
+					}),
+				),
+			},
+			{
+				Config: `
+					resource "lavinmq_queue" "publish_queue" {
+						name        = "test-publish-message-queue"
+						vhost       = "/"
+						durable     = true
+						auto_delete = false
+					}
+
+					resource "lavinmq_publish_message" "example_message" {
+						vhost       = "/"
+						exchange    = "amq.default"
+						routing_key = lavinmq_queue.publish_queue.name
+						payload     = "{\"message\": \"VCR test publish\"}"
+						properties = {
+								content_type = "application/json"
+						}
+						publish_message_counter = 2
+					}
+
+					data "lavinmq_queues" "all_queues" {
+						vhost = "/"
+
+						depends_on = [
+							lavinmq_publish_message.example_message
+						]
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(queueDataSourceName, "vhost", "/"),
+					resource.TestCheckResourceAttrSet(queueDataSourceName, "queues.#"),
+					resource.TestCheckTypeSetElemNestedAttrs(queueDataSourceName, "queues.*", map[string]string{
+						"name":  "test-publish-message-queue",
+						"ready": "2",
+					}),
 				),
 			},
 		},
