@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 153
+        content_length: 138
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"uri":"amqp://guest:guest@upstream2:5672/%2f","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"}}
+            {"value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1}}
         form: {}
         headers:
             Accept:
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,20 +46,20 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 869.417µs
+        duration: 941.784µs
     - id: 1
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 160
+        content_length: 131
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"uri":"amqp://guest:guest@upstream1:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1}}
+            {"value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"}}
         form: {}
         headers:
             Accept:
@@ -70,7 +70,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
         method: PUT
       response:
         proto: HTTP/1.1
@@ -92,7 +92,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 1.16ms
+        duration: 2.423538ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -101,7 +101,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -113,7 +113,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
         method: GET
       response:
         proto: HTTP/1.1
@@ -124,7 +124,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_federation_ds_2","value":{"uri":"amqp://guest:guest@upstream2:5672/%2f","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}'
+        body: '{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -134,7 +134,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 292.083µs
+        duration: 1.307199ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -143,7 +143,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -155,7 +155,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
         method: GET
       response:
         proto: HTTP/1.1
@@ -166,7 +166,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_federation_ds_1","value":{"uri":"amqp://guest:guest@upstream1:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}'
+        body: '{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -176,7 +176,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 95µs
+        duration: 133.766µs
     - id: 4
       request:
         proto: HTTP/1.1
@@ -185,7 +185,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -197,7 +197,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream
+        url: http://localhost:15672/api/parameters/federation-upstream
         method: GET
       response:
         proto: HTTP/1.1
@@ -208,7 +208,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"vcr_test_federation_ds_2","value":{"uri":"amqp://guest:guest@upstream2:5672/%2f","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_1","value":{"uri":"amqp://guest:guest@upstream1:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}]'
+        body: '[{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}]'
         headers:
             Connection:
                 - keep-alive
@@ -218,7 +218,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 154.667µs
+        duration: 575.338µs
     - id: 5
       request:
         proto: HTTP/1.1
@@ -227,7 +227,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -239,7 +239,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream
+        url: http://localhost:15672/api/parameters/federation-upstream
         method: GET
       response:
         proto: HTTP/1.1
@@ -250,7 +250,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"vcr_test_federation_ds_2","value":{"uri":"amqp://guest:guest@upstream2:5672/%2f","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_1","value":{"uri":"amqp://guest:guest@upstream1:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}]'
+        body: '[{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}]'
         headers:
             Connection:
                 - keep-alive
@@ -260,7 +260,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 201.875µs
+        duration: 272.535µs
     - id: 6
       request:
         proto: HTTP/1.1
@@ -269,7 +269,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -281,7 +281,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
         method: GET
       response:
         proto: HTTP/1.1
@@ -292,7 +292,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_federation_ds_1","value":{"uri":"amqp://guest:guest@upstream1:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}'
+        body: '{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -302,7 +302,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 225.959µs
+        duration: 310.459µs
     - id: 7
       request:
         proto: HTTP/1.1
@@ -311,7 +311,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -323,7 +323,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
         method: GET
       response:
         proto: HTTP/1.1
@@ -334,7 +334,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_federation_ds_2","value":{"uri":"amqp://guest:guest@upstream2:5672/%2f","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}'
+        body: '{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -344,7 +344,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 249.167µs
+        duration: 139.323µs
     - id: 8
       request:
         proto: HTTP/1.1
@@ -353,7 +353,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -365,7 +365,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream
+        url: http://localhost:15672/api/parameters/federation-upstream
         method: GET
       response:
         proto: HTTP/1.1
@@ -376,7 +376,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"vcr_test_federation_ds_2","value":{"uri":"amqp://guest:guest@upstream2:5672/%2f","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_1","value":{"uri":"amqp://guest:guest@upstream1:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}]'
+        body: '[{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}]'
         headers:
             Connection:
                 - keep-alive
@@ -386,7 +386,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 156.583µs
+        duration: 411.539µs
     - id: 9
       request:
         proto: HTTP/1.1
@@ -395,7 +395,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -407,7 +407,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -427,7 +427,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 791.958µs
+        duration: 657.948µs
     - id: 10
       request:
         proto: HTTP/1.1
@@ -436,7 +436,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -448,7 +448,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -468,4 +468,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 1.039041ms
+        duration: 459.446µs
