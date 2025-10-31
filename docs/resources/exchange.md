@@ -12,13 +12,31 @@ Manage an exchange.
 
 ## Example Usage
 
+Direct exchange:
+
 ```terraform
 resource "lavinmq_vhost" "example" {
   name = "example-vhost"
 }
 
-resource "lavinmq_exchange" "example" {
-  name        = "example-exchange"
+resource "lavinmq_exchange" "direct_example" {
+  name        = "direct-example-exchange"
+  vhost       = lavinmq_vhost.example.name
+  type        = "direct"
+  durable     = true
+  auto_delete = false
+}
+```
+
+Topic exchange:
+
+```terraform
+resource "lavinmq_vhost" "example" {
+  name = "example-vhost"
+}
+
+resource "lavinmq_exchange" "topic_example" {
+  name        = "topic-example-exchange"
   vhost       = lavinmq_vhost.example.name
   type        = "topic"
   durable     = true

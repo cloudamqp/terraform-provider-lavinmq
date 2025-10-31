@@ -12,7 +12,13 @@ description: |-
 
 ## Example Usage
 
-{{ tffile "examples/resources/lavinmq_exchange/resource.tf" }}
+Direct exchange:
+
+{{ tffile "examples/resources/lavinmq_exchange/resource_direct_exchange.tf" }}
+
+Topic exchange:
+
+{{ tffile "examples/resources/lavinmq_exchange/resource_topic_exchange.tf" }}
 
 {{ .SchemaMarkdown }}
 
@@ -24,9 +30,4 @@ Import is supported using the following syntax:
 
 Using the Terraform import block:
 
-```terraform
-import {
-  id = "vhost,exchange_name"
-  to = lavinmq_exchange.example_exchange
-}
-```
+{{ codefile "terraform" "examples/resources/lavinmq_exchange/import/import.tf" }}
