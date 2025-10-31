@@ -13,7 +13,7 @@ interactions:
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"}}
+            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"}}
         form: {}
         headers:
             Accept:
@@ -78,7 +78,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -120,7 +120,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -162,7 +162,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -185,7 +185,7 @@ interactions:
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"}}
+            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"}}
         form: {}
         headers:
             Accept:
@@ -248,7 +248,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -290,7 +290,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive

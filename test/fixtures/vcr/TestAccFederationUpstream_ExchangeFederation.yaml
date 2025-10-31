@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 173
+        content_length: 52
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"uri":"amqp://guest:guest@upstream-host:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2}}
+            {"type":"topic","auto_delete":false,"durable":true}
         form: {}
         headers:
             Accept:
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        url: http://localhost:15672/api/exchanges/%2F/test_fed_local_exchange
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,49 +46,53 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 1.542667ms
+        duration: 5.347534ms
     - id: 1
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 0
+        content_length: 147
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
-        body: ""
+        body: |
+            {"value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2}}
         form: {}
         headers:
             Accept:
                 - application/json
             Authorization:
                 - REDACTED
+            Content-Type:
+                - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
-        method: GET
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        method: PUT
       response:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        transfer_encoding:
-            - chunked
+        transfer_encoding: []
         trailer: {}
-        content_length: -1
+        content_length: 0
         uncompressed: false
-        body: '{"name":"vcr_test_exchange_federation","value":{"uri":"amqp://guest:guest@upstream-host:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2},"component":"federation-upstream","vhost":"/"}'
+        body: ""
         headers:
             Connection:
                 - keep-alive
+            Content-Length:
+                - "0"
             Content-Type:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 988.25µs
+        status: 201 Created
+        code: 201
+        duration: 4.942744ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -97,7 +101,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -109,7 +113,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        url: http://localhost:15672/api/exchanges/%2F/test_fed_local_exchange
         method: GET
       response:
         proto: HTTP/1.1
@@ -120,7 +124,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_exchange_federation","value":{"uri":"amqp://guest:guest@upstream-host:5672/%2f","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2},"component":"federation-upstream","vhost":"/"}'
+        body: '{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","effective_policy_definition":{},"effective_arguments":[],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
         headers:
             Connection:
                 - keep-alive
@@ -130,7 +134,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 344µs
+        duration: 376.897µs
     - id: 3
       request:
         proto: HTTP/1.1
@@ -139,7 +143,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -151,7 +155,812 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_exchange_federation","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2},"component":"federation-upstream","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 189.255µs
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 132
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"pattern":"^test_fed_.*","definition":{"federation-upstream":"vcr_test_exchange_federation"},"priority":10,"apply-to":"exchanges"}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/policies/%2F/test_fed_policy
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 868.031µs
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/policies/%2F/test_fed_policy
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_fed_policy","vhost":"/","pattern":"^test_fed_.*","apply-to":"exchanges","priority":10,"definition":{"federation-upstream":"vcr_test_exchange_federation"}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 472.246µs
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":6,"publish_in_details":{"rate":0.0},"publish_out":6,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federated-exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","operator_policy":null,"effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 510.99µs
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":6,"publish_in_details":{"rate":0.0},"publish_out":6,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federated-exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","operator_policy":null,"effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federation: federated-exchange -> tobias-XPS-9315:/:test_fed_local_exchange","type":"x-federation-upstream","durable":true,"auto_delete":true,"internal":true,"arguments":{"x-downstream-name":"tobias-XPS-9315","x-max-hops":2,"x-internal-purpose":"federation"},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 271.065µs
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_fed_local_exchange
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"effective_arguments":[],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 247.816µs
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_exchange_federation","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2},"component":"federation-upstream","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 575.029µs
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/policies/%2F/test_fed_policy
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_fed_policy","vhost":"/","pattern":"^test_fed_.*","apply-to":"exchanges","priority":10,"definition":{"federation-upstream":"vcr_test_exchange_federation"}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 356.642µs
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":6,"publish_in_details":{"rate":0.0},"publish_out":6,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federated-exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","operator_policy":null,"effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federation: federated-exchange -> tobias-XPS-9315:/:test_fed_local_exchange","type":"x-federation-upstream","durable":true,"auto_delete":true,"internal":true,"arguments":{"x-downstream-name":"tobias-XPS-9315","x-max-hops":2,"x-internal-purpose":"federation"},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 391.8µs
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_fed_local_exchange
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"effective_arguments":[],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 240.729µs
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_exchange_federation","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2},"component":"federation-upstream","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 197.532µs
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/policies/%2F/test_fed_policy
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_fed_policy","vhost":"/","pattern":"^test_fed_.*","apply-to":"exchanges","priority":10,"definition":{"federation-upstream":"vcr_test_exchange_federation"}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 202.602µs
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 189
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"routing_key":"test.federation","payload":"{\"message\": \"VCR test exchange federation\"}","payload_encoding":"string","properties":{"content_type":"application/json","delivery_mode":2}}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_fed_local_exchange/publish
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"routed":false}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 261.952µs
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":6,"publish_in_details":{"rate":0.0},"publish_out":6,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federated-exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","operator_policy":null,"effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federation: federated-exchange -> tobias-XPS-9315:/:test_fed_local_exchange","type":"x-federation-upstream","durable":true,"auto_delete":true,"internal":true,"arguments":{"x-downstream-name":"tobias-XPS-9315","x-max-hops":2,"x-internal-purpose":"federation"},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 183.772µs
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":6,"publish_in_details":{"rate":0.0},"publish_out":6,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federated-exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","operator_policy":null,"effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federation: federated-exchange -> tobias-XPS-9315:/:test_fed_local_exchange","type":"x-federation-upstream","durable":true,"auto_delete":true,"internal":true,"arguments":{"x-downstream-name":"tobias-XPS-9315","x-max-hops":2,"x-internal-purpose":"federation"},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 334.222µs
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_fed_local_exchange
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"effective_arguments":[],"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":1,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 273.723µs
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_exchange_federation","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"federated-exchange","max-hops":2},"component":"federation-upstream","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 286.576µs
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/policies/%2F/test_fed_policy
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_fed_policy","vhost":"/","pattern":"^test_fed_.*","apply-to":"exchanges","priority":10,"definition":{"federation-upstream":"vcr_test_exchange_federation"}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 352.019µs
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":6,"publish_in_details":{"rate":0.0},"publish_out":6,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federated-exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_fed_local_exchange","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":"test_fed_policy","operator_policy":null,"effective_policy_definition":{"federation-upstream":"vcr_test_exchange_federation"},"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"federation: federated-exchange -> tobias-XPS-9315:/:test_fed_local_exchange","type":"x-federation-upstream","durable":true,"auto_delete":true,"internal":true,"arguments":{"x-downstream-name":"tobias-XPS-9315","x-max-hops":2,"x-internal-purpose":"federation"},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 591.28µs
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/policies/%2F/test_fed_policy
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -171,4 +980,86 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 1.171667ms
+        duration: 888.538µs
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_fed_local_exchange
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 2.874601ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_exchange_federation
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 2.833434ms
