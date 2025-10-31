@@ -15,7 +15,7 @@ Multiple resources added
 * Exchange ([#12])
 * Federation upstream
 * Permission ([#33])
-* Policy
+* Policy ([#14], [#21])
 * Publish message ([#50], [#52])
 * Queue ([#9])
 * Queue action (pause/resume/purge) ([#32], [#41])
@@ -98,25 +98,20 @@ BUG FIXES:
 * Handle non-existing vhost in data sources
 * ClientLibrary: Combine List* methods and include vhost filtering
 
-DEPENDENCIES:
-
-* Bump github.com/cloudflare/circl from 1.3.7 to 1.6.1 ([#5])
-* Bump golang.org/x/net from 0.34.0 to 0.38.0 ([#1])
-
-[#1]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/1
 [#2]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/2
 [#3]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/3
-[#5]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/5
 [#7]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/7
 [#8]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/8
 [#9]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/9
 [#10]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/10
 [#11]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/11
 [#12]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/12
+[#14]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/14
 [#16]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/16
 [#17]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/17
 [#18]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/18
 [#20]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/20
+[#21]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/21
 [#22]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/22
 [#23]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/23
 [#24]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/24
