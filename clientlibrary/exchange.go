@@ -19,12 +19,19 @@ type ExchangeRequest struct {
 }
 
 type ExchangeResponse struct {
-	Name       string         `json:"name"`
-	Vhost      string         `json:"vhost"`
-	Type       string         `json:"type"`
-	AutoDelete bool           `json:"auto_delete"`
-	Durable    bool           `json:"durable"`
-	Arguments  map[string]any `json:"arguments,omitempty"`
+	Name         string                       `json:"name"`
+	Vhost        string                       `json:"vhost"`
+	Type         string                       `json:"type"`
+	AutoDelete   bool                         `json:"auto_delete"`
+	Durable      bool                         `json:"durable"`
+	Arguments    map[string]any               `json:"arguments,omitempty"`
+	MessageStats MessageStatsExchangeResponse `json:"message_stats"`
+}
+
+type MessageStatsExchangeResponse struct {
+	PublishIn  int64 `json:"publish_in"`
+	PublishOut int64 `json:"publish_out"`
+	Unroutable int64 `json:"unroutable"`
 }
 
 func (s *ExchangesService) CreateOrUpdate(ctx context.Context, vhost string, name string, req ExchangeRequest) error {

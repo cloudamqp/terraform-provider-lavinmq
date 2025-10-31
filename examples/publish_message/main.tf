@@ -1,46 +1,27 @@
-resource "lavinmq_vhost" "test" {
-  name = "test"
+locals {
+  vhost_name = "/"
 }
 
-resource "lavinmq_exchange" "topic_exchange" {
-  name        = "topic-exchange"
-  vhost       = lavinmq_vhost.test.name
-  type        = "topic"
-  auto_delete = false
-  durable     = true
-}
-
-resource "lavinmq_queue" "notifications_queue" {
-  name        = "notifications-queue"
-  vhost       = lavinmq_vhost.test.name
+resource "lavinmq_queue" "publish_queue" {
+  name        = "publish-queue"
+  vhost       = local.vhost_name
   durable     = true
   auto_delete = false
-}
-
-resource "lavinmq_binding" "notifications_binding" {
-  vhost            = lavinmq_vhost.test.name
-  source           = lavinmq_exchange.topic_exchange.name
-  destination      = lavinmq_queue.notifications_queue.name
-  destination_type = "queue"
-  routing_key      = "notification.*"
 }
 
 resource "lavinmq_publish_message" "example_message" {
-  vhost       = lavinmq_vhost.test.name
-  exchange    = lavinmq_exchange.topic_exchange.name
-  routing_key = "notification.test"
+  vhost       = local.vhost_name
+  exchange    = "amq.default"
+  routing_key = lavinmq_queue.publish_queue.name
   payload     = "{\"message\": \"Hello, World!\"}"
   properties = {
     content_type = "application/json"
   }
-
-  depends_on = [
-    lavinmq_binding.notifications_binding
-  ]
+  publish_message_counter = 1
 }
 
 data "lavinmq_queues" "all_queues" {
-  vhost = lavinmq_vhost.test.name
+  vhost = local.vhost_name
 
   depends_on = [
     lavinmq_publish_message.example_message

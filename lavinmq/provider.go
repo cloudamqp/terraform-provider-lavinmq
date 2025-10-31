@@ -161,27 +161,29 @@ func (p *lavinmqProvider) Configure(ctx context.Context, req provider.ConfigureR
 // DataSources defines the data sources implemented in the provider.
 func (p *lavinmqProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NewVhostDataSource,
+		NewBindingsDataSource,
+		NewExchangesDataSource,
+		NewPermissionsDataSource,
 		NewPoliciesDataSource,
 		NewQueuesDataSource,
-		NewExchangesDataSource,
+		NewShovelsDataSource,
 		NewUsersDataSource,
-		NewPermissionsDataSource,
-		NewBindingsDataSource,
+		NewVhostDataSource,
 	}
 }
 
 // Resources defines the resources implemented in the provider.
 func (p *lavinmqProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewUserResource,
-		NewVhostResource,
-		NewQueueActionResource,
-		NewQueueResource,
-		NewPolicyResource,
+		NewBindingResource,
 		NewExchangeResource,
 		NewPermissionResource,
-		NewBindingResource,
+		NewPolicyResource,
 		NewPublishMessageResource,
+		NewQueueActionResource,
+		NewQueueResource,
+		NewShovelResource,
+		NewUserResource,
+		NewVhostResource,
 	}
 }

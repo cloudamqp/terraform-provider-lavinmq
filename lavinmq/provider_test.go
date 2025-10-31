@@ -7,6 +7,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/cloudamqp/terraform-provider-lavinmq/lavinmq/vcr-testing/sanitizer"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -61,13 +62,13 @@ func lavinMQResourceTest(t *testing.T, c resource.TestCase) {
 
 	sanitizeHook := func(i *cassette.Interaction) error {
 		i.Request.Headers["Authorization"] = []string{"REDACTED"}
-		// Filter sensitive data API keys, secrects and tokens from request and response bodies
-		i.Request.Body = sanitizeSensistiveData(i.Request.Body)
-		i.Response.Body = sanitizeSensistiveData(i.Response.Body)
+		// Filter sensitive data API keys, secrets and tokens from request and response bodies
+		i.Request.Body = sanitizeSensitiveData(i.Request.Body)
+		i.Response.Body = sanitizeSensitiveData(i.Response.Body)
 		return nil
 	}
 	rec.SetMatcher(requestURIMatcher)
-	rec.AddHook(sanitizeHook, recorder.AfterCaptureHook)
+	rec.AddHook(sanitizeHook, recorder.BeforeSaveHook)
 
 	shouldSaveHook := func(i *cassette.Interaction) error {
 		if t.Failed() {
@@ -102,6 +103,7 @@ func requestURIMatcher(request *http.Request, interaction cassette.Request) bool
 	return request.Method == interaction.Method && request.URL.RequestURI() == interactionURI.RequestURI()
 }
 
-func sanitizeSensistiveData(body string) string {
+func sanitizeSensitiveData(body string) string {
+	body = sanitizer.FilterSensitiveData(body, os.Getenv("SHOVEL_SRC_DEST_URI"), "SHOVEL_SRC_DEST_URI")
 	return body
 }
