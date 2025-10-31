@@ -63,11 +63,11 @@ while testing the provider.
 
 ### Record
 
-To record VCR cassettes, you need a running LavinMQ instance (preferably installed locally). 
+To record VCR cassettes, you need a running LavinMQ instance (preferably installed locally).
 
 Set the following environment variables in a `.env` file:
 
-```
+```dotenv
 LAVINMQ_API_BASEURL="http://localhost:15672/"
 LAVINMQ_API_USERNAME="guest"
 LAVINMQ_API_PASSWORD="guest"
@@ -99,6 +99,12 @@ TF_ACC=1 go test ./lavinmq/ -v -run {TestName}
 
 ```sh
 TF_ACC=1 go test ./lavinmq/ -v
+```
+
+or with
+
+```sh
+make test
 ```
 
 [Go-VCR]: https://github.com/dnaeon/go-vcr
