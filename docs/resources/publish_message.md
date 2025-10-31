@@ -79,5 +79,6 @@ data "lavinmq_queues" "all_queues" {
 
 - `payload_encoding` (String) The encoding of the payload (e.g., 'string', 'base64'). Defaults to 'string'.
 - `properties` (Dynamic) Message properties (headers, delivery mode, etc).
+- `publish_message_counter` (Number) A counter that can be used to trigger a resource update.
 
 

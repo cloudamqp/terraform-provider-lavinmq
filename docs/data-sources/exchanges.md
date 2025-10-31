@@ -36,6 +36,16 @@ Read-Only:
 
 - `auto_delete` (Boolean) Whether the exchange is automatically deleted when no longer used.
 - `durable` (Boolean) Whether the exchange should survive a broker restart.
+- `message_stats` (Attributes) Message statistics for the exchange. (see [below for nested schema](#nestedatt--exchanges--message_stats))
 - `name` (String) Name of the exchange.
 - `type` (String) The exchange type (direct, fanout, topic, headers).
 - `vhost` (String) The vhost the exchange is located in.
+
+<a id="nestedatt--exchanges--message_stats"></a>
+### Nested Schema for `exchanges.message_stats`
+
+Read-Only:
+
+- `publish_in` (Number) Number of messages published to the exchange.
+- `publish_out` (Number) Number of messages delivered from the exchange to queues.
+- `unroutable` (Number) Number of messages published to the exchange that could not be routed to any queue.
