@@ -29,11 +29,18 @@ type exchangesDataSourceModel struct {
 }
 
 type exchangeDataSourceModel struct {
-	Name       types.String `tfsdk:"name"`
-	Vhost      types.String `tfsdk:"vhost"`
-	Type       types.String `tfsdk:"type"`
-	AutoDelete types.Bool   `tfsdk:"auto_delete"`
-	Durable    types.Bool   `tfsdk:"durable"`
+	Name         types.String                        `tfsdk:"name"`
+	Vhost        types.String                        `tfsdk:"vhost"`
+	Type         types.String                        `tfsdk:"type"`
+	AutoDelete   types.Bool                          `tfsdk:"auto_delete"`
+	Durable      types.Bool                          `tfsdk:"durable"`
+	MessageStats exchangeMessageStatsDataSourceModel `tfsdk:"message_stats"`
+}
+
+type exchangeMessageStatsDataSourceModel struct {
+	PublishIn  types.Int64 `tfsdk:"publish_in"`
+	PublishOut types.Int64 `tfsdk:"publish_out"`
+	Unroutable types.Int64 `tfsdk:"unroutable"`
 }
 
 func (d *exchangesDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -72,6 +79,24 @@ func (d *exchangesDataSource) Schema(ctx context.Context, req datasource.SchemaR
 						"durable": schema.BoolAttribute{
 							Description: "Whether the exchange should survive a broker restart.",
 							Computed:    true,
+						},
+						"message_stats": schema.SingleNestedAttribute{
+							Description: "Message statistics for the exchange.",
+							Computed:    true,
+							Attributes: map[string]schema.Attribute{
+								"publish_in": schema.Int64Attribute{
+									Description: "Number of messages published to the exchange.",
+									Computed:    true,
+								},
+								"publish_out": schema.Int64Attribute{
+									Description: "Number of messages delivered from the exchange to queues.",
+									Computed:    true,
+								},
+								"unroutable": schema.Int64Attribute{
+									Description: "Number of messages published to the exchange that could not be routed to any queue.",
+									Computed:    true,
+								},
+							},
 						},
 					},
 				},
@@ -115,6 +140,11 @@ func (d *exchangesDataSource) Read(ctx context.Context, req datasource.ReadReque
 			Type:       types.StringValue(exchange.Type),
 			AutoDelete: types.BoolValue(exchange.AutoDelete),
 			Durable:    types.BoolValue(exchange.Durable),
+			MessageStats: exchangeMessageStatsDataSourceModel{
+				PublishIn:  types.Int64Value(exchange.MessageStats.PublishIn),
+				PublishOut: types.Int64Value(exchange.MessageStats.PublishOut),
+				Unroutable: types.Int64Value(exchange.MessageStats.Unroutable),
+			},
 		})
 	}
 
