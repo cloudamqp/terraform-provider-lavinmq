@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -28,12 +30,13 @@ type publishMessageResource struct {
 }
 
 type publishMessageResourceModel struct {
-	Vhost           types.String  `tfsdk:"vhost"`
-	Exchange        types.String  `tfsdk:"exchange"`
-	RoutingKey      types.String  `tfsdk:"routing_key"`
-	Payload         types.String  `tfsdk:"payload"`
-	PayloadEncoding types.String  `tfsdk:"payload_encoding"`
-	Properties      types.Dynamic `tfsdk:"properties"`
+	Vhost                 types.String  `tfsdk:"vhost"`
+	Exchange              types.String  `tfsdk:"exchange"`
+	RoutingKey            types.String  `tfsdk:"routing_key"`
+	Payload               types.String  `tfsdk:"payload"`
+	PayloadEncoding       types.String  `tfsdk:"payload_encoding"`
+	Properties            types.Dynamic `tfsdk:"properties"`
+	PublishMessageCounter types.Int64   `tfsdk:"publish_message_counter"`
 }
 
 func (r *publishMessageResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -72,6 +75,15 @@ func (r *publishMessageResource) Schema(_ context.Context, _ resource.SchemaRequ
 			"properties": schema.DynamicAttribute{
 				Description: "Message properties (headers, delivery mode, etc).",
 				Optional:    true,
+			},
+			"publish_message_counter": schema.Int64Attribute{
+				Description: "A counter that can be used to trigger a resource update.",
+				Optional:    true,
+				Computed:    true,
+				Default:     int64default.StaticInt64(1),
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 			},
 		},
 	}
