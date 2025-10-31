@@ -33,20 +33,24 @@ resource "lavinmq_permission" "this" {
 
 ## Resources
 
+- `lavinmq_binding` - Manage bindings between exchanges and queues/exchanges
+- `lavinmq_exchange` - Manage exchanges
+- `lavinmq_permission` - Manage user permissions on vhosts
+- `lavinmq_policy` - Manage policies
+- `lavinmq_publish_message` - Publish messages to an exchange
+- `lavinmq_queue` - Manage queues
+- `lavinmq_queue_action` - Perform actions on queues (pause/resume/purge)
+- `lavinmq_shovel` - Manage shovels
 - `lavinmq_user` - Manage users
 - `lavinmq_vhost` - Manage virtual hosts
-- `lavinmq_queue` - Manage queues
-- `lavinmq_exchange` - Manage exchanges
-- `lavinmq_binding` - Manage bindings between exchanges and queues/exchanges
-- `lavinmq_policy` - Manage policies
-- `lavinmq_permission` - Manage user permissions on vhosts
 
 ## Data Sources
 
+- `lavinmq_bindings` - List all bindings
+- `lavinmq_exchanges` - List all exchanges
+- `lavinmq_permissions` - List all permissions
+- `lavinmq_policies` - List all policies
+- `lavinmq_queues` - List all queues
+- `lavinmq_shovels` - List all shovels
 - `lavinmq_users` - List all users
 - `lavinmq_vhosts` - List all vhosts
-- `lavinmq_queues` - List all queues
-- `lavinmq_exchanges` - List all exchanges
-- `lavinmq_bindings` - List all bindings
-- `lavinmq_policies` - List all policies
-- `lavinmq_permissions` - List all permissions
