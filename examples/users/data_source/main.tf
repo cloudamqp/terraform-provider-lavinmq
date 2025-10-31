@@ -5,13 +5,9 @@ resource "lavinmq_user" "admin_user" {
 }
 
 resource "lavinmq_user" "monitoring_user" {
-  name = "monitoring-user"
-  # password = "monitoring-password"
-  password_hash = {
-    value     = "$6$rounds=656000$wHj3bX1bQz8JzE2G$y1r7Zk9h8jFzQxYv1K"
-    algorithm = "sha512"
-  }
-  tags = ["monitoring"]
+  name     = "monitoring-user"
+  password = "monitoring-password"
+  tags     = ["monitoring"]
 }
 
 resource "lavinmq_user" "app_user" {
