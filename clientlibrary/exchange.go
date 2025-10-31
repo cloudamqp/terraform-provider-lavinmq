@@ -2,12 +2,11 @@ package clientlibrary
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
-
-	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary/utils"
 )
 
 type ExchangesService service
@@ -20,12 +19,19 @@ type ExchangeRequest struct {
 }
 
 type ExchangeResponse struct {
-	Name       string         `json:"name"`
-	Vhost      string         `json:"vhost"`
-	Type       string         `json:"type"`
-	AutoDelete bool           `json:"auto_delete"`
-	Durable    bool           `json:"durable"`
-	Arguments  map[string]any `json:"arguments,omitempty"`
+	Name         string                       `json:"name"`
+	Vhost        string                       `json:"vhost"`
+	Type         string                       `json:"type"`
+	AutoDelete   bool                         `json:"auto_delete"`
+	Durable      bool                         `json:"durable"`
+	Arguments    map[string]any               `json:"arguments,omitempty"`
+	MessageStats MessageStatsExchangeResponse `json:"message_stats"`
+}
+
+type MessageStatsExchangeResponse struct {
+	PublishIn  int64 `json:"publish_in"`
+	PublishOut int64 `json:"publish_out"`
+	Unroutable int64 `json:"unroutable"`
 }
 
 func (s *ExchangesService) CreateOrUpdate(ctx context.Context, vhost string, name string, req ExchangeRequest) error {
@@ -46,7 +52,9 @@ func (s *ExchangesService) Get(ctx context.Context, vhost string, name string) (
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	return utils.GenericUnmarshal[*ExchangeResponse](body)
+	var result *ExchangeResponse
+	err = json.Unmarshal(body, &result)
+	return result, err
 }
 
 func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeResponse, error) {
@@ -64,7 +72,8 @@ func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeRe
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	result, err := utils.GenericUnmarshal[[]ExchangeResponse](body)
+	var result []ExchangeResponse
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return []ExchangeResponse{}, err
 	}

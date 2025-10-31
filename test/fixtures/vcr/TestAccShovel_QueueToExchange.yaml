@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 303
+        content_length: 53
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-exchange":"dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+            {"type":"direct","auto_delete":false,"durable":true}
         form: {}
         headers:
             Accept:
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        url: http://localhost:15672/api/exchanges/%2F/test_q2e_dest_exchange
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,49 +46,53 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 1.313459ms
+        duration: 7.155229ms
     - id: 1
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 0
+        content_length: 37
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
-        body: ""
+        body: |
+            {"auto_delete":false,"durable":true}
         form: {}
         headers:
             Accept:
                 - application/json
             Authorization:
                 - REDACTED
+            Content-Type:
+                - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_q2e
-        method: GET
+        url: http://localhost:15672/api/queues/%2F/test_q2e_source_queue
+        method: PUT
       response:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        transfer_encoding:
-            - chunked
+        transfer_encoding: []
         trailer: {}
-        content_length: -1
+        content_length: 0
         uncompressed: false
-        body: '{"name":"vcr_test_q2e","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-exchange":"dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: ""
         headers:
             Connection:
                 - keep-alive
+            Content-Length:
+                - "0"
             Content-Type:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 6.016292ms
+        status: 201 Created
+        code: 201
+        duration: 9.76658ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -97,7 +101,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -109,7 +113,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        url: http://localhost:15672/api/exchanges/%2F/test_q2e_dest_exchange
         method: GET
       response:
         proto: HTTP/1.1
@@ -120,7 +124,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_q2e","value":{"src-uri":"amqp://guest:guest@localhost:5672/%2f","dest-uri":"amqp://guest:guest@localhost:5672/%2f","src-queue":"source_queue","dest-exchange":"dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","effective_policy_definition":{},"effective_arguments":[],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
         headers:
             Connection:
                 - keep-alive
@@ -130,7 +134,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 259.917µs
+        duration: 633.439µs
     - id: 3
       request:
         proto: HTTP/1.1
@@ -139,7 +143,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: 127.0.0.1:15672
+        host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -151,7 +155,812 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://127.0.0.1:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        url: http://localhost:15672/api/queues/%2F/test_q2e_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2e_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":0,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 287.516µs
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 277
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2e_source_queue","dest-exchange":"test_q2e_dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        method: PUT
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Length:
+                - "0"
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 201 Created
+        code: 201
+        duration: 823.411µs
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_q2e","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2e_source_queue","dest-exchange":"test_q2e_dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 382.44µs
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":16,"publish_in_details":{"rate":0.0},"publish_out":15,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":2,"publish_in_details":{"rate":0.0},"publish_out":1,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 684.595µs
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":16,"publish_in_details":{"rate":0.0},"publish_out":15,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":2,"publish_in_details":{"rate":0.0},"publish_out":1,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 264.705µs
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_q2e_dest_exchange
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","effective_policy_definition":{},"effective_arguments":[],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 250.514µs
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2e_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2e_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[{"queue":{"name":"test_q2e_source_queue","vhost":"/"},"consumer_tag":"Shovel","exclusive":true,"ack_required":true,"prefetch_count":1000,"priority":0,"channel_details":{"peer_host":"127.0.0.1","peer_port":34498,"connection_name":"127.0.0.1:34498 -> 127.0.0.1:5672","user":"guest","number":1,"name":"127.0.0.1:34498[1]"}}]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 293.819µs
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_q2e","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2e_source_queue","dest-exchange":"test_q2e_dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 265.646µs
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":16,"publish_in_details":{"rate":0.0},"publish_out":15,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":2,"publish_in_details":{"rate":0.0},"publish_out":1,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 418.643µs
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_q2e_dest_exchange
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","effective_policy_definition":{},"effective_arguments":[],"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":0,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 223.292µs
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2e_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2e_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":0,"total_bytes":0,"messages_persistent":0,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":0,"unacked_bytes":0,"unacked_avg_bytes":0,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":0,"deliver_details":{"rate":0.0},"deliver_get":0,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":0,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":0,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":0,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":0,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[{"queue":{"name":"test_q2e_source_queue","vhost":"/"},"consumer_tag":"Shovel","exclusive":true,"ack_required":true,"prefetch_count":1000,"priority":0,"channel_details":{"peer_host":"127.0.0.1","peer_port":34498,"connection_name":"127.0.0.1:34498 -> 127.0.0.1:5672","user":"guest","number":1,"name":"127.0.0.1:34498[1]"}}]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 300.891µs
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_q2e","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2e_source_queue","dest-exchange":"test_q2e_dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 232.234µs
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 179
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: |
+            {"routing_key":"test_q2e_source_queue","payload":"{\"message\": \"VCR test q2e\"}","payload_encoding":"string","properties":{"content_type":"application/json","delivery_mode":2}}
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            Content-Type:
+                - application/json
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/amq.default/publish
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"routed":true}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 305.414µs
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":17,"publish_in_details":{"rate":0.0},"publish_out":16,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":2,"publish_in_details":{"rate":0.0},"publish_out":1,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 221.519µs
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":17,"publish_in_details":{"rate":0.0},"publish_out":16,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":2,"publish_in_details":{"rate":0.0},"publish_out":1,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 271.661µs
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2e_source_queue
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2e_source_queue","durable":true,"exclusive":false,"auto_delete":false,"arguments":{},"consumers":1,"vhost":"/","messages":1,"total_bytes":86,"messages_persistent":1,"ready":0,"ready_bytes":0,"ready_avg_bytes":0,"unacked":1,"unacked_bytes":86,"unacked_avg_bytes":86,"state":"running","effective_policy_definition":{},"message_stats":{"ack":0,"ack_details":{"rate":0.0},"deliver":1,"deliver_details":{"rate":0.0},"deliver_get":1,"deliver_get_details":{"rate":0.0},"confirm":0,"confirm_details":{"rate":0.0},"get":0,"get_details":{"rate":0.0},"get_no_ack":0,"get_no_ack_details":{"rate":0.0},"publish":1,"publish_details":{"rate":0.0},"redeliver":0,"redeliver_details":{"rate":0.0},"reject":0,"reject_details":{"rate":0.0},"return_unroutable":0,"return_unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":["x-expires","x-max-length","x-max-length-bytes","x-message-ttl","x-delivery-limit","x-consumer-timeout"],"message_stats":{"ack":0,"ack_details":{"rate":0.0,"log":[]},"deliver":1,"deliver_details":{"rate":0.0,"log":[]},"deliver_get":1,"deliver_get_details":{"rate":0.0,"log":[]},"confirm":0,"confirm_details":{"rate":0.0,"log":[]},"get":0,"get_details":{"rate":0.0,"log":[]},"get_no_ack":0,"get_no_ack_details":{"rate":0.0,"log":[]},"publish":1,"publish_details":{"rate":0.0,"log":[]},"redeliver":0,"redeliver_details":{"rate":0.0,"log":[]},"reject":0,"reject_details":{"rate":0.0,"log":[]},"return_unroutable":0,"return_unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}},"consumer_details":[{"queue":{"name":"test_q2e_source_queue","vhost":"/"},"consumer_tag":"Shovel","exclusive":true,"ack_required":true,"prefetch_count":1000,"priority":0,"channel_details":{"peer_host":"127.0.0.1","peer_port":34498,"connection_name":"127.0.0.1:34498 -> 127.0.0.1:5672","user":"guest","number":1,"name":"127.0.0.1:34498[1]"}}]}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 360.938µs
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_q2e_dest_exchange
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","effective_policy_definition":{},"effective_arguments":[],"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0,"log":[]},"publish_out":0,"publish_out_details":{"rate":0.0,"log":[]},"unroutable":1,"unroutable_details":{"rate":0.0,"log":[]},"dedup":0,"dedup_details":{"rate":0.0,"log":[]}}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 295.491µs
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2e
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_q2e","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"test_q2e_source_queue","dest-exchange":"test_q2e_dest_exchange","dest-exchange-key":"routing.key","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 260.044µs
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":17,"publish_in_details":{"rate":0.0},"publish_out":16,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.direct","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":2,"publish_in_details":{"rate":0.0},"publish_out":1,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.fanout","type":"fanout","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.topic","type":"topic","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.headers","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"amq.match","type":"headers","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"mqtt.default","type":"mqtt","durable":false,"auto_delete":false,"internal":true,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":0,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":0,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]},{"name":"test_q2e_dest_exchange","type":"direct","durable":true,"auto_delete":false,"internal":false,"arguments":{},"vhost":"/","policy":null,"operator_policy":null,"effective_policy_definition":{},"message_stats":{"publish_in":1,"publish_in_details":{"rate":0.0},"publish_out":0,"publish_out_details":{"rate":0.0},"unroutable":1,"unroutable_details":{"rate":0.0},"dedup":0,"dedup_details":{"rate":0.0}},"effective_arguments":[]}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 405.872µs
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_q2e
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -171,4 +980,86 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 712.167µs
+        duration: 43.144399ms
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/queues/%2F/test_q2e_source_queue
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 3.708541ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/exchanges/%2F/test_q2e_dest_exchange
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 6.140181ms
