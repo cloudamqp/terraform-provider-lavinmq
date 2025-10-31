@@ -54,3 +54,51 @@ resource "lavinmq_permission" "this" {
 - `lavinmq_shovels` - List all shovels
 - `lavinmq_users` - List all users
 - `lavinmq_vhosts` - List all vhosts
+
+## VCR Testing
+
+The provider can be tested with Terraform Acceptance Test together with [Go-VCR] package. When using
+the Go-VCR package all HTTP interactions to the API backend can be recorded or replayed and used
+while testing the provider.
+
+### Record
+
+To record VCR cassettes, you need a running LavinMQ instance (preferably installed locally). 
+
+Set the following environment variables in a `.env` file:
+
+```
+LAVINMQ_API_BASEURL="http://localhost:15672/"
+LAVINMQ_API_USERNAME="guest"
+LAVINMQ_API_PASSWORD="guest"
+# VCR-TEST VARIABLES
+TEST_AMQP_URI="amqp://guest:guest@localhost:5672//"
+```
+
+**Record all tests:**
+
+```sh
+LAVINMQ_RECORD=1 TF_ACC=1 dotenv -f .env go test ./lavinmq/ -v -timeout 5s
+```
+
+**Record a single test:**
+
+```sh
+LAVINMQ_RECORD=1 TF_ACC=1 dotenv -f .env go test ./lavinmq/ -v -run {TestName} -timeout 5s
+```
+
+### Replay
+
+**Replay single test:**
+
+```sh
+TF_ACC=1 go test ./lavinmq/ -v -run {TestName}
+```
+
+**Replay all tests:**
+
+```sh
+TF_ACC=1 go test ./lavinmq/ -v
+```
+
+[Go-VCR]: https://github.com/dnaeon/go-vcr
