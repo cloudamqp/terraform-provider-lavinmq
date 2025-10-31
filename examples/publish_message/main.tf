@@ -17,7 +17,7 @@ resource "lavinmq_publish_message" "example_message" {
   properties = {
     content_type = "application/json"
   }
-  publish_message_counter = 2
+  publish_message_counter = 1
 }
 
 data "lavinmq_queues" "all_queues" {
