@@ -4,6 +4,7 @@ build: terraform-provider-lavinmq
 
 tools:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@latest
 
 terraform-provider-lavinmq:
 	go build -o terraform-provider-lavinmq
@@ -26,4 +27,7 @@ test:
 clean:
 	rm -f terraform-provider-lavinmq
 
-.PHONY: clean install fmt fmtcheck lint tools test
+docs: clean build
+	go generate ./...
+
+.PHONY: clean install fmt fmtcheck lint tools test docs

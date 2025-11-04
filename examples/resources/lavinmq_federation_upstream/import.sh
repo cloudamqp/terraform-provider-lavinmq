@@ -1,0 +1,1 @@
+terraform import lavinmq_federation_upstream.example vhost@upstream_name

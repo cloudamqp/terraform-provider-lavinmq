@@ -55,6 +55,23 @@ resource "lavinmq_permission" "this" {
 - `lavinmq_users` - List all users
 - `lavinmq_vhosts` - List all vhosts
 
+## Documentation
+
+Documentation is automatically generated using [terraform-plugin-docs](https://github.com/hashicorp/terraform-plugin-docs).
+
+To generate or update documentation:
+
+```bash
+make docs
+```
+
+This will:
+- Format example configurations
+- Generate resource and data source documentation from schemas
+- Update all files in the `docs/` directory
+
+**Note:** A GitHub Actions workflow automatically validates that documentation is up to date on every PR. If you modify resources or data sources, remember to run `make docs` and commit the changes.
+
 ## VCR Testing
 
 The provider can be tested with Terraform Acceptance Test together with [Go-VCR] package. When using

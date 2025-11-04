@@ -1,0 +1,37 @@
+name: Documentation
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/documentation.yml'
+      - '**.go'
+      - 'go.mod'
+      - 'go.sum'
+      - 'examples/**'
+      - 'templates/**'
+      - 'docs/**'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: .go-version
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Generate documentation
+        run: make docs
+
+      - name: Check for uncommitted documentation changes
+        run: |
+          git diff --exit-code || (
+            echo "Documentation is out of date. Please run 'make docs' and commit the changes."
+            exit 1
+          )
