@@ -189,7 +189,7 @@ interactions:
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
         form: {}
         headers:
             Accept:
@@ -254,7 +254,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_e2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_e2q","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -464,7 +464,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_e2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_e2q","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -632,7 +632,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_e2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_e2q","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -887,7 +887,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_e2q","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_e2q","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"test_e2q_source_exchange","src-exchange-key":"test.#","dest-queue":"test_e2q_dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive

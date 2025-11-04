@@ -104,6 +104,6 @@ func requestURIMatcher(request *http.Request, interaction cassette.Request) bool
 }
 
 func sanitizeSensitiveData(body string) string {
-	body = sanitizer.FilterSensitiveData(body, os.Getenv("SHOVEL_SRC_DEST_URI"), "SHOVEL_SRC_DEST_URI")
+	body = sanitizer.FilterSensitiveData(body, os.Getenv("TEST_AMQP_URI"), "TEST_AMQP_URI")
 	return body
 }
