@@ -14,9 +14,9 @@ func TestAccShovel_Import(t *testing.T) {
 	shovelResourceName := "lavinmq_shovel.test_shovel"
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -58,9 +58,9 @@ func TestAccShovel_Update(t *testing.T) {
 	shovelResourceName := "lavinmq_shovel.test_shovel"
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -115,9 +115,9 @@ func TestAccShovel_QueueToQueue(t *testing.T) {
 	queueDataSourceName := "data.lavinmq_queues.all_queues"
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -238,9 +238,9 @@ func TestAccShovel_QueueToExchange(t *testing.T) {
 	exchangeDataSourceName := "data.lavinmq_exchanges.dest_exchange"
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -371,9 +371,9 @@ func TestAccShovel_ExchangeToQueue(t *testing.T) {
 	queueDataSourceName := "data.lavinmq_queues.all_queues"
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -500,9 +500,9 @@ func TestAccShovel_ExchangeToExchange(t *testing.T) {
 	exchangeDataSourceName := "data.lavinmq_exchanges.dest_exchange"
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -635,9 +635,9 @@ func TestAccShovel_InvalidBothSources(t *testing.T) {
 	t.Parallel()
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
@@ -665,9 +665,9 @@ func TestAccShovel_InvalidBothDestinations(t *testing.T) {
 	t.Parallel()
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{

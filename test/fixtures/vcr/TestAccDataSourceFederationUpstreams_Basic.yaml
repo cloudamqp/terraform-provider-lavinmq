@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 218
+        content_length: 138
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"}}
+            {"value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1}}
         form: {}
         headers:
             Accept:
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,49 +46,53 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 724.48µs
+        duration: 941.784µs
     - id: 1
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 0
+        content_length: 131
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
-        body: ""
+        body: |
+            {"value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"}}
         form: {}
         headers:
             Accept:
                 - application/json
             Authorization:
                 - REDACTED
+            Content-Type:
+                - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
-        method: GET
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
+        method: PUT
       response:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        transfer_encoding:
-            - chunked
+        transfer_encoding: []
         trailer: {}
-        content_length: -1
+        content_length: 0
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
+        body: ""
         headers:
             Connection:
                 - keep-alive
+            Content-Length:
+                - "0"
             Content-Type:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 196.126µs
+        status: 201 Created
+        code: 201
+        duration: 2.423538ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -109,7 +113,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
         method: GET
       response:
         proto: HTTP/1.1
@@ -120,7 +124,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -130,7 +134,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 265.551µs
+        duration: 1.307199ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -151,7 +155,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
         method: GET
       response:
         proto: HTTP/1.1
@@ -162,7 +166,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":500,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-publish"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -172,41 +176,39 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 296.095µs
+        duration: 133.766µs
     - id: 4
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 216
+        content_length: 0
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
-        body: |
-            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"}}
+        body: ""
         form: {}
         headers:
             Accept:
                 - application/json
             Authorization:
                 - REDACTED
-            Content-Type:
-                - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
-        method: PUT
+        url: http://localhost:15672/api/parameters/federation-upstream
+        method: GET
       response:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        transfer_encoding: []
+        transfer_encoding:
+            - chunked
         trailer: {}
-        content_length: 0
+        content_length: -1
         uncompressed: false
-        body: ""
+        body: '[{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}]'
         headers:
             Connection:
                 - keep-alive
@@ -214,9 +216,9 @@ interactions:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 204 No Content
-        code: 204
-        duration: 42.676595ms
+        status: 200 OK
+        code: 200
+        duration: 575.338µs
     - id: 5
       request:
         proto: HTTP/1.1
@@ -237,7 +239,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
+        url: http://localhost:15672/api/parameters/federation-upstream
         method: GET
       response:
         proto: HTTP/1.1
@@ -248,7 +250,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"},"component":"shovel","vhost":"/"}'
+        body: '[{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}]'
         headers:
             Connection:
                 - keep-alive
@@ -258,7 +260,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 1.019816ms
+        duration: 272.535µs
     - id: 6
       request:
         proto: HTTP/1.1
@@ -279,7 +281,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
         method: GET
       response:
         proto: HTTP/1.1
@@ -290,7 +292,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_update","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":2000,"src-delete-after":"never","reconnect-delay":10,"ack-mode":"no-ack"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -300,7 +302,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 279.542µs
+        duration: 310.459µs
     - id: 7
       request:
         proto: HTTP/1.1
@@ -321,7 +323,91 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_update
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 139.323µs
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/federation-upstream
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"name":"vcr_test_federation_ds_1","value":{"uri":"TEST_AMQP_URI","prefetch-count":1000,"reconnect-delay":5,"ack-mode":"on-confirm","exchange":"exchange1","max-hops":1},"component":"federation-upstream","vhost":"/"},{"name":"vcr_test_federation_ds_2","value":{"uri":"TEST_AMQP_URI","prefetch-count":500,"reconnect-delay":5,"ack-mode":"on-confirm","max-hops":1,"queue":"queue1"},"component":"federation-upstream","vhost":"/"}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 411.539µs
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_2
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -341,4 +427,45 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 42.112154ms
+        duration: 657.948µs
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/parameters/federation-upstream/%2F/vcr_test_federation_ds_1
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 204 No Content
+        code: 204
+        duration: 459.446µs

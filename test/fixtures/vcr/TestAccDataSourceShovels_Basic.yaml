@@ -13,7 +13,7 @@ interactions:
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
         form: {}
         headers:
             Accept:
@@ -59,7 +59,7 @@ interactions:
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
         form: {}
         headers:
             Accept:
@@ -124,7 +124,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -166,7 +166,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -208,7 +208,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"internal-shovel","value":{"src-uri":"amqp://guest@/test-shovel","dest-uri":"amqp://guest@/test-shovel","src-prefetch-count":1,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm","src-queue":"test-queue","dest-queue":"test-queue2"},"component":"shovel","vhost":"test-shovel"}]'
+        body: '[{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"internal-shovel","value":{"src-uri":"amqp://guest@/test-shovel","dest-uri":"amqp://guest@/test-shovel","src-prefetch-count":1,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm","src-queue":"test-queue","dest-queue":"test-queue2"},"component":"shovel","vhost":"test-shovel"}]'
         headers:
             Connection:
                 - keep-alive
@@ -250,7 +250,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"internal-shovel","value":{"src-uri":"amqp://guest@/test-shovel","dest-uri":"amqp://guest@/test-shovel","src-prefetch-count":1,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm","src-queue":"test-queue","dest-queue":"test-queue2"},"component":"shovel","vhost":"test-shovel"}]'
+        body: '[{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"internal-shovel","value":{"src-uri":"amqp://guest@/test-shovel","dest-uri":"amqp://guest@/test-shovel","src-prefetch-count":1,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm","src-queue":"test-queue","dest-queue":"test-queue2"},"component":"shovel","vhost":"test-shovel"}]'
         headers:
             Connection:
                 - keep-alive
@@ -292,7 +292,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -334,7 +334,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
         headers:
             Connection:
                 - keep-alive
@@ -376,7 +376,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '[{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"SHOVEL_SRC_DEST_URI","dest-uri":"SHOVEL_SRC_DEST_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"internal-shovel","value":{"src-uri":"amqp://guest@/test-shovel","dest-uri":"amqp://guest@/test-shovel","src-prefetch-count":1,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm","src-queue":"test-queue","dest-queue":"test-queue2"},"component":"shovel","vhost":"test-shovel"}]'
+        body: '[{"name":"vcr_test_shovel_ds_1","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"vcr_test_shovel_ds_2","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-exchange":"source_exchange","src-exchange-key":"source.key","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"},{"name":"internal-shovel","value":{"src-uri":"amqp://guest@/test-shovel","dest-uri":"amqp://guest@/test-shovel","src-prefetch-count":1,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm","src-queue":"test-queue","dest-queue":"test-queue2"},"component":"shovel","vhost":"test-shovel"}]'
         headers:
             Connection:
                 - keep-alive
