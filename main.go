@@ -14,7 +14,7 @@ import (
 
 func main() {
 	err := providerserver.Serve(context.Background(), func() provider.Provider {
-		return lavinmq.New("1.0", http.DefaultClient)
+		return lavinmq.New("0.1.0", http.DefaultClient)
 	}, providerserver.ServeOpts{
 		Address: "registry.terraform.io/cloudamqp/lavinmq",
 	})
