@@ -27,7 +27,7 @@ test:
 clean:
 	rm -f terraform-provider-lavinmq
 
-docs:
+docs: clean build
 	go generate ./...
 
 .PHONY: clean install fmt fmtcheck lint tools test docs
