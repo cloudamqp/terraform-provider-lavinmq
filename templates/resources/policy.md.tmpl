@@ -24,9 +24,4 @@ Import is supported using the following syntax:
 
 Using the Terraform import block:
 
-```terraform
-import {
-  id = "vhost@policy_name"
-  to = lavinmq_policy.example_policy
-}
-```
+{{ codefile "terraform" "examples/resources/lavinmq_policy/import/import.tf" }}
