@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 118
+        content_length: 44
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"password_hash":"qV573OrTCGnMVbOysrKR2Xs16kkHiZbzhCDvf5mzV7NyH+M/","hashing_algorithm":"sha256","tags":"monitoring"}
+            {"password":"test1234","tags":"monitoring"}
         form: {}
         headers:
             Accept:
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr-test-user-passwordhash
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,7 +46,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 6.389247ms
+        duration: 4.538017ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -67,7 +67,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr-test-user-passwordhash
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: GET
       response:
         proto: HTTP/1.1
@@ -78,7 +78,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr-test-user-passwordhash","password_hash":"qV573OrTCGnMVbOysrKR2Xs16kkHiZbzhCDvf5mzV7NyH+M/","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring"}'
+        body: '{"name":"vcr-test-user-with-tags","password_hash":"yR/vPJ4YsHCVuR5wxVu9/PPNV11eo0Mx0RI4zOgcouyuKpED","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring"}'
         headers:
             Connection:
                 - keep-alive
@@ -88,7 +88,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 278.524µs
+        duration: 282.803µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -109,7 +109,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr-test-user-passwordhash
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: GET
       response:
         proto: HTTP/1.1
@@ -120,7 +120,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr-test-user-passwordhash","password_hash":"qV573OrTCGnMVbOysrKR2Xs16kkHiZbzhCDvf5mzV7NyH+M/","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring"}'
+        body: '{"name":"vcr-test-user-with-tags","password_hash":"yR/vPJ4YsHCVuR5wxVu9/PPNV11eo0Mx0RI4zOgcouyuKpED","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring"}'
         headers:
             Connection:
                 - keep-alive
@@ -130,20 +130,20 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 325.973µs
+        duration: 239.16µs
     - id: 3
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 118
+        content_length: 55
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"password_hash":"c6xQEdMpUle9NihE3SV8xcpXZtC6/z57IVlB22d/yEVw545L","hashing_algorithm":"sha256","tags":"monitoring"}
+            {"password":"test1234","tags":"monitoring,management"}
         form: {}
         headers:
             Accept:
@@ -154,7 +154,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr-test-user-passwordhash
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: PUT
       response:
         proto: HTTP/1.1
@@ -174,7 +174,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 2.397037ms
+        duration: 2.015947ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -195,7 +195,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr-test-user-passwordhash
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: GET
       response:
         proto: HTTP/1.1
@@ -206,7 +206,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr-test-user-passwordhash","password_hash":"c6xQEdMpUle9NihE3SV8xcpXZtC6/z57IVlB22d/yEVw545L","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring"}'
+        body: '{"name":"vcr-test-user-with-tags","password_hash":"yR/vPJ4YsHCVuR5wxVu9/PPNV11eo0Mx0RI4zOgcouyuKpED","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring,management"}'
         headers:
             Connection:
                 - keep-alive
@@ -216,7 +216,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 399.067µs
+        duration: 352.923µs
     - id: 5
       request:
         proto: HTTP/1.1
@@ -237,7 +237,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr-test-user-passwordhash
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -257,4 +257,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 4.44717ms
+        duration: 2.042087ms
