@@ -34,7 +34,6 @@ type policyDataSourceModel struct {
 	Pattern  types.String `tfsdk:"pattern"`
 	Priority types.Int64  `tfsdk:"priority"`
 	ApplyTo  types.String `tfsdk:"apply_to"`
-	// TODO Definition
 }
 
 func (d *policiesDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -73,7 +72,6 @@ func (d *policiesDataSource) Schema(ctx context.Context, req datasource.SchemaRe
 							Description: "What the policy applies to: 'all', 'exchanges', or 'queues'.",
 							Computed:    true,
 						},
-						// TODO: definition
 					},
 				},
 			},
@@ -116,7 +114,6 @@ func (d *policiesDataSource) Read(ctx context.Context, req datasource.ReadReques
 			Pattern:  types.StringValue(policy.Pattern),
 			Priority: types.Int64Value(int64(policy.Priority)),
 			ApplyTo:  types.StringValue(policy.ApplyTo),
-			// TODO: Definition
 		})
 	}
 
