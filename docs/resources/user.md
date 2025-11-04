@@ -29,9 +29,24 @@ resource "lavinmq_user" "example" {
 
 ### Optional
 
-- `password` (String, Sensitive) Password of the managed user.
-- `password_hash` (String, Sensitive) Hashed version of the password.
+> **NOTE**: [Write-only arguments](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments) are supported in Terraform 1.11 and later.
+
+- `password` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Password of the managed user.
+- `password_hash` (Attributes, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) Hashed version of the password. (see [below for nested schema](#nestedatt--password_hash))
+- `password_version` (Number) Version of write only password or password hash.
 - `tags` (List of String) List of tags associated with the user.
+
+<a id="nestedatt--password_hash"></a>
+### Nested Schema for `password_hash`
+
+Required:
+
+- `value` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) The hashed password value.
+
+Optional:
+
+- `algorithm` (String, [Write-only](https://developer.hashicorp.com/terraform/language/resources/ephemeral#write-only-arguments)) The hashing algorithm used.
+
 
 
 

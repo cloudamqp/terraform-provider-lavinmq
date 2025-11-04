@@ -9,11 +9,17 @@ description: |-
 The LavinMQ provider enables Terraform to manage LavinMQ resources through its HTTP API. LavinMQ is a high-performance message broker that implements the AMQP protocol.
 
 Use the provider to manage:
-- Virtual hosts
-- Users and permissions
-- Queues and exchanges
 - Bindings
+- Exchanges
+- Federation upstreams
+- Permissions
 - Policies
+- Publish messages
+- Queue actions
+- Queues
+- Shovels
+- Users
+- Virtual hosts
 
 ## Example Usage
 
