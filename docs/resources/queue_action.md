@@ -13,9 +13,13 @@ Manage a queue.
 ## Example Usage
 
 ```terraform
+resource "lavinmq_vhost" "example" {
+  name = "example-vhost"
+}
+
 resource "lavinmq_queue_action" "purge_example" {
   name   = "example-queue"
-  vhost  = "/"
+  vhost  = lavinmq_vhost.example.name
   action = "purge"
 }
 ```
