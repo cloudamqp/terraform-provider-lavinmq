@@ -7,7 +7,6 @@ import (
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
 	"github.com/cloudamqp/terraform-provider-lavinmq/lavinmq/converters"
-	"github.com/cloudamqp/terraform-provider-lavinmq/lavinmq/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -15,6 +14,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -42,10 +43,16 @@ type userResource struct {
 }
 
 type userResourceModel struct {
-	Name         types.String `tfsdk:"name"`
-	Password     types.String `tfsdk:"password"`
-	PasswordHash types.String `tfsdk:"password_hash"`
-	Tags         types.List   `tfsdk:"tags"`
+	Name            types.String           `tfsdk:"name"`
+	Password        types.String           `tfsdk:"password"`
+	PasswordVersion types.Int64            `tfsdk:"password_version"`
+	PasswordHash    *userPasswordHashModel `tfsdk:"password_hash"`
+	Tags            types.List             `tfsdk:"tags"`
+}
+
+type userPasswordHashModel struct {
+	Value     types.String `tfsdk:"value"`
+	Algorithm types.String `tfsdk:"algorithm"`
 }
 
 // Metadata returns the resource type name.
@@ -68,18 +75,44 @@ func (r *userResource) Schema(_ context.Context, _ resource.SchemaRequest, resp 
 			"password": schema.StringAttribute{
 				Description: "Password of the managed user.",
 				Optional:    true,
-				Sensitive:   true,
+				WriteOnly:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Validators: []validator.String{
+					stringvalidator.ConflictsWith(path.MatchRoot("password_hash")),
+				},
 			},
-			"password_hash": schema.StringAttribute{
-				Description: "Hashed version of the password.",
+			"password_version": schema.Int64Attribute{
+				Description: "Version of write only password or password hash.",
 				Optional:    true,
 				Computed:    true,
-				Sensitive:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
+				Default:     int64default.StaticInt64(1),
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
+			},
+			"password_hash": schema.SingleNestedAttribute{
+				Description: "Hashed version of the password.",
+				Optional:    true,
+				WriteOnly:   true,
+				Attributes: map[string]schema.Attribute{
+					"value": schema.StringAttribute{
+						Description: "The hashed password value.",
+						Required:    true,
+						WriteOnly:   true,
+						Validators: []validator.String{
+							stringvalidator.ConflictsWith(path.MatchRoot("password")),
+						},
+					},
+					"algorithm": schema.StringAttribute{
+						Description: "The hashing algorithm used.",
+						Optional:    true,
+						WriteOnly:   true,
+						Validators: []validator.String{
+							stringvalidator.OneOfCaseInsensitive("sha256", "sha512", "bcrypt", "MD5"),
+						},
+					},
 				},
 			},
 			"tags": schema.ListAttribute{
@@ -115,51 +148,52 @@ func (r *userResource) Configure(_ context.Context, req resource.ConfigureReques
 
 // Create creates the resource and sets the initial Terraform state.
 func (r *userResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var config userResourceModel
 	var plan userResourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	var createReq clientlibrary.UserRequest
-	if !plan.Password.IsNull() {
-		createReq.Password = utils.Pointer(plan.Password.ValueString())
+	var request clientlibrary.UserRequest
+
+	// Password or PasswordHash must be set
+	if config.Password.IsNull() && config.PasswordHash == nil {
+		resp.Diagnostics.AddError(
+			"Missing required attribute",
+			"Either 'password' or 'password_hash' must be specified to create a user.",
+		)
+		return
 	}
-	if !plan.PasswordHash.IsUnknown() {
-		createReq.PasswordHash = utils.Pointer(plan.PasswordHash.ValueString())
+
+	if config.PasswordHash != nil {
+		request.PasswordHash = config.PasswordHash.Value.ValueString()
+		if config.PasswordHash.Algorithm.IsNull() {
+			request.HashingAlgorithm = "sha256"
+		} else {
+			request.HashingAlgorithm = config.PasswordHash.Algorithm.ValueString()
+		}
 	}
-	if !plan.Tags.IsUnknown() {
+
+	if !config.Password.IsNull() {
+		request.Password = config.Password.ValueString()
+	}
+
+	if !plan.Tags.IsNull() {
 		var tags []string
 		diags := plan.Tags.ElementsAs(ctx, &tags, false)
 		if diags.HasError() {
 			resp.Diagnostics.Append(diags...)
 			return
 		}
-		createReq.Tags = strings.Join(tags, ",")
+		request.Tags = strings.Join(tags, ",")
 	}
 
-	err := r.services.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), createReq)
+	err := r.services.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), request)
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating user", err.Error())
 		return
-	}
-
-	// Read out computed values
-	user, err := r.services.Users.Get(ctx, plan.Name.ValueString())
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to read user state", err.Error())
-		return
-	}
-
-	if plan.PasswordHash.IsUnknown() {
-		plan.PasswordHash = types.StringValue(*user.PasswordHash)
-	}
-
-	if user.Tags != "" {
-		tags := strings.Split(user.Tags, ",")
-		plan.Tags, _ = types.ListValue(types.StringType, converters.StringsToAttrValues(tags))
-	} else {
-		plan.Tags, _ = types.ListValue(types.StringType, []attr.Value{})
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
@@ -191,8 +225,9 @@ func (r *userResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 	}
 
 	state.Name = types.StringValue(user.Name)
-	if user.PasswordHash != nil {
-		state.PasswordHash = types.StringValue(*user.PasswordHash)
+
+	if state.PasswordVersion.ValueInt64() == 0 {
+		state.PasswordVersion = types.Int64Value(1)
 	}
 
 	if user.Tags != "" {
@@ -210,54 +245,52 @@ func (r *userResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *userResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var config userResourceModel
 	var plan userResourceModel
-	var state userResourceModel
+	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
-	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	var updateReq clientlibrary.UserRequest
-	if !plan.Password.IsNull() && !state.Password.Equal(plan.Password) {
-		updateReq.Password = utils.Pointer(plan.Password.ValueString())
+	// Password or PasswordHash must be set
+	if config.Password.IsNull() && config.PasswordHash == nil {
+		resp.Diagnostics.AddError(
+			"Missing required attribute",
+			"Either 'password' or 'password_hash' must be specified to create a user.",
+		)
+		return
 	}
-	if !plan.PasswordHash.IsUnknown() && !state.PasswordHash.Equal(plan.PasswordHash) {
-		updateReq.PasswordHash = utils.Pointer(plan.PasswordHash.ValueString())
+
+	var request clientlibrary.UserRequest
+
+	if !config.Password.IsNull() {
+		request.Password = config.Password.ValueString()
 	}
-	if !plan.Tags.IsNull() && !state.Tags.Equal(plan.Tags) {
+
+	if config.PasswordHash != nil {
+		request.PasswordHash = config.PasswordHash.Value.ValueString()
+		if config.PasswordHash.Algorithm.IsNull() {
+			request.HashingAlgorithm = "sha256"
+		} else {
+			request.HashingAlgorithm = config.PasswordHash.Algorithm.ValueString()
+		}
+	}
+
+	if !plan.Tags.IsNull() {
 		var tags []string
 		diags := plan.Tags.ElementsAs(ctx, &tags, false)
 		if diags.HasError() {
 			resp.Diagnostics.Append(diags...)
 			return
 		}
-		updateReq.Tags = strings.Join(tags, ",")
+		request.Tags = strings.Join(tags, ",")
 	}
 
-	err := r.services.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), updateReq)
+	err := r.services.Users.CreateOrUpdate(ctx, plan.Name.ValueString(), request)
 	if err != nil {
 		resp.Diagnostics.AddError("Error updating user", err.Error())
 		return
-	}
-
-	// Read out computed values
-	user, err := r.services.Users.Get(ctx, plan.Name.ValueString())
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to read user state", err.Error())
-		return
-	}
-
-	if plan.PasswordHash.IsUnknown() || plan.PasswordHash.IsNull() {
-		plan.PasswordHash = types.StringValue(*user.PasswordHash)
-	}
-	if plan.Tags.IsUnknown() || plan.Tags.IsNull() {
-		if user.Tags != "" {
-			tags := strings.Split(user.Tags, ",")
-			plan.Tags, _ = types.ListValue(types.StringType, converters.StringsToAttrValues(tags))
-		} else {
-			plan.Tags, _ = types.ListValue(types.StringType, []attr.Value{})
-		}
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)

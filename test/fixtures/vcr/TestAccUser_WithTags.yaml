@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 219
+        content_length: 44
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"}}
+            {"password":"test1234","tags":"monitoring"}
         form: {}
         headers:
             Accept:
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_import
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,7 +46,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 758.541µs
+        duration: 4.538017ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -67,7 +67,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_import
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: GET
       response:
         proto: HTTP/1.1
@@ -78,7 +78,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_import","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr-test-user-with-tags","password_hash":"yR/vPJ4YsHCVuR5wxVu9/PPNV11eo0Mx0RI4zOgcouyuKpED","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring"}'
         headers:
             Connection:
                 - keep-alive
@@ -88,7 +88,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 161.726µs
+        duration: 282.803µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -109,7 +109,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_import
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: GET
       response:
         proto: HTTP/1.1
@@ -120,7 +120,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_import","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: '{"name":"vcr-test-user-with-tags","password_hash":"yR/vPJ4YsHCVuR5wxVu9/PPNV11eo0Mx0RI4zOgcouyuKpED","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring"}'
         headers:
             Connection:
                 - keep-alive
@@ -130,39 +130,41 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 264.301µs
+        duration: 239.16µs
     - id: 3
       request:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 0
+        content_length: 55
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
-        body: ""
+        body: |
+            {"password":"test1234","tags":"monitoring,management"}
         form: {}
         headers:
             Accept:
                 - application/json
             Authorization:
                 - REDACTED
+            Content-Type:
+                - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_import
-        method: GET
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
+        method: PUT
       response:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        transfer_encoding:
-            - chunked
+        transfer_encoding: []
         trailer: {}
-        content_length: -1
+        content_length: 0
         uncompressed: false
-        body: '{"name":"vcr_test_shovel_import","value":{"src-uri":"TEST_AMQP_URI","dest-uri":"TEST_AMQP_URI","src-queue":"source_queue","dest-queue":"dest_queue","src-prefetch-count":1000,"src-delete-after":"never","reconnect-delay":5,"ack-mode":"on-confirm"},"component":"shovel","vhost":"/"}'
+        body: ""
         headers:
             Connection:
                 - keep-alive
@@ -170,9 +172,9 @@ interactions:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 534.85µs
+        status: 204 No Content
+        code: 204
+        duration: 2.015947ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -193,7 +195,49 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/parameters/shovel/%2F/vcr_test_shovel_import
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr-test-user-with-tags","password_hash":"yR/vPJ4YsHCVuR5wxVu9/PPNV11eo0Mx0RI4zOgcouyuKpED","hashing_algorithm":"rabbit_password_hashing_sha256","tags":"monitoring,management"}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 352.923µs
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/users/vcr-test-user-with-tags
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -213,4 +257,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 42.627661ms
+        duration: 2.042087ms

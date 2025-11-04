@@ -12,9 +12,9 @@ func TestAccDataSourceShovels_Basic(t *testing.T) {
 	t.Parallel()
 
 	// Set sanitized value for playback and use real value for recording
-	testSrcDestURI := "SHOVEL_SRC_DEST_URI"
+	testSrcDestURI := "TEST_AMQP_URI"
 	if os.Getenv("LAVINMQ_RECORD") != "" {
-		testSrcDestURI = os.Getenv("SHOVEL_SRC_DEST_URI")
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
