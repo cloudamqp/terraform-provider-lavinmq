@@ -13,14 +13,14 @@ Multiple resources added
 
 * Binding ([#43])
 * Exchange ([#12])
-* Federation upstream
+* Federation upstream ([#45])
 * Permission ([#33])
 * Policy ([#14], [#21])
 * Publish message ([#50], [#52])
 * Queue ([#9])
 * Queue action (pause/resume/purge) ([#32], [#41])
 * Shovel ([#44])
-* User ([#10])
+* User ([2a272b4])
 * VHost ([#2])
 
 **Data Sources:**
@@ -29,13 +29,13 @@ Multiple data sources added
 
 * Bindings ([#43])
 * Exchanges ([#25])
-* Federation upstreams
+* Federation upstreams ([#45])
 * Permissions ([#33])
 * Policies ([#16], [#30])
 * Queues ([#23])
 * Shovels ([#44])
 * Users ([#24])
-* VHosts ([#18])
+* VHosts ([#2], [#18])
 
 **Client Library:**
 
@@ -64,39 +64,6 @@ Multiple data sources added
 
 * Add automatic documentation generation with tfplugindocs
 * Add GitHub Actions workflow to validate documentation
-
-IMPROVEMENTS:
-
-* Queue: Make `auto_delete` computed ([#22])
-* Policy: Use computed value for `priority` and `apply_to`
-* Policy: Add test for invalid `apply_to` ([#20])
-* Queue and Exchange: Support `arguments` attribute ([#36])
-* Publish message: Add `publish_message_counter` argument ([#52])
-* User: Support both password and hash as writeonly attributes
-* Data Source Queues: Extend to count consumers and messages
-* Data Source Exchanges: Add message_state
-* Data Source Policies: Handle vhost filtering ([#30])
-* Return nil when vhost doesn't exist ([#27])
-* Return empty list instead of nil in data sources
-* Handle resource drift for queue and user resources
-* Refactor: Replace Client service fields with Services struct pattern ([#11])
-* Refactor: Use `any` type alias instead of `interface{}` ([#26])
-* Refactor: Use inline config in tests ([#37])
-* Refactor: Make Client struct fields private ([#39])
-* Fix plural naming for collections to match Go conventions ([#17])
-* Update definition handling to use Object type for improved type safety
-* Use standard JSON unmarshal instead of GenericUnmarshal ([#48])
-* Provider configuration attributes can be set via environment variables
-* Sort resources and data sources in ascending order
-* Don't hardcode test parallelism, use GOMAXPROCS ([#40])
-
-BUG FIXES:
-
-* Unmarshal failed response body and return error ([#8])
-* Fix parallel test race condition in CI ([#49])
-* Fix user resource documentation to match actual schema
-* Handle non-existing vhost in data sources
-* ClientLibrary: Combine List* methods and include vhost filtering
 
 [#2]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/2
 [#3]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/3
@@ -129,7 +96,9 @@ BUG FIXES:
 [#41]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/41
 [#43]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/43
 [#44]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/44
+[#45]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/45
 [#48]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/48
 [#49]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/49
 [#50]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/50
 [#52]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/52
+[2a272b4]: https://github.com/cloudamqp/terraform-provider-lavinmq/commit/2a272b4
