@@ -167,9 +167,6 @@ func (r *userResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	tflog.Info(ctx, fmt.Sprintf("Creating user: %s", plan.Name.ValueString()))
-	tflog.Info(ctx, fmt.Sprintf("password: %+v, passwordhash: %+v", config.Password, config.PasswordHash))
-
 	if config.PasswordHash != nil {
 		request.PasswordHash = config.PasswordHash.Value.ValueString()
 		if config.PasswordHash.Algorithm.IsNull() {
