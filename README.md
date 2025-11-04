@@ -1,5 +1,15 @@
 # Terraform provider for LavinMQ HTTP API
 
+## Documentation & Examples
+
+- **Terraform Registry**: [registry.terraform.io/providers/cloudamqp/lavinmq](https://registry.terraform.io/providers/cloudamqp/lavinmq)
+- **Browsable Documentation**: [registry.terraform.io/providers/cloudamqp/lavinmq/latest/docs](https://registry.terraform.io/providers/cloudamqp/lavinmq/latest/docs)
+- **Examples**: See the [`examples/`](./examples) directory for working configurations including:
+  - `resources/` - Examples for each resource type
+  - `data-sources/` - Examples for each data source
+  - `extended-examples/` - More complex real-world scenarios
+  - `provider/` - Provider configuration examples
+
 ## Prerequisites
 
 1. **Golang**: Install Golang, follow [Golang's installation guide](https://go.dev/doc/install)
