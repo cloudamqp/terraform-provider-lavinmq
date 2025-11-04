@@ -195,7 +195,6 @@ func (r *exchangeResource) Create(ctx context.Context, req resource.CreateReques
 }
 
 // Read refreshes the Terraform state with the latest data.
-// TODO: Check so import handles default values
 func (r *exchangeResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state exchangeResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
