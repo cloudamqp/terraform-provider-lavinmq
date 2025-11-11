@@ -15,15 +15,15 @@ type Services struct {
 
 func NewServices(client *Client) *Services {
 	return &Services{
-		Users:       (*UsersService)(&service{client: client}),
-		VhostLimits: (*VhostLimitsService)(&service{client: client}),
-		Vhosts:      (*VhostsService)(&service{client: client}),
-		Queues:      (*QueuesService)(&service{client: client}),
-		Policies:    (*PoliciesService)(&service{client: client}),
-		Exchanges:   (*ExchangesService)(&service{client: client}),
-		Permissions: (*PermissionsService)(&service{client: client}),
-		Parameters:  (*ParametersService)(&service{client: client}),
-		Bindings:    (*BindingsService)(&service{client: client}),
-		Messages:    (*MessagesService)(&service{client: client}),
+		Users:       &UsersService{service: service{client: client, name: "users"}},
+		VhostLimits: &VhostLimitsService{service: service{client: client, name: "vhostlimits"}},
+		Vhosts:      &VhostsService{service: service{client: client, name: "vhosts"}},
+		Queues:      &QueuesService{service: service{client: client, name: "queues"}},
+		Policies:    &PoliciesService{service: service{client: client, name: "policies"}},
+		Exchanges:   &ExchangesService{service: service{client: client, name: "exchanges"}},
+		Permissions: &PermissionsService{service: service{client: client, name: "permissions"}},
+		Parameters:  &ParametersService{service: service{client: client, name: "parameters"}},
+		Bindings:    &BindingsService{service: service{client: client, name: "bindings"}},
+		Messages:    &MessagesService{service: service{client: client, name: "messages"}},
 	}
 }

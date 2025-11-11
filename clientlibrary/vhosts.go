@@ -11,7 +11,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-type VhostsService service
+type VhostsService struct {
+	service
+}
 
 type VhostResponse struct {
 	Name                   string                    `json:"name"`
@@ -36,14 +38,14 @@ type VhostMessageStatsResponse struct {
 
 func (s *VhostsService) CreateOrUpdate(ctx context.Context, name string) error {
 	path := fmt.Sprintf("api/vhosts/%s", url.PathEscape(name))
-	tflog.Debug(ctx, fmt.Sprintf("service=vhosts method=CreateOrUpdate path=%s", path))
+	tflog.Debug(ctx, s.PathLog("CreateOrUpdate", path))
 	_, err := s.client.Request(ctx, http.MethodPut, path, nil)
 	return err
 }
 
 func (s *VhostsService) Get(ctx context.Context, name string) (VhostResponse, error) {
 	path := fmt.Sprintf("api/vhosts/%s", url.PathEscape(name))
-	tflog.Debug(ctx, fmt.Sprintf("service=vhosts method=Get path=%s", path))
+	tflog.Debug(ctx, s.PathLog("Get", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return VhostResponse{}, err
@@ -53,12 +55,12 @@ func (s *VhostsService) Get(ctx context.Context, name string) (VhostResponse, er
 	body, _ := io.ReadAll(resp.Body)
 	var result VhostResponse
 	err = json.Unmarshal(body, &result)
-	tflog.Debug(ctx, fmt.Sprintf("service=vhosts method=Get path=%s, result=%+v", path, result))
+	tflog.Debug(ctx, s.DataLog("Get", path, result))
 	return result, err
 }
 
 func (s *VhostsService) List(ctx context.Context) ([]VhostResponse, error) {
-	tflog.Debug(ctx, "service=vhosts method=List path=api/vhosts")
+	tflog.Debug(ctx, s.PathLog("List", "api/vhosts"))
 	resp, err := s.client.Request(ctx, http.MethodGet, "api/vhosts", nil)
 	if err != nil {
 		return []VhostResponse{}, err
@@ -79,7 +81,7 @@ func (s *VhostsService) List(ctx context.Context) ([]VhostResponse, error) {
 
 func (s *VhostsService) Delete(ctx context.Context, name string) error {
 	path := fmt.Sprintf("api/vhosts/%s", url.PathEscape(name))
-	tflog.Debug(ctx, fmt.Sprintf("service=vhosts method=Delete path=%s", path))
+	tflog.Debug(ctx, s.PathLog("Delete", path))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }

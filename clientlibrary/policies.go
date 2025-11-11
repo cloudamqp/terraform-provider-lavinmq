@@ -11,7 +11,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-type PoliciesService service
+type PoliciesService struct {
+	service
+}
 
 type PolicyRequest struct {
 	Pattern    string         `json:"pattern"`
@@ -31,14 +33,14 @@ type PolicyResponse struct {
 
 func (s *PoliciesService) CreateOrUpdate(ctx context.Context, vhost, name string, policy PolicyRequest) error {
 	path := fmt.Sprintf("api/policies/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
-	tflog.Debug(ctx, fmt.Sprintf("service=policies method=CreateOrUpdate path=%s", path))
+	tflog.Debug(ctx, s.PathLog("CreateOrUpdate", path))
 	_, err := s.client.Request(ctx, http.MethodPut, path, policy)
 	return err
 }
 
 func (s *PoliciesService) Get(ctx context.Context, vhost, name string) (*PolicyResponse, error) {
 	path := fmt.Sprintf("api/policies/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
-	tflog.Debug(ctx, fmt.Sprintf("service=policies method=Get path=%s", path))
+	tflog.Debug(ctx, s.PathLog("Get", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -51,7 +53,7 @@ func (s *PoliciesService) Get(ctx context.Context, vhost, name string) (*PolicyR
 	body, _ := io.ReadAll(resp.Body)
 	var result *PolicyResponse
 	err = json.Unmarshal(body, &result)
-	tflog.Debug(ctx, fmt.Sprintf("service=policies method=Get path=%s, result=%+v", path, result))
+	tflog.Debug(ctx, s.DataLog("Get", path, result))
 	return result, err
 }
 
@@ -60,7 +62,7 @@ func (s *PoliciesService) List(ctx context.Context, vhost string) ([]PolicyRespo
 	if vhost != "" {
 		path = fmt.Sprintf("api/policies/%s", url.PathEscape(vhost))
 	}
-	tflog.Debug(ctx, fmt.Sprintf("service=policies method=List path=%s", path))
+	tflog.Debug(ctx, s.PathLog("List", path))
 
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -82,7 +84,7 @@ func (s *PoliciesService) List(ctx context.Context, vhost string) ([]PolicyRespo
 
 func (s *PoliciesService) Delete(ctx context.Context, vhost, name string) error {
 	path := fmt.Sprintf("api/policies/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
-	tflog.Debug(ctx, fmt.Sprintf("service=policies method=Delete path=%s", path))
+	tflog.Debug(ctx, s.PathLog("Delete", path))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }
