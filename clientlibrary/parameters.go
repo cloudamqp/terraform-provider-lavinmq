@@ -50,13 +50,13 @@ type ParameterResponse struct {
 	Value     any    `json:"value"`
 }
 
-func (s *ParametersService) CreateOrUpdate(ctx context.Context, component string, vhost string, name string, request ParameterRequest) error {
+func (s *ParametersService) CreateOrUpdate(ctx context.Context, component, vhost, name string, request ParameterRequest) error {
 	path := fmt.Sprintf("api/parameters/%s/%s/%s", url.PathEscape(component), url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodPut, path, request)
 	return err
 }
 
-func (s *ParametersService) Get(ctx context.Context, component string, vhost string, name string) (*ParameterResponse, error) {
+func (s *ParametersService) Get(ctx context.Context, component, vhost, name string) (*ParameterResponse, error) {
 	path := fmt.Sprintf("api/parameters/%s/%s/%s", url.PathEscape(component), url.PathEscape(vhost), url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -73,12 +73,14 @@ func (s *ParametersService) Get(ctx context.Context, component string, vhost str
 	return result, err
 }
 
-func (s *ParametersService) List(ctx context.Context, component string, vhost string) ([]ParameterResponse, error) {
+func (s *ParametersService) List(ctx context.Context, component, vhost string) ([]ParameterResponse, error) {
 	path := "api/parameters"
 	if component != "" {
-		path = fmt.Sprintf("api/parameters/%s", url.PathEscape(component))
+		component = url.PathEscape(component)
+		path = fmt.Sprintf("api/parameters/%s", component)
 		if vhost != "" {
-			path = fmt.Sprintf("api/parameters/%s/%s", url.PathEscape(component), url.PathEscape(vhost))
+			vhost = url.PathEscape(vhost)
+			path = fmt.Sprintf("api/parameters/%s/%s", component, vhost)
 		}
 	}
 
@@ -100,7 +102,7 @@ func (s *ParametersService) List(ctx context.Context, component string, vhost st
 	return result, nil
 }
 
-func (s *ParametersService) Delete(ctx context.Context, component string, vhost string, name string) error {
+func (s *ParametersService) Delete(ctx context.Context, component, vhost, name string) error {
 	path := fmt.Sprintf("api/parameters/%s/%s/%s", url.PathEscape(component), url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err

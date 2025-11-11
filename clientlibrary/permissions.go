@@ -25,13 +25,13 @@ type PermissionResponse struct {
 	Write     string `json:"write"`
 }
 
-func (s *PermissionsService) CreateOrUpdate(ctx context.Context, vhost string, user string, permission PermissionRequest) error {
+func (s *PermissionsService) CreateOrUpdate(ctx context.Context, vhost, user string, permission PermissionRequest) error {
 	path := fmt.Sprintf("api/permissions/%s/%s", url.PathEscape(vhost), url.PathEscape(user))
 	_, err := s.client.Request(ctx, http.MethodPut, path, permission)
 	return err
 }
 
-func (s *PermissionsService) Get(ctx context.Context, vhost string, user string) (*PermissionResponse, error) {
+func (s *PermissionsService) Get(ctx context.Context, vhost, user string) (*PermissionResponse, error) {
 	path := fmt.Sprintf("api/permissions/%s/%s", url.PathEscape(vhost), url.PathEscape(user))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -79,7 +79,7 @@ func (s *PermissionsService) List(ctx context.Context, vhost, user string) ([]Pe
 	return result, nil
 }
 
-func (s *PermissionsService) Delete(ctx context.Context, vhost string, user string) error {
+func (s *PermissionsService) Delete(ctx context.Context, vhost, user string) error {
 	path := fmt.Sprintf("api/permissions/%s/%s", url.PathEscape(vhost), url.PathEscape(user))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
