@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 type MessagesService struct {
-	client *Client
+	service
 }
 
 type PublishRequest struct {
@@ -20,6 +22,7 @@ type PublishRequest struct {
 
 func (s *MessagesService) Publish(ctx context.Context, vhost, exchange string, publish PublishRequest) error {
 	path := fmt.Sprintf("api/exchanges/%s/%s/publish", url.PathEscape(vhost), url.PathEscape(exchange))
+	tflog.Debug(ctx, s.PathLog("Publish", path))
 	_, err := s.client.Request(ctx, http.MethodPost, path, publish)
 	return err
 }

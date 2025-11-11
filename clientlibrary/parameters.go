@@ -7,9 +7,13 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-type ParametersService service
+type ParametersService struct {
+	service
+}
 
 type ShovelValue struct {
 	SrcURI           string `json:"src-uri"`
@@ -52,12 +56,14 @@ type ParameterResponse struct {
 
 func (s *ParametersService) CreateOrUpdate(ctx context.Context, component, vhost, name string, request ParameterRequest) error {
 	path := fmt.Sprintf("api/parameters/%s/%s/%s", url.PathEscape(component), url.PathEscape(vhost), url.PathEscape(name))
+	tflog.Debug(ctx, s.PathLog("CreateOrUpdate", path))
 	_, err := s.client.Request(ctx, http.MethodPut, path, request)
 	return err
 }
 
 func (s *ParametersService) Get(ctx context.Context, component, vhost, name string) (*ParameterResponse, error) {
 	path := fmt.Sprintf("api/parameters/%s/%s/%s", url.PathEscape(component), url.PathEscape(vhost), url.PathEscape(name))
+	tflog.Debug(ctx, s.PathLog("Get", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -70,6 +76,7 @@ func (s *ParametersService) Get(ctx context.Context, component, vhost, name stri
 	body, _ := io.ReadAll(resp.Body)
 	var result *ParameterResponse
 	err = json.Unmarshal(body, &result)
+	tflog.Debug(ctx, s.DataLog("Get", path, result))
 	return result, err
 }
 
@@ -83,6 +90,7 @@ func (s *ParametersService) List(ctx context.Context, component, vhost string) (
 			path = fmt.Sprintf("api/parameters/%s/%s", component, vhost)
 		}
 	}
+	tflog.Debug(ctx, s.PathLog("List", path))
 
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -104,6 +112,7 @@ func (s *ParametersService) List(ctx context.Context, component, vhost string) (
 
 func (s *ParametersService) Delete(ctx context.Context, component, vhost, name string) error {
 	path := fmt.Sprintf("api/parameters/%s/%s/%s", url.PathEscape(component), url.PathEscape(vhost), url.PathEscape(name))
+	tflog.Debug(ctx, s.PathLog("Delete", path))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }
