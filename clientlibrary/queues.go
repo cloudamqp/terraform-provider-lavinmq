@@ -30,13 +30,13 @@ type QueueResponse struct {
 	Arguments  map[string]any `json:"arguments,omitempty"`
 }
 
-func (s *QueuesService) CreateOrUpdate(ctx context.Context, vhost string, name string, req QueueRequest) error {
+func (s *QueuesService) CreateOrUpdate(ctx context.Context, vhost, name string, req QueueRequest) error {
 	path := fmt.Sprintf("api/queues/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodPut, path, req)
 	return err
 }
 
-func (s *QueuesService) Get(ctx context.Context, vhost string, name string) (*QueueResponse, error) {
+func (s *QueuesService) Get(ctx context.Context, vhost, name string) (*QueueResponse, error) {
 	path := fmt.Sprintf("api/queues/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -79,7 +79,7 @@ func (s *QueuesService) List(ctx context.Context, vhost string) ([]QueueResponse
 	return result, nil
 }
 
-func (s *QueuesService) Delete(ctx context.Context, vhost string, name string) error {
+func (s *QueuesService) Delete(ctx context.Context, vhost, name string) error {
 	path := fmt.Sprintf("api/queues/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err

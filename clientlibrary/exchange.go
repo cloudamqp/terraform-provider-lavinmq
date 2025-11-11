@@ -34,13 +34,13 @@ type MessageStatsExchangeResponse struct {
 	Unroutable int64 `json:"unroutable"`
 }
 
-func (s *ExchangesService) CreateOrUpdate(ctx context.Context, vhost string, name string, req ExchangeRequest) error {
+func (s *ExchangesService) CreateOrUpdate(ctx context.Context, vhost, name string, req ExchangeRequest) error {
 	path := fmt.Sprintf("api/exchanges/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodPut, path, req)
 	return err
 }
 
-func (s *ExchangesService) Get(ctx context.Context, vhost string, name string) (*ExchangeResponse, error) {
+func (s *ExchangesService) Get(ctx context.Context, vhost, name string) (*ExchangeResponse, error) {
 	path := fmt.Sprintf("api/exchanges/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -80,7 +80,7 @@ func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeRe
 	return result, nil
 }
 
-func (s *ExchangesService) Delete(ctx context.Context, vhost string, name string) error {
+func (s *ExchangesService) Delete(ctx context.Context, vhost, name string) error {
 	path := fmt.Sprintf("api/exchanges/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err

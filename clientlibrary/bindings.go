@@ -26,7 +26,7 @@ type BindingResponse struct {
 	PropertiesKey   string         `json:"properties_key"`
 }
 
-func (s *BindingsService) Create(ctx context.Context, vhost string, source string, destination string, destinationType string, req BindingRequest) error {
+func (s *BindingsService) Create(ctx context.Context, vhost, source, destination, destinationType string, req BindingRequest) error {
 	var path string
 	if destinationType == "queue" {
 		path = fmt.Sprintf("api/bindings/%s/e/%s/q/%s", url.PathEscape(vhost), url.PathEscape(source), url.PathEscape(destination))
@@ -37,7 +37,7 @@ func (s *BindingsService) Create(ctx context.Context, vhost string, source strin
 	return err
 }
 
-func (s *BindingsService) Get(ctx context.Context, vhost string, source string, destination string, destinationType string, propertiesKey string) (*BindingResponse, error) {
+func (s *BindingsService) Get(ctx context.Context, vhost, source, destination, destinationType, propertiesKey string) (*BindingResponse, error) {
 	var path string
 	if destinationType == "queue" {
 		path = fmt.Sprintf("api/bindings/%s/e/%s/q/%s/%s", url.PathEscape(vhost), url.PathEscape(source), url.PathEscape(destination), url.PathEscape(propertiesKey))
@@ -82,7 +82,7 @@ func (s *BindingsService) List(ctx context.Context, vhost string) ([]BindingResp
 	return result, nil
 }
 
-func (s *BindingsService) Delete(ctx context.Context, vhost string, source string, destination string, destinationType string, propertiesKey string) error {
+func (s *BindingsService) Delete(ctx context.Context, vhost, source, destination, destinationType, propertiesKey string) error {
 	var path string
 	if destinationType == "queue" {
 		path = fmt.Sprintf("api/bindings/%s/e/%s/q/%s/%s", url.PathEscape(vhost), url.PathEscape(source), url.PathEscape(destination), url.PathEscape(propertiesKey))

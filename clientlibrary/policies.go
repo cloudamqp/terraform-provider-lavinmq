@@ -27,13 +27,13 @@ type PolicyResponse struct {
 	ApplyTo    string         `json:"apply-to"`
 }
 
-func (s *PoliciesService) CreateOrUpdate(ctx context.Context, vhost string, name string, policy PolicyRequest) error {
+func (s *PoliciesService) CreateOrUpdate(ctx context.Context, vhost, name string, policy PolicyRequest) error {
 	path := fmt.Sprintf("api/policies/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodPut, path, policy)
 	return err
 }
 
-func (s *PoliciesService) Get(ctx context.Context, vhost string, name string) (*PolicyResponse, error) {
+func (s *PoliciesService) Get(ctx context.Context, vhost, name string) (*PolicyResponse, error) {
 	path := fmt.Sprintf("api/policies/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -74,7 +74,7 @@ func (s *PoliciesService) List(ctx context.Context, vhost string) ([]PolicyRespo
 	return result, nil
 }
 
-func (s *PoliciesService) Delete(ctx context.Context, vhost string, name string) error {
+func (s *PoliciesService) Delete(ctx context.Context, vhost, name string) error {
 	path := fmt.Sprintf("api/policies/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
