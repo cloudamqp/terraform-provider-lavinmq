@@ -7,6 +7,8 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 type ExchangesService service
@@ -36,12 +38,14 @@ type MessageStatsExchangeResponse struct {
 
 func (s *ExchangesService) CreateOrUpdate(ctx context.Context, vhost, name string, req ExchangeRequest) error {
 	path := fmt.Sprintf("api/exchanges/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
+	tflog.Debug(ctx, fmt.Sprintf("service=exchanges method=CreateOrUpdate path=%s", path))
 	_, err := s.client.Request(ctx, http.MethodPut, path, req)
 	return err
 }
 
 func (s *ExchangesService) Get(ctx context.Context, vhost, name string) (*ExchangeResponse, error) {
 	path := fmt.Sprintf("api/exchanges/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
+	tflog.Debug(ctx, fmt.Sprintf("service=exchanges method=Get path=%s", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -54,6 +58,7 @@ func (s *ExchangesService) Get(ctx context.Context, vhost, name string) (*Exchan
 	body, _ := io.ReadAll(resp.Body)
 	var result *ExchangeResponse
 	err = json.Unmarshal(body, &result)
+	tflog.Debug(ctx, fmt.Sprintf("service=exchanges method=Get path=%s, result=%+v", path, result))
 	return result, err
 }
 
@@ -62,6 +67,7 @@ func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeRe
 	if vhost != "" {
 		path = fmt.Sprintf("api/exchanges/%s", url.PathEscape(vhost))
 	}
+	tflog.Debug(ctx, fmt.Sprintf("service=exchanges method=List path=%s", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return []ExchangeResponse{}, err
@@ -82,6 +88,7 @@ func (s *ExchangesService) List(ctx context.Context, vhost string) ([]ExchangeRe
 
 func (s *ExchangesService) Delete(ctx context.Context, vhost, name string) error {
 	path := fmt.Sprintf("api/exchanges/%s/%s", url.PathEscape(vhost), url.PathEscape(name))
+	tflog.Debug(ctx, fmt.Sprintf("service=exchanges method=Delete path=%s", path))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }

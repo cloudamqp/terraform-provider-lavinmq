@@ -7,6 +7,8 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 type BindingsService service
@@ -37,6 +39,7 @@ func (s *BindingsService) Create(ctx context.Context, vhost, source, destination
 	} else {
 		path = fmt.Sprintf("api/bindings/%s/e/%s/e/%s", vhost, source, destination)
 	}
+	tflog.Debug(ctx, fmt.Sprintf("service=bindings method=Create path=%s", path))
 	_, err := s.client.Request(ctx, http.MethodPost, path, req)
 	return err
 }
@@ -53,6 +56,7 @@ func (s *BindingsService) Get(ctx context.Context, vhost, source, destination, d
 	} else {
 		path = fmt.Sprintf("api/bindings/%s/e/%s/e/%s/%s", vhost, source, destination, propertiesKey)
 	}
+	tflog.Debug(ctx, fmt.Sprintf("service=bindings method=Get path=%s", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -65,6 +69,7 @@ func (s *BindingsService) Get(ctx context.Context, vhost, source, destination, d
 	body, _ := io.ReadAll(resp.Body)
 	var result *BindingResponse
 	err = json.Unmarshal(body, &result)
+	tflog.Debug(ctx, fmt.Sprintf("service=bindings method=Get path=%s, result=%+v", path, result))
 	return result, err
 }
 
@@ -73,6 +78,7 @@ func (s *BindingsService) List(ctx context.Context, vhost string) ([]BindingResp
 	if vhost != "" {
 		path = fmt.Sprintf("api/bindings/%s", url.PathEscape(vhost))
 	}
+	tflog.Debug(ctx, fmt.Sprintf("service=bindings method=List path=%s", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return []BindingResponse{}, err
@@ -103,6 +109,7 @@ func (s *BindingsService) Delete(ctx context.Context, vhost, source, destination
 	} else {
 		path = fmt.Sprintf("api/bindings/%s/e/%s/e/%s/%s", vhost, source, destination, propertiesKey)
 	}
+	tflog.Debug(ctx, fmt.Sprintf("service=bindings method=Delete path=%s", path))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }
