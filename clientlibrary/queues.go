@@ -86,11 +86,14 @@ func (s *QueuesService) Delete(ctx context.Context, vhost, name string) error {
 }
 
 func (s *QueuesService) Pause(ctx context.Context, vhost, name string, pause bool) error {
+	vhost = url.PathEscape(vhost)
+	name = url.PathEscape(name)
+
 	var path string
 	if pause {
-		path = fmt.Sprintf("api/queues/%s/%s/pause", url.PathEscape(vhost), url.PathEscape(name))
+		path = fmt.Sprintf("api/queues/%s/%s/pause", vhost, name)
 	} else {
-		path = fmt.Sprintf("api/queues/%s/%s/resume", url.PathEscape(vhost), url.PathEscape(name))
+		path = fmt.Sprintf("api/queues/%s/%s/resume", vhost, name)
 	}
 	_, err := s.client.Request(ctx, http.MethodPut, path, nil)
 	return err

@@ -76,9 +76,11 @@ func (s *ParametersService) Get(ctx context.Context, component, vhost, name stri
 func (s *ParametersService) List(ctx context.Context, component, vhost string) ([]ParameterResponse, error) {
 	path := "api/parameters"
 	if component != "" {
-		path = fmt.Sprintf("api/parameters/%s", url.PathEscape(component))
+		component = url.PathEscape(component)
+		path = fmt.Sprintf("api/parameters/%s", component)
 		if vhost != "" {
-			path = fmt.Sprintf("api/parameters/%s/%s", url.PathEscape(component), url.PathEscape(vhost))
+			vhost = url.PathEscape(vhost)
+			path = fmt.Sprintf("api/parameters/%s/%s", component, vhost)
 		}
 	}
 
