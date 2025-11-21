@@ -21,6 +21,15 @@ type Client struct {
 
 type service struct {
 	client *Client
+	name   string
+}
+
+func (s *service) PathLog(method, path string) string {
+	return fmt.Sprintf("service=%s method=%s path=%s", s.name, method, path)
+}
+
+func (s *service) DataLog(method, path string, data any) string {
+	return fmt.Sprintf("service=%s method=%s path=%s data=%+v", s.name, method, path, data)
 }
 
 type ErrorResponse struct {
