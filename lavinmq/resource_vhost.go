@@ -140,6 +140,10 @@ func (r *vhostResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		resp.Diagnostics.AddError("Failed to read vhost data", err.Error())
 		return
 	}
+	if vhost == nil {
+		resp.State.RemoveResource(ctx)
+		return
+	}
 
 	state.Name = types.StringValue(vhost.Name)
 

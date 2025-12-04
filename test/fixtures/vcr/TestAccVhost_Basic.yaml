@@ -43,7 +43,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 24.246609ms
+        duration: 10.608739ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -75,7 +75,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
+        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
         headers:
             Connection:
                 - keep-alive
@@ -85,7 +85,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 743.556µs
+        duration: 341.885µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -127,7 +127,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 349.19µs
+        duration: 178.767µs
     - id: 3
       request:
         proto: HTTP/1.1
@@ -159,7 +159,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
+        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
         headers:
             Connection:
                 - keep-alive
@@ -169,7 +169,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 536.03µs
+        duration: 210.474µs
     - id: 4
       request:
         proto: HTTP/1.1
@@ -211,92 +211,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 438.463µs
+        duration: 100.902µs
     - id: 5
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/vhosts/vcr_test
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 713.296µs
-    - id: 6
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/vhost-limits/vcr_test
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '[]'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 680.105µs
-    - id: 7
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -339,8 +255,8 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 940.843µs
-    - id: 8
+        duration: 376.13µs
+    - id: 6
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -383,7 +299,91 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 1.018276ms
+        duration: 239.615µs
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/vhosts/vcr_test
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 280.193µs
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/vhost-limits/vcr_test
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"vhost":"vcr_test","value":{"max-connections":100,"max-queues":30}}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 124.893µs
     - id: 9
       request:
         proto: HTTP/1.1
@@ -415,7 +415,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
+        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
         headers:
             Connection:
                 - keep-alive
@@ -425,7 +425,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 573.74µs
+        duration: 289.409µs
     - id: 10
       request:
         proto: HTTP/1.1
@@ -467,92 +467,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 408.451µs
+        duration: 242.084µs
     - id: 11
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/vhosts/vcr_test
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 950.848µs
-    - id: 12
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/vhost-limits/vcr_test
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '[{"vhost":"vcr_test","value":{"max-connections":100,"max-queues":30}}]'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 740.449µs
-    - id: 13
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -595,8 +511,8 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 1.291236ms
-    - id: 14
+        duration: 411.164µs
+    - id: 12
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -636,7 +552,91 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 545.105µs
+        duration: 119.081µs
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/vhosts/vcr_test
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 291.73µs
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: localhost:15672
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - REDACTED
+            User-Agent:
+                - terraform-provider-lavinmq_vcr-test
+        url: http://localhost:15672/api/vhost-limits/vcr_test
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        trailer: {}
+        content_length: -1
+        uncompressed: false
+        body: '[{"vhost":"vcr_test","value":{"max-connections":100}}]'
+        headers:
+            Connection:
+                - keep-alive
+            Content-Type:
+                - application/json
+            Strict-Transport-Security:
+                - max-age=31536000
+        status: 200 OK
+        code: 200
+        duration: 147.613µs
     - id: 15
       request:
         proto: HTTP/1.1
@@ -668,7 +668,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
+        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
         headers:
             Connection:
                 - keep-alive
@@ -678,7 +678,7 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 662.979µs
+        duration: 279.419µs
     - id: 16
       request:
         proto: HTTP/1.1
@@ -720,92 +720,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 535.533µs
+        duration: 346.024µs
     - id: 17
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/vhosts/vcr_test
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 827.046µs
-    - id: 18
-      request:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        content_length: 0
-        transfer_encoding: []
-        trailer: {}
-        host: localhost:15672
-        remote_addr: ""
-        request_uri: ""
-        body: ""
-        form: {}
-        headers:
-            Accept:
-                - application/json
-            Authorization:
-                - REDACTED
-            User-Agent:
-                - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/vhost-limits/vcr_test
-        method: GET
-      response:
-        proto: HTTP/1.1
-        proto_major: 1
-        proto_minor: 1
-        transfer_encoding:
-            - chunked
-        trailer: {}
-        content_length: -1
-        uncompressed: false
-        body: '[{"vhost":"vcr_test","value":{"max-connections":100}}]'
-        headers:
-            Connection:
-                - keep-alive
-            Content-Type:
-                - application/json
-            Strict-Transport-Security:
-                - max-age=31536000
-        status: 200 OK
-        code: 200
-        duration: 451.184µs
-    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -845,8 +761,8 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 666.55µs
-    - id: 20
+        duration: 249.886µs
+    - id: 18
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -889,8 +805,8 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 689.534µs
-    - id: 21
+        duration: 237.071µs
+    - id: 19
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -921,7 +837,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
+        body: '{"name":"vcr_test","dir":"51d9ed045c3dd6286cc5136b1e5f6ca8434d40a6","tracing":false,"tags":[],"description":"","cluster_state":{},"messages":0,"messages_unacknowledged":0,"messages_ready":0,"message_stats":{"ack":0,"confirm":0,"deliver":0,"deliver_no_ack":0,"get":0,"get_no_ack":0,"deliver_get":0,"publish":0,"redeliver":0,"return_unroutable":0}}'
         headers:
             Connection:
                 - keep-alive
@@ -931,8 +847,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 638.97µs
-    - id: 22
+        duration: 241.322µs
+    - id: 20
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -973,8 +889,8 @@ interactions:
                 - max-age=31536000
         status: 200 OK
         code: 200
-        duration: 397.963µs
-    - id: 23
+        duration: 97.862µs
+    - id: 21
       request:
         proto: HTTP/1.1
         proto_major: 1
@@ -1014,4 +930,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 10.441781ms
+        duration: 7.495102ms

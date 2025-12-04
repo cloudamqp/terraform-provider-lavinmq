@@ -6,6 +6,36 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+func TestAccVhost_Import(t *testing.T) {
+	t.Parallel()
+	vhostResourceName := "lavinmq_vhost.vcr_test_import"
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_vhost" "vcr_test_import" {
+            name = "vcr_test_import"
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(vhostResourceName, "name", "vcr_test_import"),
+					resource.TestCheckNoResourceAttr(vhostResourceName, "max_connections"),
+					resource.TestCheckNoResourceAttr(vhostResourceName, "max_queues"),
+				),
+			},
+			{
+				ResourceName:                         vhostResourceName,
+				ImportStateVerifyIdentifierAttribute: "name",
+				ImportStateId:                        "vcr_test_import",
+				ImportState:                          true,
+				ImportStateVerify:                    true,
+			},
+		},
+	})
+}
+
 func TestAccVhost_Basic(t *testing.T) {
 	t.Parallel()
 	vhostResourceName := "lavinmq_vhost.vcr_test"
@@ -24,13 +54,6 @@ func TestAccVhost_Basic(t *testing.T) {
 					resource.TestCheckNoResourceAttr(vhostResourceName, "max_connections"),
 					resource.TestCheckNoResourceAttr(vhostResourceName, "max_queues"),
 				),
-			},
-			{
-				ResourceName:                         vhostResourceName,
-				ImportStateVerifyIdentifierAttribute: "name",
-				ImportStateId:                        "vcr_test",
-				ImportState:                          true,
-				ImportStateVerify:                    true,
 			},
 			{
 				Config: `
