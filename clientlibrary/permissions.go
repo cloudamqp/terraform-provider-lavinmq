@@ -7,9 +7,13 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-type PermissionsService service
+type PermissionsService struct {
+	service
+}
 
 type PermissionRequest struct {
 	Configure string `json:"configure"`
@@ -27,12 +31,14 @@ type PermissionResponse struct {
 
 func (s *PermissionsService) CreateOrUpdate(ctx context.Context, vhost, user string, permission PermissionRequest) error {
 	path := fmt.Sprintf("api/permissions/%s/%s", url.PathEscape(vhost), url.PathEscape(user))
+	tflog.Debug(ctx, s.PathLog("CreateOrUpdate", path))
 	_, err := s.client.Request(ctx, http.MethodPut, path, permission)
 	return err
 }
 
 func (s *PermissionsService) Get(ctx context.Context, vhost, user string) (*PermissionResponse, error) {
 	path := fmt.Sprintf("api/permissions/%s/%s", url.PathEscape(vhost), url.PathEscape(user))
+	tflog.Debug(ctx, s.PathLog("Get", path))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -45,6 +51,7 @@ func (s *PermissionsService) Get(ctx context.Context, vhost, user string) (*Perm
 	body, _ := io.ReadAll(resp.Body)
 	var result *PermissionResponse
 	err = json.Unmarshal(body, &result)
+	tflog.Debug(ctx, s.DataLog("Get", path, result))
 	return result, err
 }
 
@@ -60,6 +67,7 @@ func (s *PermissionsService) List(ctx context.Context, vhost, user string) ([]Pe
 	default:
 		path = "api/permissions"
 	}
+	tflog.Debug(ctx, s.PathLog("List", path))
 
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -81,6 +89,7 @@ func (s *PermissionsService) List(ctx context.Context, vhost, user string) ([]Pe
 
 func (s *PermissionsService) Delete(ctx context.Context, vhost, user string) error {
 	path := fmt.Sprintf("api/permissions/%s/%s", url.PathEscape(vhost), url.PathEscape(user))
+	tflog.Debug(ctx, s.PathLog("Delete", path))
 	_, err := s.client.Request(ctx, http.MethodDelete, path, nil)
 	return err
 }
