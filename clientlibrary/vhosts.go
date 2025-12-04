@@ -38,16 +38,19 @@ func (s *VhostsService) CreateOrUpdate(ctx context.Context, name string) error {
 	return err
 }
 
-func (s *VhostsService) Get(ctx context.Context, name string) (VhostResponse, error) {
+func (s *VhostsService) Get(ctx context.Context, name string) (*VhostResponse, error) {
 	path := fmt.Sprintf("api/vhosts/%s", url.PathEscape(name))
 	resp, err := s.client.Request(ctx, http.MethodGet, path, nil)
 	if err != nil {
-		return VhostResponse{}, err
+		return nil, err
+	}
+	if resp == nil {
+		return nil, nil
 	}
 
 	defer resp.Body.Close()
 	body, _ := io.ReadAll(resp.Body)
-	var result VhostResponse
+	var result *VhostResponse
 	err = json.Unmarshal(body, &result)
 	return result, err
 }
