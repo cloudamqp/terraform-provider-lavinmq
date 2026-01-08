@@ -8,7 +8,6 @@ import (
 
 	"github.com/cloudamqp/terraform-provider-lavinmq/clientlibrary"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -76,70 +75,28 @@ func (p *lavinmqProvider) Configure(ctx context.Context, req provider.ConfigureR
 		return
 	}
 
-	if config.BaseURL.IsNull() {
+	if config.BaseURL.IsNull() || config.BaseURL.IsUnknown() {
 		baseURL := os.Getenv("LAVINMQ_API_BASEURL")
 		if baseURL == "" {
-			resp.Diagnostics.AddAttributeError(
-				path.Root("baseurl"),
-				"Missing LavinMQ API BaseURL",
-				"The provider cannot configure the lavinmq API client as there is a missing configuration "+
-					"value for the LavinMQ BaseURL.",
-			)
-		} else {
-			config.BaseURL = types.StringValue(baseURL)
+			baseURL = "http://localhost:15672/"
 		}
-	}
-	if config.BaseURL.IsUnknown() {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("baseurl"),
-			"Unknown LavinMQ API BaseURL",
-			"The provider cannot configure the lavinmq API client as there is an unknown configuration "+
-				"value for the lavinmq BaseURL.",
-		)
+		config.BaseURL = types.StringValue(baseURL)
 	}
 
-	if config.Username.IsNull() {
+	if config.Username.IsNull() || config.Username.IsUnknown() {
 		username := os.Getenv("LAVINMQ_API_USERNAME")
 		if username == "" {
-			resp.Diagnostics.AddAttributeError(
-				path.Root("username"),
-				"Missing LavinMQ API username",
-				"The provider cannot configure the lavinmq API client as there is a missing configuration "+
-					"value for the LavinMQ username.",
-			)
-		} else {
-			config.Username = types.StringValue(username)
+			username = "guest"
 		}
-	}
-	if config.Username.IsUnknown() {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("username"),
-			"Unknown LavinMQ API username",
-			"The provider cannot create the lavinmq API client as there is an unknown configuration "+
-				"value for the lavinmq username.",
-		)
+		config.Username = types.StringValue(username)
 	}
 
-	if config.Password.IsNull() {
+	if config.Password.IsNull() || config.Password.IsUnknown() {
 		password := os.Getenv("LAVINMQ_API_PASSWORD")
 		if password == "" {
-			resp.Diagnostics.AddAttributeError(
-				path.Root("password"),
-				"Missing LavinMQ API password",
-				"The provider cannot configure the lavinmq API client as there is a missing configuration "+
-					"value for the LavinMQ password.",
-			)
-		} else {
-			config.Password = types.StringValue(password)
+			password = "guest"
 		}
-	}
-	if config.Password.IsUnknown() {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("password"),
-			"Unknown LavinMQ API password",
-			"The provider cannot create the lavinmq API client as there is an unknown configuration "+
-				"value for the lavinmq password.",
-		)
+		config.Password = types.StringValue(password)
 	}
 
 	if resp.Diagnostics.HasError() {
