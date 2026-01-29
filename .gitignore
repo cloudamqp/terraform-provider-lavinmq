@@ -12,3 +12,5 @@ makefile
 dist/
 .env
 tmp
+coverage.out
+coverage.html
