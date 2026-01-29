@@ -24,10 +24,15 @@ lint:
 test:
 	TF_ACC=1 go test ./lavinmq -v -count 1
 
+coverage:
+	TF_ACC=1 go test ./lavinmq -v -coverprofile=coverage.out
+	go tool cover -func=coverage.out
+	go tool cover -html=coverage.out -o coverage.html
+
 clean:
-	rm -f terraform-provider-lavinmq
+	rm -f terraform-provider-lavinmq coverage.out coverage.html
 
 docs: clean build
 	go generate ./...
 
-.PHONY: clean install fmt fmtcheck lint tools test docs
+.PHONY: clean install fmt fmtcheck lint tools test coverage docs
