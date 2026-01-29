@@ -64,3 +64,27 @@ func TestAccDataSourceShovels_Basic(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourceShovels_Empty(t *testing.T) {
+	t.Parallel()
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+					resource "lavinmq_vhost" "test" {
+						name = "terraform-lavinmq-shovels-empty-test"
+					}
+
+					data "lavinmq_shovels" "empty" {
+						vhost = lavinmq_vhost.test.name
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_shovels.empty", "vhost", "terraform-lavinmq-shovels-empty-test"),
+					resource.TestCheckResourceAttr("data.lavinmq_shovels.empty", "shovels.#", "0"),
+				),
+			},
+		},
+	})
+}

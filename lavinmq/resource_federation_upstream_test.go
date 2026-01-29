@@ -409,3 +409,36 @@ func TestAccFederationUpstream_WithTTL(t *testing.T) {
 		},
 	})
 }
+
+func TestAccFederationUpstream_WithConsumerTag(t *testing.T) {
+	t.Parallel()
+	resourceName := "lavinmq_federation_upstream.test_consumer_tag"
+
+	// Set sanitized value for playback and use real value for recording
+	testUpstreamURI := "TEST_AMQP_URI"
+	if os.Getenv("LAVINMQ_RECORD") != "" {
+		testUpstreamURI = os.Getenv("TEST_AMQP_URI")
+	}
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: fmt.Sprintf(`
+					resource "lavinmq_federation_upstream" "test_consumer_tag" {
+							name         = "vcr_test_federation_consumer_tag"
+							vhost        = "/"
+							uri          = "%[1]s"
+							queue        = "federated-queue"
+							consumer_tag = "my-custom-consumer-tag"
+					}`, testUpstreamURI),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "name", "vcr_test_federation_consumer_tag"),
+					resource.TestCheckResourceAttr(resourceName, "queue", "federated-queue"),
+					resource.TestCheckResourceAttr(resourceName, "consumer_tag", "my-custom-consumer-tag"),
+				),
+			},
+		},
+	})
+}

@@ -51,3 +51,23 @@ func TestAccDataSourceBindings_Basic(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourceBindings_NonExistingVhost(t *testing.T) {
+	t.Parallel()
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          data "lavinmq_bindings" "empty" {
+            vhost = "terraform-lavinmq-non-existing-bindings-test"
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_bindings.empty", "vhost", "terraform-lavinmq-non-existing-bindings-test"),
+					resource.TestCheckResourceAttr("data.lavinmq_bindings.empty", "bindings.#", "0"),
+				),
+			},
+		},
+	})
+}
