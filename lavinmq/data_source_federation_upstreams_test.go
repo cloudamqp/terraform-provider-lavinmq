@@ -13,7 +13,7 @@ func TestAccDataSourceFederationUpstreams_Basic(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testUpstreamURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testUpstreamURI = os.Getenv("TEST_AMQP_URI")
 	}
 

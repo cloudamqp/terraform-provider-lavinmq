@@ -39,7 +39,7 @@ func testAccPreCheck(t *testing.T) {
 }
 
 func TestMain(m *testing.M) {
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		mode = recorder.ModeRecordOnly
 	}
 	if os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
