@@ -334,3 +334,83 @@ func TestAccBinding_ExchangeToExchange(t *testing.T) {
 		},
 	})
 }
+
+func TestAccBinding_ArgumentsChange(t *testing.T) {
+	t.Parallel()
+	bindingResourceName := "lavinmq_binding.test_binding"
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_exchange" "test_exchange" {
+            name        = "vcr_test_headers_exchange_change"
+            vhost       = "/"
+            type        = "headers"
+            durable     = true
+            auto_delete = false
+          }
+
+          resource "lavinmq_queue" "test_queue" {
+            name        = "vcr_test_queue_headers_change"
+            vhost       = "/"
+            durable     = true
+            auto_delete = false
+          }
+
+          resource "lavinmq_binding" "test_binding" {
+            vhost            = "/"
+            source           = lavinmq_exchange.test_exchange.name
+            destination      = lavinmq_queue.test_queue.name
+            destination_type = "queue"
+            routing_key      = ""
+            arguments = {
+              x-match  = "all"
+              priority = "high"
+            }
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(bindingResourceName, "arguments.x-match", "all"),
+					resource.TestCheckResourceAttr(bindingResourceName, "arguments.priority", "high"),
+				),
+			},
+			{
+				Config: `
+          resource "lavinmq_exchange" "test_exchange" {
+            name        = "vcr_test_headers_exchange_change"
+            vhost       = "/"
+            type        = "headers"
+            durable     = true
+            auto_delete = false
+          }
+
+          resource "lavinmq_queue" "test_queue" {
+            name        = "vcr_test_queue_headers_change"
+            vhost       = "/"
+            durable     = true
+            auto_delete = false
+          }
+
+          resource "lavinmq_binding" "test_binding" {
+            vhost            = "/"
+            source           = lavinmq_exchange.test_exchange.name
+            destination      = lavinmq_queue.test_queue.name
+            destination_type = "queue"
+            routing_key      = ""
+            arguments = {
+              x-match  = "any"
+              priority = "low"
+              type     = "alert"
+            }
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(bindingResourceName, "arguments.x-match", "any"),
+					resource.TestCheckResourceAttr(bindingResourceName, "arguments.priority", "low"),
+					resource.TestCheckResourceAttr(bindingResourceName, "arguments.type", "alert"),
+				),
+			},
+		},
+	})
+}

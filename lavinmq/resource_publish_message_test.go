@@ -114,3 +114,51 @@ func TestAccPublishMessage_Publish(t *testing.T) {
 		},
 	})
 }
+
+func TestAccPublishMessage_WithNumericProperties(t *testing.T) {
+	t.Parallel()
+	queueDataSourceName := "data.lavinmq_queues.all_queues"
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+					resource "lavinmq_queue" "publish_queue_numeric" {
+						name        = "test-publish-message-queue-numeric"
+						vhost       = "/"
+						durable     = true
+						auto_delete = false
+					}
+
+					resource "lavinmq_publish_message" "numeric_props" {
+						vhost       = "/"
+						exchange    = "amq.default"
+						routing_key = lavinmq_queue.publish_queue_numeric.name
+						payload     = "{\"message\": \"VCR test with numeric properties\"}"
+						properties = {
+							content_type  = "application/json"
+							delivery_mode = 2
+							priority      = 5
+						}
+					}
+
+					data "lavinmq_queues" "all_queues" {
+						vhost = "/"
+
+						depends_on = [
+							lavinmq_publish_message.numeric_props
+						]
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(queueDataSourceName, "vhost", "/"),
+					resource.TestCheckTypeSetElemNestedAttrs(queueDataSourceName, "queues.*", map[string]string{
+						"name":  "test-publish-message-queue-numeric",
+						"ready": "1",
+					}),
+				),
+			},
+		},
+	})
+}

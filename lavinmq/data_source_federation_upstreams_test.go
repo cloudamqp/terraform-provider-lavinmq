@@ -58,3 +58,27 @@ func TestAccDataSourceFederationUpstreams_Basic(t *testing.T) {
 		},
 	})
 }
+
+func TestAccDataSourceFederationUpstreams_Empty(t *testing.T) {
+	t.Parallel()
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+					resource "lavinmq_vhost" "test" {
+						name = "terraform-lavinmq-federation-empty-test"
+					}
+
+					data "lavinmq_federation_upstreams" "empty" {
+						vhost = lavinmq_vhost.test.name
+					}`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr("data.lavinmq_federation_upstreams.empty", "vhost", "terraform-lavinmq-federation-empty-test"),
+					resource.TestCheckResourceAttr("data.lavinmq_federation_upstreams.empty", "federation_upstreams.#", "0"),
+				),
+			},
+		},
+	})
+}

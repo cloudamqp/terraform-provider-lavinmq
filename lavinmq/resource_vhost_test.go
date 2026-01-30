@@ -36,6 +36,31 @@ func TestAccVhost_Import(t *testing.T) {
 	})
 }
 
+func TestAccVhost_CreateWithLimits(t *testing.T) {
+	t.Parallel()
+	vhostResourceName := "lavinmq_vhost.vcr_test_with_limits"
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_vhost" "vcr_test_with_limits" {
+            name            = "vcr_test_with_limits"
+            max_connections = 50
+            max_queues      = 10
+          }`,
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(vhostResourceName, "name", "vcr_test_with_limits"),
+					resource.TestCheckResourceAttr(vhostResourceName, "max_connections", "50"),
+					resource.TestCheckResourceAttr(vhostResourceName, "max_queues", "10"),
+				),
+			},
+		},
+	})
+}
+
 func TestAccVhost_Basic(t *testing.T) {
 	t.Parallel()
 	vhostResourceName := "lavinmq_vhost.vcr_test"
