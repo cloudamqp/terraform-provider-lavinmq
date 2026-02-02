@@ -76,6 +76,7 @@ make docs
 ```
 
 This will:
+
 - Format example configurations
 - Generate resource and data source documentation from schemas
 - Update all files in the `docs/` directory
@@ -132,6 +133,14 @@ or with
 
 ```sh
 make test
+```
+
+**Passthrough tests:**
+
+Use pass through to make real requests against a running LavinMQ broker.
+
+```sh
+LAVINMQ_PASSTHROUGH=1 TF_ACC=1 dotenv go test ./lavinmq -v 
 ```
 
 [Go-VCR]: https://github.com/dnaeon/go-vcr
