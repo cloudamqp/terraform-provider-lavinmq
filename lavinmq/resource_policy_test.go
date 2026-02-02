@@ -166,3 +166,25 @@ func TestAccPolicy_InvalidApplyTo(t *testing.T) {
 		},
 	})
 }
+
+func TestAccPolicy_MissingVhost(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_policy" "test_policy" {
+            name     = "vcr_test_policy_missing_vhost"
+            vhost    = "nonexistent_vhost"
+            pattern  = "^vcr_test"
+            definition = {
+            }
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+			},
+		},
+	})
+}
