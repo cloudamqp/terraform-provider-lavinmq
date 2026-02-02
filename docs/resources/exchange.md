@@ -59,10 +59,6 @@ resource "lavinmq_exchange" "topic_example" {
 - `auto_delete` (Boolean) Whether the exchange is automatically deleted when no longer used.
 - `durable` (Boolean) Whether the exchange should survive a broker restart.
 
-### Read-Only
-
-- `id` (String) The ID of this resource.
-
 
 
 ## Import
