@@ -16,3 +16,28 @@
 ## Coding style
 
 * Use `any` instead of `interface{}`
+
+## Changelog
+
+* Section Headers (in order):
+  * NOTES
+  * FEATURES
+  * IMPROVEMENTS
+  * BUG FIXES
+  * DEPENDENCIES
+  * DEPRECATED
+  * BREAKING CHANGES
+
+* Sub headers to above headers except notes (in order):
+  * **Resources:**
+  * **Data Sources:**
+  * **Client Library:**
+  * **Testing:**
+  * **Documentation:**
+
+* Formatting Rules:
+  * Past tense verbs: "Added", "Fixed", "Updated", "Removed", "Deprecated", "Bumped"
+  * PR references: Always include ([#X]) at the end of each entry
+  * PR links: Add reference links at the bottom of each release section
+  * Consistent structure: Bullet points for all entries
+  * Clear descriptions: Brief but informative
