@@ -36,10 +36,10 @@ func TestAccExchange_Basic(t *testing.T) {
 			{
 				ResourceName:                         exchangeResourceName,
 				ImportStateIdFunc:                    testAccExchangeImportStateIdFunc,
+				ImportStateVerifyIdentifierAttribute: "name",
+				ImportStateId:                        "/@vcr_test_exchange",
 				ImportState:                          true,
 				ImportStateVerify:                    true,
-				ImportStateVerifyIdentifierAttribute: "name",
-				ImportStateVerifyIgnore:              []string{"id"},
 			},
 		},
 	})
@@ -83,7 +83,7 @@ func testAccExchangeImportStateIdFunc(s *terraform.State) (string, error) {
 		if rs.Type != "lavinmq_exchange" {
 			continue
 		}
-		return fmt.Sprintf("%s,%s", rs.Primary.Attributes["vhost"], rs.Primary.Attributes["name"]), nil
+		return fmt.Sprintf("%s@%s", rs.Primary.Attributes["vhost"], rs.Primary.Attributes["name"]), nil
 	}
 	return "", fmt.Errorf("resource not found")
 }
@@ -232,10 +232,10 @@ func TestAccExchange_WithArguments(t *testing.T) {
 			{
 				ResourceName:                         exchangeResourceName,
 				ImportStateIdFunc:                    testAccExchangeImportStateIdFunc,
+				ImportStateVerifyIdentifierAttribute: "name",
+				ImportStateId:                        "/@vcr_test_exchange_with_arguments",
 				ImportState:                          true,
 				ImportStateVerify:                    true,
-				ImportStateVerifyIdentifierAttribute: "name",
-				ImportStateVerifyIgnore:              []string{"id"},
 			},
 		},
 	})
