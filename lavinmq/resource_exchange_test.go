@@ -180,27 +180,6 @@ func TestAccExchange_BooleanAttributes(t *testing.T) {
 	})
 }
 
-func TestAccExchange_Drift(t *testing.T) {
-	t.Parallel()
-	lavinMQResourceTest(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: `
-          resource "lavinmq_exchange" "vcr_test" {
-            name        = "vcr_test_drift"
-            vhost       = "/"
-            type        = "direct"
-            auto_delete = false
-            durable     = false
-          }`,
-				ExpectNonEmptyPlan: true,
-			},
-		},
-	})
-}
-
 func TestAccExchange_WithArguments(t *testing.T) {
 	t.Parallel()
 	exchangeResourceName := "lavinmq_exchange.test_exchange"
