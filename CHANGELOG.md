@@ -2,7 +2,7 @@
 
 IMPROVEMENTS:
 
-**PROIVDER:**
+**Provider:**
 
 * Use default values for provider arguments ([#75])
 
