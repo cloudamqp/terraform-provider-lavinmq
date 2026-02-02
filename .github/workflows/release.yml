@@ -33,7 +33,7 @@ jobs:
         env:
           TF_ACC: 1
           TF_ACC_TERRAFORM_PATH: ${{ steps.setup-terraform.outputs.terraform_path }}
-          LAVINMQ_RECORD: 1
+          LAVINMQ_PASSTHROUGH: 1
           LAVINMQ_API_BASEURL: http://localhost:15672/
           LAVINMQ_API_USERNAME: guest
           LAVINMQ_API_PASSWORD: guest
