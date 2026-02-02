@@ -21,7 +21,7 @@ var (
 )
 
 func testAccPreCheck(t *testing.T) {
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		if v := os.Getenv("LAVINMQ_API_BASEURL"); v == "" {
 			t.Fatal("baseurl must be set for acceptence test.")
 		}
@@ -39,8 +39,11 @@ func testAccPreCheck(t *testing.T) {
 }
 
 func TestMain(m *testing.M) {
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		mode = recorder.ModeRecordOnly
+	}
+	if os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
+		mode = recorder.ModePassthrough
 	}
 	resource.TestMain(m)
 }
