@@ -1,3 +1,67 @@
+## 0.2.0 (Unreleased)
+
+IMPROVEMENTS:
+
+**PROIVDER:**
+
+* Use default values for provider arguments ([#75])
+
+**Resources:**
+
+* Fixed resource drift handling when VHost is deleted ([#73])
+* Fixed handling of 404 errors for missing parent resources to prevent nil pointer crashes ([#91])
+
+**Client Library:**
+
+* Refactored client library code for better maintainability ([#66])
+* Added debug logging for path and data ([#67])
+
+**Testing:**
+
+* Increased test coverage ([#81])
+* Added test coverage report ([#80])
+* Enabled support to run VCR in pass through mode ([#86])
+
+**Documentation:**
+
+* Added contribution guidelines ([#76])
+* Added pull request template ([#77])
+* Added security policy ([#78])
+* Added issue templates ([#79])
+
+BUG FIXES:
+
+**Resources:**
+
+* Fixed Exchange import separator - changed from ',' to '@' ([#90])
+
+DEPENDENCIES:
+
+* Bumped github.com/hashicorp/terraform-plugin-log from 0.9.0 to 0.10.0 ([#68])
+* Bumped golang.org/x/crypto from 0.42.0 to 0.45.0 ([#69])
+* Bumped actions/checkout from 5 to 6 ([#70])
+* Bumped github.com/hashicorp/terraform-plugin-testing from 1.13.3 to 1.14.0 ([#71])
+* Bumped github.com/hashicorp/terraform-plugin-framework ([#72])
+
+[#66]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/66
+[#67]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/67
+[#68]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/68
+[#69]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/69
+[#70]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/70
+[#71]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/71
+[#72]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/72
+[#73]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/73
+[#75]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/75
+[#76]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/76
+[#77]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/77
+[#78]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/78
+[#79]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/79
+[#80]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/80
+[#81]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/81
+[#86]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/86
+[#90]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/90
+[#91]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/91
+
 # 0.1.0 (2025-11-04)
 
 NOTES:
