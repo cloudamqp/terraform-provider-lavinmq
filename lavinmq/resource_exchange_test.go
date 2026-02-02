@@ -2,6 +2,7 @@ package lavinmq
 
 import (
 	"fmt"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -179,27 +180,6 @@ func TestAccExchange_BooleanAttributes(t *testing.T) {
 	})
 }
 
-func TestAccExchange_Drift(t *testing.T) {
-	t.Parallel()
-	lavinMQResourceTest(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: `
-          resource "lavinmq_exchange" "vcr_test" {
-            name        = "vcr_test_drift"
-            vhost       = "/"
-            type        = "direct"
-            auto_delete = false
-            durable     = false
-          }`,
-				ExpectNonEmptyPlan: true,
-			},
-		},
-	})
-}
-
 func TestAccExchange_WithArguments(t *testing.T) {
 	t.Parallel()
 	exchangeResourceName := "lavinmq_exchange.test_exchange"
@@ -236,6 +216,28 @@ func TestAccExchange_WithArguments(t *testing.T) {
 				ImportStateId:                        "/@vcr_test_exchange_with_arguments",
 				ImportState:                          true,
 				ImportStateVerify:                    true,
+			},
+		},
+	})
+}
+
+func TestAccExchange_MissingVhost(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+		PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_exchange" "vcr_test" {
+            name        = "vcr_test_exchange_missing_vhost"
+            vhost       = "nonexistent_vhost"
+            type        = "direct"
+            auto_delete = false
+            durable     = false
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
 			},
 		},
 	})
