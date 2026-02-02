@@ -33,8 +33,9 @@ func testAccPreCheck(t *testing.T) {
 		}
 	} else {
 		os.Setenv("LAVINMQ_API_BASEURL", "http://localhost:15672/")
-		os.Setenv("LAVINMQ_API_USERNAME", "not-used")
-		os.Setenv("LAVINMQ_API_PASSWORD", "not-used")
+		os.Setenv("LAVINMQ_API_USERNAME", "guest")
+		os.Setenv("LAVINMQ_API_PASSWORD", "guest")
+		os.Setenv("TEST_AMQP_URI", "amqp://guest@//")
 	}
 }
 
