@@ -107,7 +107,10 @@ func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, err
 		body, _ := io.ReadAll(resp.Body)
 		var errorBody ErrorResponse
 		_ = json.Unmarshal(body, &errorBody)
-		return nil, fmt.Errorf("path: %s, status code: 404, error: %s (parent resource may not exist)", req.URL.Path, errorBody.Reason)
+		if errorBody.Reason != "" {
+			return nil, fmt.Errorf("status code: 404, error: %s (parent resource may not exist)", errorBody.Reason)
+		}
+		return nil, fmt.Errorf("status code: 404, parent resource may not exist")
 	default:
 		defer resp.Body.Close()
 		body, _ := io.ReadAll(resp.Body)
