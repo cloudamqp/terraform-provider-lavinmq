@@ -6,14 +6,14 @@ interactions:
         proto: HTTP/1.1
         proto_major: 1
         proto_minor: 1
-        content_length: 54
+        content_length: 27
         transfer_encoding: []
         trailer: {}
         host: localhost:15672
         remote_addr: ""
         request_uri: ""
         body: |
-            {"type":"direct","auto_delete":false,"durable":false}
+            {"routing_key":"test.key"}
         form: {}
         headers:
             Accept:
@@ -24,8 +24,8 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/exchanges/nonexistent_vhost/vcr_test_exchange_missing_vhost
-        method: PUT
+        url: http://localhost:15672/api/bindings/nonexistent_vhost/e/amq.direct/q/some_queue
+        method: POST
       response:
         proto: HTTP/1.1
         proto_major: 1
@@ -45,4 +45,4 @@ interactions:
                 - max-age=31536000
         status: 404 Not Found
         code: 404
-        duration: 4.882086ms
+        duration: 925.877µs

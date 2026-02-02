@@ -1,6 +1,7 @@
 package lavinmq
 
 import (
+"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -174,6 +175,56 @@ func TestAccPermission_Drift(t *testing.T) {
           }
         `,
 				ExpectNonEmptyPlan: true,
+			},
+		},
+	})
+}
+
+func TestAccPermission_MissingVhost(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_user" "test_user" {
+            name     = "vcr_test_permission_missing_vhost_user"
+            password = "test_password"
+            tags     = []
+          }
+
+          resource "lavinmq_permission" "test_permission" {
+            vhost     = "nonexistent_vhost"
+            user      = lavinmq_user.test_user.name
+            configure = ".*"
+            read      = ".*"
+            write     = ".*"
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+			},
+		},
+	})
+}
+
+func TestAccPermission_MissingUser(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_permission" "test_permission" {
+            vhost     = "/"
+            user      = "nonexistent_user"
+            configure = ".*"
+            read      = ".*"
+            write     = ".*"
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|user.*not found`),
 			},
 		},
 	})
