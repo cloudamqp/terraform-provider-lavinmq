@@ -31,6 +31,18 @@ jobs:
       - name: Display coverage
         run: go tool cover -func=coverage.out
 
+      - uses: cloudamqp/lavinmq-action@main
+
+      - name: Run tests against LavinMQ
+        run: go test ./lavinmq/ -v
+        env:
+          TF_ACC: 1
+          TF_ACC_TERRAFORM_PATH: ${{ steps.setup-terraform.outputs.terraform_path }}
+          LAVINMQ_RECORD: 1
+          LAVINMQ_API_BASEURL: http://localhost:15672/
+          LAVINMQ_API_USERNAME: guest
+          LAVINMQ_API_PASSWORD: guest
+
       - name: Build for single target with GoReleaser
         uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6.4.0
         with:
