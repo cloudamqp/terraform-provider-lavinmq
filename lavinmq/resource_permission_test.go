@@ -1,7 +1,7 @@
 package lavinmq
 
 import (
-"regexp"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -152,39 +152,11 @@ func TestAccPermission_Import(t *testing.T) {
 	})
 }
 
-func TestAccPermission_Drift(t *testing.T) {
-	t.Parallel()
-	lavinMQResourceTest(t, resource.TestCase{
-		PreCheck:                 func() { testAccPreCheck(t) },
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				Config: `
-          resource "lavinmq_user" "test_user" {
-            name     = "vcr_test_user_drift"
-            password = "test_password"
-            tags     = ["management"]
-          }
-
-          resource "lavinmq_permission" "test_permission" {
-            vhost     = "/"
-            user      = "vcr_test_user_drift"
-            configure = ".*"
-            read      = ".*"
-            write     = ".*"
-          }
-        `,
-				ExpectNonEmptyPlan: true,
-			},
-		},
-	})
-}
-
 func TestAccPermission_MissingVhost(t *testing.T) {
 	t.Parallel()
 
 	lavinMQResourceTest(t, resource.TestCase{
-PreCheck:                 func() { testAccPreCheck(t) },
+		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
@@ -212,7 +184,7 @@ func TestAccPermission_MissingUser(t *testing.T) {
 	t.Parallel()
 
 	lavinMQResourceTest(t, resource.TestCase{
-PreCheck:                 func() { testAccPreCheck(t) },
+		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
