@@ -1,5 +1,9 @@
 ## 0.2.0 (Unreleased)
 
+NOTES:
+
+* Run tests against latest lavinmq in ci ([#92])
+
 IMPROVEMENTS:
 
 **Provider:**
@@ -61,6 +65,7 @@ DEPENDENCIES:
 [#86]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/86
 [#90]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/90
 [#91]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/91
+[#92]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/92
 
 # 0.1.0 (2025-11-04)
 
