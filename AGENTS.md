@@ -29,6 +29,7 @@
   * BREAKING CHANGES
 
 * Sub headers to above headers except notes (in order):
+  * **PROVIDER:**
   * **Resources:**
   * **Data Sources:**
   * **Client Library:**
