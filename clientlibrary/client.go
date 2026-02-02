@@ -98,13 +98,22 @@ func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, err
 	case 200, 201, 204:
 		return resp, nil
 	case 404:
-		return nil, nil
+		// For GET requests, 404 means resource doesn't exist (drift detection)
+		// For other methods, 404 means parent resource doesn't exist (error)
+		if req.Method == http.MethodGet {
+			return nil, nil
+		}
+		defer resp.Body.Close()
+		body, _ := io.ReadAll(resp.Body)
+		var errorBody ErrorResponse
+		_ = json.Unmarshal(body, &errorBody)
+		return nil, fmt.Errorf("path: %s, status code: 404, error: %s (parent resource may not exist)", req.URL.Path, errorBody.Reason)
 	default:
 		defer resp.Body.Close()
 		body, _ := io.ReadAll(resp.Body)
 		var errorBody ErrorResponse
 		_ = json.Unmarshal(body, &errorBody)
-		return nil, fmt.Errorf("status code: %d, error: %s", resp.StatusCode, errorBody.Reason)
+		return nil, fmt.Errorf("path: %s, status code: %d, error: %s", req.URL.Path, resp.StatusCode, errorBody.Reason)
 	}
 }
 
