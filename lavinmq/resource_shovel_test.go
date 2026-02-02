@@ -15,7 +15,7 @@ func TestAccShovel_Import(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
@@ -59,7 +59,7 @@ func TestAccShovel_Update(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
@@ -116,7 +116,7 @@ func TestAccShovel_QueueToQueue(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
@@ -239,7 +239,7 @@ func TestAccShovel_QueueToExchange(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
@@ -372,7 +372,7 @@ func TestAccShovel_ExchangeToQueue(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
@@ -501,7 +501,7 @@ func TestAccShovel_ExchangeToExchange(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
@@ -636,7 +636,7 @@ func TestAccShovel_InvalidBothSources(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
@@ -666,7 +666,7 @@ func TestAccShovel_InvalidBothDestinations(t *testing.T) {
 
 	// Set sanitized value for playback and use real value for recording
 	testSrcDestURI := "TEST_AMQP_URI"
-	if os.Getenv("LAVINMQ_RECORD") != "" {
+	if os.Getenv("LAVINMQ_RECORD") != "" || os.Getenv("LAVINMQ_PASSTHROUGH") != "" {
 		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
 	}
 
