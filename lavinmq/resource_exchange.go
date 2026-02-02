@@ -118,7 +118,15 @@ func (r *exchangeResource) Configure(_ context.Context, req resource.ConfigureRe
 }
 
 func (r *exchangeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	importIDParts := strings.Split(req.ID, ",")
+	importIDParts := strings.Split(req.ID, "@")
+
+	if len(importIDParts) != 2 {
+		resp.Diagnostics.AddError(
+			"Invalid import ID format",
+			"Expected format: vhost@exchange_name",
+		)
+		return
+	}
 
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("vhost"), importIDParts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("name"), importIDParts[1])...)
