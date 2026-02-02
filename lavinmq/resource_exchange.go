@@ -2,7 +2,6 @@ package lavinmq
 
 import (
 	"context"
-	"fmt"
 	"math/big"
 	"strings"
 
@@ -17,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -39,7 +37,6 @@ type exchangeResource struct {
 
 // exchangeResourceModel is the
 type exchangeResourceModel struct {
-	ID         types.String  `tfsdk:"id"`
 	Name       types.String  `tfsdk:"name"`
 	Vhost      types.String  `tfsdk:"vhost"`
 	Type       types.String  `tfsdk:"type"`
@@ -58,9 +55,6 @@ func (r *exchangeResource) Schema(_ context.Context, _ resource.SchemaRequest, r
 	resp.Schema = schema.Schema{
 		Description: "Manage an exchange.",
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed: true,
-			},
 			"name": schema.StringAttribute{
 				Description: "Name of the managed exchange.",
 				Required:    true,
@@ -180,9 +174,6 @@ func (r *exchangeResource) Create(ctx context.Context, req resource.CreateReques
 		resp.Diagnostics.AddError("Error creating exchange", err.Error())
 		return
 	}
-
-	plan.ID = types.StringValue(fmt.Sprintf("%s,%s", plan.Vhost.ValueString(), plan.Name.ValueString()))
-	tflog.Info(ctx, "Created exchange", map[string]any{"id": plan.ID.ValueString()})
 
 	// Read back the exchange to get the actual state from the server
 	exchange, err := r.services.Exchanges.Get(ctx, plan.Vhost.ValueString(), plan.Name.ValueString())
