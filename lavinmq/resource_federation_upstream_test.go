@@ -3,6 +3,7 @@ package lavinmq
 import (
 	"fmt"
 	"os"
+"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -438,6 +439,32 @@ func TestAccFederationUpstream_WithConsumerTag(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "queue", "federated-queue"),
 					resource.TestCheckResourceAttr(resourceName, "consumer_tag", "my-custom-consumer-tag"),
 				),
+			},
+		},
+	})
+}
+
+func TestAccFederationUpstream_MissingVhost(t *testing.T) {
+	t.Parallel()
+
+	testUpstreamURI := "TEST_AMQP_URI"
+	if os.Getenv("LAVINMQ_RECORD") != "" {
+		testUpstreamURI = os.Getenv("TEST_AMQP_URI")
+	}
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: fmt.Sprintf(`
+          resource "lavinmq_federation_upstream" "test" {
+            name     = "vcr_test_federation_upstream_missing_vhost"
+            vhost    = "nonexistent_vhost"
+            uri      = "%[1]s"
+            exchange = "upstream-exchange"
+          }`, testUpstreamURI),
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
 			},
 		},
 	})

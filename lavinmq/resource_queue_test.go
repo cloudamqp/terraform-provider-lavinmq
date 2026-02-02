@@ -1,6 +1,7 @@
 package lavinmq
 
 import (
+"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -136,6 +137,27 @@ func TestAccQueue_PauseUnpause(t *testing.T) {
 					resource.TestCheckResourceAttr(queueResourceName, "pause", "false"),
 					resource.TestCheckResourceAttr(queueResourceName, "state", "running"),
 				),
+			},
+		},
+	})
+}
+
+func TestAccQueue_MissingVhost(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_queue" "test_queue" {
+            name        = "vcr_test_queue_missing_vhost"
+            vhost       = "nonexistent_vhost"
+            durable     = true
+            auto_delete = false
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
 			},
 		},
 	})

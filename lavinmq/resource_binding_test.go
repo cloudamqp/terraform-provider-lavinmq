@@ -1,6 +1,7 @@
 package lavinmq
 
 import (
+"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -410,6 +411,87 @@ func TestAccBinding_ArgumentsChange(t *testing.T) {
 					resource.TestCheckResourceAttr(bindingResourceName, "arguments.priority", "low"),
 					resource.TestCheckResourceAttr(bindingResourceName, "arguments.type", "alert"),
 				),
+			},
+		},
+	})
+}
+
+func TestAccBinding_MissingVhost(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_binding" "test_binding" {
+            vhost            = "nonexistent_vhost"
+            source           = "amq.direct"
+            destination      = "some_queue"
+            destination_type = "queue"
+            routing_key      = "test.key"
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+			},
+		},
+	})
+}
+
+func TestAccBinding_MissingSourceExchange(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_queue" "test_queue" {
+            name        = "vcr_test_binding_missing_source_queue"
+            vhost       = "/"
+            durable     = true
+            auto_delete = false
+          }
+
+          resource "lavinmq_binding" "test_binding" {
+            vhost            = "/"
+            source           = "nonexistent_exchange"
+            destination      = lavinmq_queue.test_queue.name
+            destination_type = "queue"
+            routing_key      = "test.key"
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|exchange.*not found`),
+			},
+		},
+	})
+}
+
+func TestAccBinding_MissingDestination(t *testing.T) {
+	t.Parallel()
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: `
+          resource "lavinmq_exchange" "test_exchange" {
+            name        = "vcr_test_binding_missing_dest_exchange"
+            vhost       = "/"
+            type        = "direct"
+            durable     = true
+            auto_delete = false
+          }
+
+          resource "lavinmq_binding" "test_binding" {
+            vhost            = "/"
+            source           = lavinmq_exchange.test_exchange.name
+            destination      = "nonexistent_queue"
+            destination_type = "queue"
+            routing_key      = "test.key"
+          }`,
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|queue.*not found`),
 			},
 		},
 	})

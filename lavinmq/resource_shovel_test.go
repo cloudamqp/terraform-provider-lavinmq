@@ -690,3 +690,31 @@ func TestAccShovel_InvalidBothDestinations(t *testing.T) {
 		},
 	})
 }
+
+func TestAccShovel_MissingVhost(t *testing.T) {
+	t.Parallel()
+
+	testSrcDestURI := "TEST_AMQP_URI"
+	if os.Getenv("LAVINMQ_RECORD") != "" {
+		testSrcDestURI = os.Getenv("TEST_AMQP_URI")
+	}
+
+	lavinMQResourceTest(t, resource.TestCase{
+PreCheck:                 func() { testAccPreCheck(t) },
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: fmt.Sprintf(`
+          resource "lavinmq_shovel" "test_shovel" {
+            name        = "vcr_test_shovel_missing_vhost"
+            vhost       = "nonexistent_vhost"
+            src_uri     = "%[1]s"
+            dest_uri    = "%[1]s"
+            src_queue   = "source_queue"
+            dest_queue  = "dest_queue"
+          }`, testSrcDestURI),
+				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+			},
+		},
+	})
+}
