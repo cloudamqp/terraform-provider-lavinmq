@@ -21,6 +21,24 @@ jobs:
         with:
           go-version-file: .go-version
 
+      - uses: hashicorp/setup-terraform@v3
+        id: setup-terraform
+        with:
+          terraform_wrapper: false
+
+      - uses: cloudamqp/lavinmq-action@main
+
+      - name: Run tests against LavinMQ
+        run: go test ./lavinmq/ -v
+        env:
+          TF_ACC: 1
+          TF_ACC_TERRAFORM_PATH: ${{ steps.setup-terraform.outputs.terraform_path }}
+          LAVINMQ_RECORD: 1
+          LAVINMQ_API_BASEURL: http://localhost:15672/
+          LAVINMQ_API_USERNAME: guest
+          LAVINMQ_API_PASSWORD: guest
+          TEST_AMQP_URI: "amqp://guest@//"
+
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6.3.0
         id: import_gpg
