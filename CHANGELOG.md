@@ -1,8 +1,31 @@
+## 1.0.0 (Unreleased)
+
+NOTES:
+
+The LavinMQ Terraform Provider has matured from its initial release (0.1.0) through iterative improvements (0.2.0) and
+is now production-ready with version 1.0.0.
+
+**v0.2.0 (Stability & Quality):**
+
+* Enhanced resource drift handling and 404 error recovery
+* Improved debugging capabilities with client library logging
+* Significantly increased test coverage with automated reporting
+* Refined import operations (fixed exchange import separator)
+* Updated dependencies for better compatibility and security
+* Comprehensive project documentation (contribution guidelines, security policy, issue/PR templates)
+
+**v0.1.0 (Initial Release):**
+
+* Comprehensive resource and data source support for LavinMQ management
+* Full CRUD operations for bindings, exchanges, federation upstreams, permissions, policies, queues, shovels, users,
+and vhosts
+* Built on Terraform Framework Plugin with VCR testing infrastructure
+
 ## 0.2.0 (2026-02-02)
 
 NOTES:
 
-* Run tests against latest lavinmq in ci ([#92])
+* Run tests against latest lavinmq in CI on release ([#92])
 
 IMPROVEMENTS:
 
