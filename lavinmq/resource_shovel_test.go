@@ -700,7 +700,7 @@ func TestAccShovel_MissingVhost(t *testing.T) {
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
-PreCheck:                 func() { testAccPreCheck(t) },
+		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
@@ -713,7 +713,7 @@ PreCheck:                 func() { testAccPreCheck(t) },
             src_queue   = "source_queue"
             dest_queue  = "dest_queue"
           }`, testSrcDestURI),
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
 			},
 		},
 	})

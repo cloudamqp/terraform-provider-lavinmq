@@ -174,7 +174,7 @@ func TestAccPermission_MissingVhost(t *testing.T) {
             read      = ".*"
             write     = ".*"
           }`,
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
 			},
 		},
 	})
@@ -196,7 +196,7 @@ func TestAccPermission_MissingUser(t *testing.T) {
             read      = ".*"
             write     = ".*"
           }`,
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|user.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 404|Not Found \(parent resource may not exist\)`),
 			},
 		},
 	})

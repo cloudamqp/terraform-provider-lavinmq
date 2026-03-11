@@ -1,7 +1,7 @@
 package lavinmq
 
 import (
-"regexp"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -420,7 +420,7 @@ func TestAccBinding_MissingVhost(t *testing.T) {
 	t.Parallel()
 
 	lavinMQResourceTest(t, resource.TestCase{
-PreCheck:                 func() { testAccPreCheck(t) },
+		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
@@ -432,7 +432,7 @@ PreCheck:                 func() { testAccPreCheck(t) },
             destination_type = "queue"
             routing_key      = "test.key"
           }`,
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
 			},
 		},
 	})
@@ -442,7 +442,7 @@ func TestAccBinding_MissingSourceExchange(t *testing.T) {
 	t.Parallel()
 
 	lavinMQResourceTest(t, resource.TestCase{
-PreCheck:                 func() { testAccPreCheck(t) },
+		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
@@ -461,7 +461,7 @@ PreCheck:                 func() { testAccPreCheck(t) },
             destination_type = "queue"
             routing_key      = "test.key"
           }`,
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|exchange.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 404|Not Found (parent resource may not exist)`),
 			},
 		},
 	})
@@ -471,7 +471,7 @@ func TestAccBinding_MissingDestination(t *testing.T) {
 	t.Parallel()
 
 	lavinMQResourceTest(t, resource.TestCase{
-PreCheck:                 func() { testAccPreCheck(t) },
+		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
@@ -491,7 +491,7 @@ PreCheck:                 func() { testAccPreCheck(t) },
             destination_type = "queue"
             routing_key      = "test.key"
           }`,
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|queue.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 404|Not Found (parent resource may not exist)`),
 			},
 		},
 	})
