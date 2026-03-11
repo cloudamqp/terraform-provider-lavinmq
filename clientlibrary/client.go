@@ -97,6 +97,8 @@ func (c *Client) Do(ctx context.Context, req *http.Request) (*http.Response, err
 	switch resp.StatusCode {
 	case 200, 201, 204:
 		return resp, nil
+	case 403:
+		return nil, fmt.Errorf("status code: 403, Access Refused (check if the vhost exists and if the user has permissions)")
 	case 404:
 		// For GET requests, 404 means resource doesn't exist (drift detection)
 		// For other methods, 404 means parent resource doesn't exist (error)
