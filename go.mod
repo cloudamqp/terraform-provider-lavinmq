@@ -1,6 +1,6 @@
 module github.com/cloudamqp/terraform-provider-lavinmq
 
-go 1.25.0
+go 1.26
 
 require (
 	github.com/hashicorp/terraform-plugin-docs v0.24.0
