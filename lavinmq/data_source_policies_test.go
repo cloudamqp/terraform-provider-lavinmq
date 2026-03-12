@@ -1,6 +1,7 @@
 package lavinmq
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -94,10 +95,7 @@ func TestAccDataSourcePolicies_NonExistingVhost(t *testing.T) {
           data "lavinmq_policies" "empty" {
             vhost = "terraform-lavinmq-non-existing-test"
           }`,
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttr("data.lavinmq_policies.empty", "vhost", "terraform-lavinmq-non-existing-test"),
-					resource.TestCheckResourceAttr("data.lavinmq_policies.empty", "policies.#", "0"),
-				),
+				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
 			},
 		},
 	})

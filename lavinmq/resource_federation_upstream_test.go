@@ -3,7 +3,7 @@ package lavinmq
 import (
 	"fmt"
 	"os"
-"regexp"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -453,7 +453,7 @@ func TestAccFederationUpstream_MissingVhost(t *testing.T) {
 	}
 
 	lavinMQResourceTest(t, resource.TestCase{
-PreCheck:                 func() { testAccPreCheck(t) },
+		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
@@ -464,7 +464,7 @@ PreCheck:                 func() { testAccPreCheck(t) },
             uri      = "%[1]s"
             exchange = "upstream-exchange"
           }`, testUpstreamURI),
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
 			},
 		},
 	})

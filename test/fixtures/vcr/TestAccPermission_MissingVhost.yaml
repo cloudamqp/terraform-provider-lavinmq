@@ -46,7 +46,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 4.833061ms
+        duration: 4.404685ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -81,7 +81,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"error":"Object Not Found","reason":"Not Found"}'
+        body: '{"error":"access_refused","reason":"Access refused"}'
         headers:
             Connection:
                 - keep-alive
@@ -89,9 +89,9 @@ interactions:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 404 Not Found
-        code: 404
-        duration: 3.338969ms
+        status: 403 Forbidden
+        code: 403
+        duration: 231.995µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -132,4 +132,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 2.981349ms
+        duration: 2.814897ms

@@ -237,7 +237,7 @@ func TestAccExchange_MissingVhost(t *testing.T) {
             auto_delete = false
             durable     = false
           }`,
-				ExpectError: regexp.MustCompile(`status code: 404|parent resource may not exist|vhost.*not found`),
+				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
 			},
 		},
 	})

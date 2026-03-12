@@ -35,7 +35,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"error":"Object Not Found","reason":"Not Found"}'
+        body: '{"error":"access_refused","reason":"Access refused"}'
         headers:
             Connection:
                 - keep-alive
@@ -43,6 +43,6 @@ interactions:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 404 Not Found
-        code: 404
-        duration: 4.882086ms
+        status: 403 Forbidden
+        code: 403
+        duration: 469.983µs
