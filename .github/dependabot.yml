@@ -4,8 +4,29 @@ updates:
     directory: "/"
     schedule:
       interval: daily
-    open-pull-requests-limit: 10
-  - package-ecosystem: "github-actions"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    groups:
+      go-modules:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-patch
+          - version-update:semver-minor
+  - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: daily
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    # No semver-patch/minor ignore here: actions are SHA-pinned, so Dependabot
+    # security alerts don't fire for them. Letting all version updates through
+    # is how patch-level security fixes reach us.
