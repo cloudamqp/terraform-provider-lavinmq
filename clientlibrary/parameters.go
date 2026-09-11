@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -54,6 +55,45 @@ type ParameterResponse struct {
 	Value     any    `json:"value"`
 }
 
+// Keys in a parameter value that hold AMQP URIs, which may embed credentials.
+var credentialURIKeys = []string{"src-uri", "dest-uri", "uri"}
+
+// Sanitized returns a copy safe for logging, with credentials stripped from
+// any AMQP URIs in the parameter value.
+func (p *ParameterResponse) Sanitized() *ParameterResponse {
+	if p == nil {
+		return nil
+	}
+	value, ok := p.Value.(map[string]any)
+	if !ok {
+		return p
+	}
+	sanitized := *p
+	copied := make(map[string]any, len(value))
+	for k, v := range value {
+		copied[k] = v
+	}
+	for _, key := range credentialURIKeys {
+		if uri, ok := copied[key].(string); ok {
+			copied[key] = redactURICredentials(uri)
+		}
+	}
+	sanitized.Value = copied
+	return &sanitized
+}
+
+func redactURICredentials(raw string) string {
+	u, err := url.Parse(raw)
+	if err != nil {
+		return "***"
+	}
+	if u.User == nil {
+		return raw
+	}
+	u.User = nil
+	return strings.Replace(u.String(), "://", "://***@", 1)
+}
+
 func (s *ParametersService) CreateOrUpdate(ctx context.Context, component, vhost, name string, request ParameterRequest) error {
 	path := fmt.Sprintf("api/parameters/%s/%s/%s", url.PathEscape(component), url.PathEscape(vhost), url.PathEscape(name))
 	tflog.Debug(ctx, s.PathLog("CreateOrUpdate", path))
@@ -76,7 +116,7 @@ func (s *ParametersService) Get(ctx context.Context, component, vhost, name stri
 	body, _ := io.ReadAll(resp.Body)
 	var result *ParameterResponse
 	err = json.Unmarshal(body, &result)
-	tflog.Debug(ctx, s.DataLog("Get", path, result))
+	tflog.Debug(ctx, s.DataLog("Get", path, result.Sanitized()))
 	return result, err
 }
 
