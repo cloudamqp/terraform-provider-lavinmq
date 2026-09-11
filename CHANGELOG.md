@@ -1,3 +1,13 @@
+## 1.0.1 (Unreleased)
+
+BUG FIXES:
+
+**Client Library:**
+
+* Fixed shovel and federation upstream URIs being written with embedded credentials to the debug log when reading parameters ([#122])
+
+[#122]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/122
+
 ## 1.0.0 (2026-02-06)
 
 NOTES:
