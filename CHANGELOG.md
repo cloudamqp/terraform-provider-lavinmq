@@ -1,12 +1,30 @@
-## 1.0.1 (Unreleased)
+## 1.0.1 (2026-09-14)
 
-BUG FIXES:
+IMPROVEMENTS:
 
 **Client Library:**
 
-* Fixed shovel and federation upstream URIs being written with embedded credentials to the debug log when reading parameters ([#122])
+* Added a descriptive error for 403 responses, pointing to a missing vhost or insufficient user permissions ([#104])
 
-[#122]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/122
+BUG FIXES:
+
+**Resources:**
+
+* Fixed `lavinmq_shovel` and `lavinmq_federation_upstream` writing URIs with embedded credentials to the debug log when reading parameters ([#123])
+
+DEPENDENCIES:
+
+* Bumped Go from 1.24 to 1.26 ([#102])
+* Bumped github.com/hashicorp/terraform-plugin-go from 0.29.0 to 0.30.0 ([#95])
+* Bumped github.com/hashicorp/terraform-plugin-framework from 1.17.0 to 1.18.0 ([#97])
+* Bumped github.com/hashicorp/terraform-plugin-framework from 1.18.0 to 1.19.0 and github.com/hashicorp/terraform-plugin-go from 0.30.0 to 0.31.0 ([#106])
+
+[#95]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/95
+[#97]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/97
+[#102]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/102
+[#104]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/104
+[#106]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/106
+[#123]: https://github.com/cloudamqp/terraform-provider-lavinmq/pull/123
 
 ## 1.0.0 (2026-02-06)
 
