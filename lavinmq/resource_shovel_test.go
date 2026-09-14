@@ -713,7 +713,7 @@ func TestAccShovel_MissingVhost(t *testing.T) {
             src_queue   = "source_queue"
             dest_queue  = "dest_queue"
           }`, testSrcDestURI),
-				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
+				ExpectError: regexp.MustCompile(`status code: (403|404)|Access Refused|does not exist`),
 			},
 		},
 	})

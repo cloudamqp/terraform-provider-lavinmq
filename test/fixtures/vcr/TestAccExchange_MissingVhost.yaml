@@ -9,7 +9,7 @@ interactions:
         content_length: 54
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: |
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/exchanges/nonexistent_vhost/vcr_test_exchange_missing_vhost
+        url: http://127.0.0.1:15672/api/exchanges/nonexistent_vhost/vcr_test_exchange_missing_vhost
         method: PUT
       response:
         proto: HTTP/1.1
@@ -35,7 +35,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"error":"access_refused","reason":"Access refused"}'
+        body: '{"error":"Object Not Found","reason":"Vhost nonexistent_vhost does not exist"}'
         headers:
             Connection:
                 - keep-alive
@@ -43,6 +43,6 @@ interactions:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 403 Forbidden
-        code: 403
-        duration: 469.983µs
+        status: 404 Not Found
+        code: 404
+        duration: 5.872875ms

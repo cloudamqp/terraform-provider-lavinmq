@@ -432,7 +432,7 @@ func TestAccBinding_MissingVhost(t *testing.T) {
             destination_type = "queue"
             routing_key      = "test.key"
           }`,
-				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
+				ExpectError: regexp.MustCompile(`status code: (403|404)|Access Refused|does not exist`),
 			},
 		},
 	})

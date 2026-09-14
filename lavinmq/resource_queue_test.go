@@ -157,7 +157,7 @@ func TestAccQueue_MissingVhost(t *testing.T) {
             durable     = true
             auto_delete = false
           }`,
-				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
+				ExpectError: regexp.MustCompile(`status code: (403|404)|Access Refused|does not exist`),
 			},
 		},
 	})

@@ -9,7 +9,7 @@ interactions:
         content_length: 39
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: |
@@ -24,7 +24,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr_test_permission_missing_vhost_user
+        url: http://127.0.0.1:15672/api/users/vcr_test_permission_missing_vhost_user
         method: PUT
       response:
         proto: HTTP/1.1
@@ -46,7 +46,7 @@ interactions:
                 - max-age=31536000
         status: 201 Created
         code: 201
-        duration: 4.404685ms
+        duration: 7.465708ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -55,7 +55,7 @@ interactions:
         content_length: 44
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: |
@@ -70,7 +70,7 @@ interactions:
                 - application/json
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/permissions/nonexistent_vhost/vcr_test_permission_missing_vhost_user
+        url: http://127.0.0.1:15672/api/permissions/nonexistent_vhost/vcr_test_permission_missing_vhost_user
         method: PUT
       response:
         proto: HTTP/1.1
@@ -81,7 +81,7 @@ interactions:
         trailer: {}
         content_length: -1
         uncompressed: false
-        body: '{"error":"access_refused","reason":"Access refused"}'
+        body: '{"error":"Object Not Found","reason":"Vhost nonexistent_vhost does not exist"}'
         headers:
             Connection:
                 - keep-alive
@@ -89,9 +89,9 @@ interactions:
                 - application/json
             Strict-Transport-Security:
                 - max-age=31536000
-        status: 403 Forbidden
-        code: 403
-        duration: 231.995µs
+        status: 404 Not Found
+        code: 404
+        duration: 440.75µs
     - id: 2
       request:
         proto: HTTP/1.1
@@ -100,7 +100,7 @@ interactions:
         content_length: 0
         transfer_encoding: []
         trailer: {}
-        host: localhost:15672
+        host: 127.0.0.1:15672
         remote_addr: ""
         request_uri: ""
         body: ""
@@ -112,7 +112,7 @@ interactions:
                 - REDACTED
             User-Agent:
                 - terraform-provider-lavinmq_vcr-test
-        url: http://localhost:15672/api/users/vcr_test_permission_missing_vhost_user
+        url: http://127.0.0.1:15672/api/users/vcr_test_permission_missing_vhost_user
         method: DELETE
       response:
         proto: HTTP/1.1
@@ -132,4 +132,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 2.814897ms
+        duration: 570.958µs
