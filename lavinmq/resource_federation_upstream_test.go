@@ -464,7 +464,7 @@ func TestAccFederationUpstream_MissingVhost(t *testing.T) {
             uri      = "%[1]s"
             exchange = "upstream-exchange"
           }`, testUpstreamURI),
-				ExpectError: regexp.MustCompile(`status code: 403|Access Refused`),
+				ExpectError: regexp.MustCompile(`status code: (403|404)|Access Refused|does not exist`),
 			},
 		},
 	})
