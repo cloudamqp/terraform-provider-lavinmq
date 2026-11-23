@@ -26,7 +26,7 @@ jobs:
         with:
           terraform_wrapper: false
 
-      - uses: cloudamqp/lavinmq-action@df2d45f4374c5afe2d536fd78c26c4e394315035 # v1.1.0
+      - uses: cloudamqp/lavinmq-action@dbbcfa93ea302d74041c1e93a6d528f35dfd29d0 # v1.1.1
 
       - name: Run tests against LavinMQ
         run: go test ./lavinmq/ -v
